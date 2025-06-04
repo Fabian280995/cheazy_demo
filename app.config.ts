@@ -7,9 +7,9 @@ const PROJECT_SLUG = "with-envs";
 const OWNER = "betoatexpo";
 
 // App production config
-const APP_NAME = "App Name";
-const BUNDLE_IDENTIFIER = "com.company.appname";
-const PACKAGE_NAME = "com.company.appname";
+const APP_NAME = "cheazy_demo";
+const BUNDLE_IDENTIFIER = "com.cheazy.demo";
+const PACKAGE_NAME = "com.cheazy.demo";
 const ICON = "./assets/images/icons/iOS-Prod.png";
 const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
 const SCHEME = "app-scheme";
