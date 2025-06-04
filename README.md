@@ -6,6 +6,12 @@ Create a new project by running:
 bun create expo-app --template with-envs
 ```
 
+## Links
+
+### Design Ideas
+
+1. https://dribbble.com/shots/21785809-AI-BotChatter-UI-Template-The-AI-Chat-Expert-in-Flutter
+
 ## Setup
 
 1. Create a new EAS project at [Expo](https://expo.dev), and copy the project ID from your project settings.
