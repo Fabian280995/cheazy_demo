@@ -8,17 +8,27 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "supabase:update-schema": "supabase db pull && supabase migration up",
+    "supabase:update-remote-schema": "supabase db pull --local && supabase migration up --linked",
+    "supabase:generate-types-local": "npx supabase gen types typescript --local > src/types/supabase.ts",
+    "supabase:generate-types": "npx supabase gen types typescript --project-id cmxrncvgemkauyvthvyb > src/types/supabase.ts",
+    "supabase:diff-storage": "supabase db diff --schema storage",
+    "supabase:dump-storage": "supabase db dump --data-only --schema storage -f supabase/seed.sql",
+    "supabase:db-reset": "supabase db reset",
+    "supabase:functions-serve": "supabase functions serve --env-file=.env.local"
   },
   "jest": {
     "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@supabase/supabase-js": "^2.49.10",
     "@tanstack/react-query": "^5.80.3",
+    "aes-js": "^3.1.2",
     "expo": "~52.0.26",
     "expo-application": "~6.0.2",
     "expo-blur": "~14.0.2",
@@ -28,6 +38,7 @@
     "expo-haptics": "~14.0.1",
     "expo-linking": "~7.0.4",
     "expo-router": "~4.0.17",
+    "expo-secure-store": "~14.0.1",
     "expo-splash-screen": "~0.29.21",
     "expo-status-bar": "~2.0.1",
     "expo-symbols": "~0.2.1",
@@ -42,11 +53,11 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.5",
-    "@react-native-async-storage/async-storage": "1.23.1"
+    "react-native-webview": "13.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@types/aes-js": "^3.1.4",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
