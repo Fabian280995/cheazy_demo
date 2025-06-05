@@ -65,8 +65,7 @@ function RootLayoutNav() {
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
               <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(public)" />
-                <Stack.Screen name="(protected)" />
+                <Stack.Screen name="index" />
               </Stack>
             </AuthProvider>
           </QueryClientProvider>

@@ -1,11 +1,5 @@
 ## Getting Started
 
-Create a new project by running:
-
-```bash
-bun create expo-app --template with-envs
-```
-
 ## Links
 
 ### Design Ideas
