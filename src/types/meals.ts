@@ -29,10 +29,8 @@ export type Recipe = {
   ingredients: FoodItem[];
 };
 
-export type MealSlotEntry = FoodItem | Recipe;
-
-export type MealLog = {
+export type MealSlotEntry = {
   date: string;
   mealSlot: MealSlotId;
-  entry: MealSlotEntry;
+  entry: FoodItem | Recipe;
 };
