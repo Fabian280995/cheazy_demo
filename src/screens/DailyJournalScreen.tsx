@@ -1,8 +1,10 @@
 import { MEAL_SLOTS, mockEntries } from "@/constants/mealSlots";
+import { useTheme } from "@/providers/theme";
 import { FoodItem, Recipe } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
+import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, FlatList } from "react-native";
+import { SectionList, Text, TouchableOpacity, View } from "react-native";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories !== undefined;
@@ -11,7 +13,7 @@ export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
 const FoodItemCard = ({ item }: { item: FoodItem }) => {
   return (
     <View>
-      <Text style={{ paddingVertical: 4 }}>
+      <Text>
         {item.name} ({"cal " + item.calories})
       </Text>
     </View>
@@ -21,7 +23,7 @@ const FoodItemCard = ({ item }: { item: FoodItem }) => {
 const RecipeCard = ({ item }: { item: Recipe }) => {
   return (
     <View>
-      <Text style={{ paddingVertical: 4 }}>
+      <Text>
         {item.name} (
         {"cal " + item.ingredients.reduce((sum, ing) => sum + ing.calories, 0)})
       </Text>
@@ -33,37 +35,89 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
 };
 
 export default function MealPlanScreen() {
+  const { colors } = useTheme();
   const grouped = groupEntriesBySlot(mockEntries);
 
+  const sections = MEAL_SLOTS.map((slot) => ({
+    title: slot.label,
+    data: grouped[slot.id], // Array<MealSlotEntry>
+  }));
+
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      {MEAL_SLOTS.map((slot) => (
+    <SectionList
+      sections={sections}
+      keyExtractor={(item) => `${item.date}-${item.mealSlot}-${item.entry.id}`}
+      renderSectionHeader={({ section: { title } }) => (
         <View
-          key={slot.id}
           style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: colors.background,
             padding: 12,
-            backgroundColor: "#f9f9f9",
-            marginBottom: 12,
-            borderRadius: 12,
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.foreground,
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>{slot.label}</Text>
-          <FlatList
-            data={grouped[slot.id]}
-            keyExtractor={(item) => item.entry.id + "_" + item.date}
-            renderItem={({ item }) => {
-              if (isFoodItem(item.entry)) {
-                return <FoodItemCard item={item.entry} />;
-              } else {
-                return <RecipeCard item={item.entry} />;
-              }
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "bold",
+              color: colors.text,
             }}
-            removeClippedSubviews
-            initialNumToRender={10}
-            maxToRenderPerBatch={5}
-          />
+          >
+            {title}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              console.log(`Add entry for ${title}`);
+            }}
+            style={{
+              padding: 6,
+              borderRadius: 8,
+              backgroundColor: colors.foreground,
+            }}
+          >
+            <Feather name="plus" size={16} color={colors.icon} />
+          </TouchableOpacity>
         </View>
-      ))}
-    </View>
+      )}
+      renderItem={({ item, index, section }) => {
+        const isLast = index === section.data.length - 1;
+        return (
+          <View
+            style={[
+              {
+                paddingVertical: 12,
+                paddingHorizontal: 12,
+                backgroundColor: colors.background,
+              },
+              isLast
+                ? {
+                    borderBottomLeftRadius: 12,
+                    borderBottomRightRadius: 12,
+                  }
+                : {
+                    borderBottomWidth: 1,
+                    borderBottomColor: colors.foreground,
+                  },
+            ]}
+          >
+            {isFoodItem(item.entry) ? (
+              <FoodItemCard item={item.entry} />
+            ) : (
+              <RecipeCard item={item.entry} />
+            )}
+          </View>
+        );
+      }}
+      renderSectionFooter={() => <View style={{ height: 8 }} />}
+      contentContainerStyle={{ padding: 16 }}
+      removeClippedSubviews
+      initialNumToRender={5}
+      maxToRenderPerBatch={10}
+    />
   );
 }
