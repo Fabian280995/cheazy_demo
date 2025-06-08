@@ -3,6 +3,7 @@ import { useTheme } from "@/providers/theme";
 import { FoodItem, Recipe } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
 import { Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
 
@@ -35,10 +36,12 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
 };
 
 export default function MealPlanScreen() {
+  const router = useRouter();
   const { colors } = useTheme();
   const grouped = groupEntriesBySlot(mockEntries);
 
   const sections = MEAL_SLOTS.map((slot) => ({
+    id: slot.id,
     title: slot.label,
     data: grouped[slot.id], // Array<MealSlotEntry>
   }));
@@ -47,7 +50,7 @@ export default function MealPlanScreen() {
     <SectionList
       sections={sections}
       keyExtractor={(item) => `${item.date}-${item.mealSlot}-${item.entry.id}`}
-      renderSectionHeader={({ section: { title } }) => (
+      renderSectionHeader={({ section: { title, id } }) => (
         <View
           style={{
             flexDirection: "row",
@@ -72,7 +75,7 @@ export default function MealPlanScreen() {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              console.log(`Add entry for ${title}`);
+              router.push(`/meals/${id}`); // Navigiere zur Detailseite für diesen Slot
             }}
             style={{
               padding: 6,
