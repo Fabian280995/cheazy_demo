@@ -9,16 +9,6 @@ export const MEAL_SLOTS: MealSlot[] = [
   { id: "EveningSnack", label: "Zwischenmahlzeit Abend", sortOrder: 6 },
 ];
 
-// Beispielhafte Definition der Slots mit Sortierreihenfolge
-const mealSlots: MealSlot[] = [
-  { id: "Breakfast", label: "Frühstück", sortOrder: 1 },
-  { id: "MorningSnack", label: "Vormittags-Snack", sortOrder: 2 },
-  { id: "Lunch", label: "Mittagessen", sortOrder: 3 },
-  { id: "AfternoonSnack", label: "Nachmittags-Snack", sortOrder: 4 },
-  { id: "Dinner", label: "Abendessen", sortOrder: 5 },
-  { id: "EveningSnack", label: "Abend-Snack", sortOrder: 6 },
-];
-
 // Mock-Daten: eine Mischung aus FoodItems und Recipes
 export const mockEntries: MealSlotEntry[] = [
   {

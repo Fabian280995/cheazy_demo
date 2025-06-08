@@ -38,7 +38,15 @@ export default function MealPlanScreen() {
   return (
     <View style={{ flex: 1, padding: 16 }}>
       {MEAL_SLOTS.map((slot) => (
-        <View key={slot.id} style={{ marginBottom: 24 }}>
+        <View
+          key={slot.id}
+          style={{
+            padding: 12,
+            backgroundColor: "#f9f9f9",
+            marginBottom: 12,
+            borderRadius: 12,
+          }}
+        >
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>{slot.label}</Text>
           <FlatList
             data={grouped[slot.id]}
