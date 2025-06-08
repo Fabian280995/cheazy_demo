@@ -1,16 +1,6 @@
-export type MealSlotId =
-  | "Breakfast"
-  | "MorningSnack"
-  | "Lunch"
-  | "AfternoonSnack"
-  | "Dinner"
-  | "EveningSnack";
+import { MealSlot } from "@/types";
 
-export const MEAL_SLOTS: {
-  id: MealSlotId;
-  label: string;
-  sortOrder: number;
-}[] = [
+export const MEAL_SLOTS: MealSlot[] = [
   { id: "Breakfast", label: "Frühstück", sortOrder: 1 },
   { id: "MorningSnack", label: "Zwischenmahlzeit Vormittag", sortOrder: 2 },
   { id: "Lunch", label: "Mittagessen", sortOrder: 3 },
