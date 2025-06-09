@@ -1,3 +1,4 @@
+import MealSlotEntry from "@/components/MealSlotEntry";
 import { MEAL_SLOTS, mockEntries } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { FoodItem, Recipe } from "@/types";
@@ -6,34 +7,6 @@ import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
-
-export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
-  return (entry as FoodItem).calories !== undefined;
-}
-
-const FoodItemCard = ({ item }: { item: FoodItem }) => {
-  return (
-    <View>
-      <Text>
-        {item.name} ({"cal " + item.calories})
-      </Text>
-    </View>
-  );
-};
-
-const RecipeCard = ({ item }: { item: Recipe }) => {
-  return (
-    <View>
-      <Text>
-        {item.name} (
-        {"cal " + item.ingredients.reduce((sum, ing) => sum + ing.calories, 0)})
-      </Text>
-      <Text style={{ fontSize: 12, color: "gray" }}>
-        Zutaten: {item.ingredients.map((ing) => ing.name).join(", ")}
-      </Text>
-    </View>
-  );
-};
 
 export default function MealPlanScreen() {
   const router = useRouter();
@@ -89,32 +62,7 @@ export default function MealPlanScreen() {
       )}
       renderItem={({ item, index, section }) => {
         const isLast = index === section.data.length - 1;
-        return (
-          <View
-            style={[
-              {
-                paddingVertical: 12,
-                paddingHorizontal: 12,
-                backgroundColor: colors.background,
-              },
-              isLast
-                ? {
-                    borderBottomLeftRadius: 12,
-                    borderBottomRightRadius: 12,
-                  }
-                : {
-                    borderBottomWidth: 1,
-                    borderBottomColor: colors.foreground,
-                  },
-            ]}
-          >
-            {isFoodItem(item.entry) ? (
-              <FoodItemCard item={item.entry} />
-            ) : (
-              <RecipeCard item={item.entry} />
-            )}
-          </View>
-        );
+        return <MealSlotEntry entry={item} isLast={isLast} />;
       }}
       renderSectionFooter={() => <View style={{ height: 8 }} />}
       contentContainerStyle={{ padding: 16 }}
