@@ -1,4 +1,4 @@
-import MealSlotEntry from "@/components/MealSlotEntry";
+import MealSlotEntry from "@/components/meals/MealSlotEntry";
 import { MEAL_SLOTS, mockEntries } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { FoodItem, Recipe } from "@/types";
