@@ -1,24 +1,38 @@
 // components/TabButton.tsx
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useTheme } from "@/providers/theme";
+import { Feather } from "@expo/vector-icons";
 import { TabTriggerSlotProps } from "expo-router/ui";
-import { forwardRef } from "react";
-import { Pressable, Text, View, StyleSheet } from "react-native";
+import { ComponentProps, forwardRef } from "react";
+import { Pressable, StyleSheet, View } from "react-native";
 
-type TabButtonProps = TabTriggerSlotProps & { icon: string };
+type TabButtonProps = TabTriggerSlotProps & {
+  icon: ComponentProps<typeof Feather>["name"]; // Icon name from FontAwesome
+};
 
 export const TabButton = forwardRef<View, TabButtonProps>(
-  ({ icon, children, isFocused, ...props }, ref) => (
-    <Pressable
-      {...props}
-      ref={ref}
-      style={[styles.buttonBase, isFocused && styles.buttonFocused]}
-    >
-      <FontAwesome name={icon as any} size={24} />
-      <Text style={[styles.label, isFocused && styles.labelFocused]}>
-        {children}
-      </Text>
-    </Pressable>
-  )
+  ({ icon, children, isFocused, ...props }, ref) => {
+    const { colors } = useTheme();
+    return (
+      <Pressable
+        {...props}
+        ref={ref}
+        style={({ pressed }) => [
+          styles.buttonBase,
+          {
+            borderColor: isFocused ? colors.text : colors.textLight,
+            backgroundColor: isFocused ? colors.text : "transparent",
+          },
+          pressed && { opacity: 0.7 },
+        ]}
+      >
+        <Feather
+          name={icon}
+          size={24}
+          color={isFocused ? colors.background : colors.textLight}
+        />
+      </Pressable>
+    );
+  }
 );
 
 const styles = StyleSheet.create({
@@ -27,16 +41,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 8,
     borderRadius: 30,
-  },
-  buttonFocused: {
-    backgroundColor: "#FF6F61",
-  },
-  label: {
-    marginTop: 4,
-    fontSize: 12,
-    color: "#888",
-  },
-  labelFocused: {
-    color: "#FFF",
+    width: 48,
+    height: 48,
+    borderWidth: 1,
   },
 });
