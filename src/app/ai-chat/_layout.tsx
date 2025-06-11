@@ -1,14 +1,8 @@
-import { Stack } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import React from "react";
 
 function AiChatLayout() {
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    />
-  );
+  return <Slot />;
 }
 
 export default AiChatLayout;

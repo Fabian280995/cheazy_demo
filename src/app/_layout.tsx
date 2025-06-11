@@ -66,7 +66,10 @@ function RootLayoutNav() {
                 <Stack.Screen name="meals" />
                 <Stack.Screen
                   name="ai-chat"
-                  options={{ presentation: "card" }}
+                  options={{
+                    presentation: "containedTransparentModal",
+                    animation: "fade",
+                  }}
                 />
               </Stack>
             </AuthProvider>
