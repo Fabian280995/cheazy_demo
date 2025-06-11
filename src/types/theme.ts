@@ -15,6 +15,7 @@ export interface ThemeColors {
   tabIconSelected: string;
   destructive: string;
   shadow: string;
+  border: string;
 }
 
 export interface AppTheme {

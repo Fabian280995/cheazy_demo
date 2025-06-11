@@ -2,6 +2,7 @@
 import { TabButton } from "@/components/navigation/TabButton";
 import { useTheme } from "@/providers/theme";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
 import { Pressable, SafeAreaView, StyleSheet } from "react-native";
@@ -30,12 +31,19 @@ export default function TabLayout() {
             style={({ pressed }) => [
               styles.aiButton,
               pressed && styles.buttonPressed,
-              {
-                backgroundColor: colors.primary,
-                borderColor: colors.primary,
-              },
             ]}
           >
+            <LinearGradient
+              colors={[colors.primary, colors.accent]}
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                borderRadius: 30,
+              }}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
             <Feather name="zap" size={24} color={"#FFF"} />
           </Pressable>
         </TabList>
