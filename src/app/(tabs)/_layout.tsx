@@ -1,46 +1,46 @@
 // app/(tabs)/_layout.tsx
-import { Tabs, TabList, TabTrigger, TabSlot } from "expo-router/ui";
-import {
-  SafeAreaView,
-  View,
-  Pressable,
-  TextInput,
-  StyleSheet,
-} from "react-native";
-import { useState } from "react";
+import { TabButton } from "@/components/navigation/TabButton";
 import { FontAwesome } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { TabList, Tabs, TabSlot, TabTrigger } from "expo-router/ui";
+import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 
-export default function TabsLayout() {
-  const [aiMode, setAiMode] = useState(false);
-  const [aiInput, setAiInput] = useState("");
-
+export default function TabLayout() {
+  const router = useRouter();
   return (
-    <Tabs>
-      {/* Rendert den gerade aktiven Screen */}
-      <TabSlot />
+    <SafeAreaView style={styles.container}>
+      <Tabs>
+        <TabSlot />
 
-      <TabTrigger name="home">
-        <Pressable style={styles.tabButton}>
-          <FontAwesome name="home" size={24} />
-        </Pressable>
-      </TabTrigger>
-      <TabTrigger name="journal">
-        <Pressable style={styles.tabButton}>
-          <FontAwesome name="book" size={24} />
-        </Pressable>
-      </TabTrigger>
-      <TabTrigger name="overview">
-        <Pressable style={styles.tabButton}>
-          <FontAwesome name="th-list" size={24} />
-        </Pressable>
-      </TabTrigger>
+        {/* Custom TabBar */}
+        <TabList asChild>
+          <View style={styles.tabBar}>
+            <>
+              <TabTrigger name="index" href="/" asChild>
+                <TabButton icon="home">Home</TabButton>
+              </TabTrigger>
+              <TabTrigger name="journal" href="/journal" asChild>
+                <TabButton icon="book">Journal</TabButton>
+              </TabTrigger>
+              <TabTrigger name="overview" href="/overview" asChild>
+                <TabButton icon="th-list">Übersicht</TabButton>
+              </TabTrigger>
+            </>
 
-      <TabList>
-        <TabTrigger name="home" href="/" />
-        <TabTrigger name="journal" href="/journal" />
-        <TabTrigger name="overview" href="/overview" />
-      </TabList>
-    </Tabs>
+            {/* AI Chat Toggle Button (always visible) */}
+            <Pressable
+              onPress={() => router.push("/ai-chat")}
+              style={({ pressed }) => [
+                styles.aiButton,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <FontAwesome name="slack" size={24} color={"#FFF"} />
+            </Pressable>
+          </View>
+        </TabList>
+      </Tabs>
+    </SafeAreaView>
   );
 }
 
@@ -53,25 +53,10 @@ const styles = StyleSheet.create({
     right: 0,
     height: 80, // feste Höhe
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 20,
     backgroundColor: "transparent",
-  },
-  tabButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  aiButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "#FF6F61",
   },
   aiOverlay: {
     position: "absolute",
@@ -91,5 +76,22 @@ const styles = StyleSheet.create({
     borderColor: "#CCC",
     borderRadius: 8,
     paddingHorizontal: 10,
+  },
+  audioButton: {
+    padding: 8,
+  },
+  aiButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(200,200,200,0.2)",
+  },
+  aiButtonActive: {
+    backgroundColor: "#FF6F61",
+  },
+  buttonPressed: {
+    opacity: 0.7,
   },
 });

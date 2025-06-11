@@ -2,17 +2,17 @@ import { ConfigContext, ExpoConfig } from "expo/config";
 
 // Replace these with your EAS project ID and project slug.
 // You can find them at https://expo.dev/accounts/[account]/projects/[project].
-const EAS_PROJECT_ID = "4a40e811-db03-4dfb-bc1d-c97b8edc5a78";
-const PROJECT_SLUG = "cheazy_demo";
-const OWNER = "fabianlessmann";
+const EAS_PROJECT_ID = "cf6e4264-5c11-412b-85b2-d9baaadc136a";
+const PROJECT_SLUG = "cheazydemo";
+const OWNER = "fabian280995";
 
 // App production config
-const APP_NAME = "cheazy_demo";
+const APP_NAME = "cheazydemo";
 const BUNDLE_IDENTIFIER = "com.cheazy.demo";
 const PACKAGE_NAME = "com.cheazy.demo";
 const ICON = "./assets/images/icons/iOS-Prod.png";
 const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
-const SCHEME = "cheazy_demo";
+const SCHEME = "cheazydemo";
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   console.log("⚙️ Building app for environment:", process.env.APP_ENV);
