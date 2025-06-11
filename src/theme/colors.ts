@@ -3,46 +3,60 @@ import { ThemeColors } from "@/types";
 
 export const Colors: Record<"light" | "dark", ThemeColors> = {
   light: {
+    /* Core palette */
     primary: "#FF6B81", // Korallrosa
-    secondary: "#FFA3B1", // Hellrosa (Primary Light)
+    secondary: "#FFA3B1", // Hellrosa
     accent: "#FF9A6C", // Orange-Pink
-    success: "#4CAF50", // Grün
-    warning: "#FFC107", // Gelb-Orange
-    destructive: "#F44336", // Rot (Error)
-    info: "#555555", // Mittelgrau (Text Secondary)
 
-    text: "#222222", // Dunkelgrau (Text Primary)
-    textForeground: "#FFFFFF", // Weiß für Buttons / Chips
-    textLight: "#AAAAAA", // Hellgrau (Disabled Text)
+    /* Semantic */
+    success: "#4CAF50",
+    warning: "#FFC107",
+    destructive: "#F44336",
+    info: "#555555",
 
-    background: "#FDFDFD", // Hellgrau-Weiß (Background)
-    foreground: "#FFFFFF", // Card / Surface
-    icon: "#555555", // Mittelgrau
-    tabIconDefault: "#AAAAAA", // Hellgrau
-    tabIconSelected: "#FF6B81", // Primary
-    border: "#E0E0E0", // Divider
-    shadow: "#E0E0E0", // Soft shadow-tone (nur Palette-Color)
+    /* Typography */
+    text: "#222222",
+    textForeground: "#FFFFFF",
+    textLight: "#AAAAAA",
+
+    /* Surfaces */
+    background: "#FAFAFA", // etwas dunkler als Weiß → mehr Kontrast
+    foreground: "#FFFFFF",
+
+    /* UI */
+    icon: "#555555",
+    tabIconDefault: "#AAAAAA",
+    tabIconSelected: "#FF6B81",
+    border: "#E0E0E0",
+    shadow: "#C7C7C7", // dunkler als zuvor
   },
 
   dark: {
-    primary: "#FF6B81", // Korallrosa
-    secondary: "#FF9BAA", // Rosa-Ton (Primary Light Dark Mode)
-    accent: "#FF9A6C", // Orange-Pink
-    success: "#81C784", // Hellgrün
-    warning: "#FFD54F", // Goldgelb
-    destructive: "#E57373", // Hellrot (Error Dark Mode)
-    info: "#CCCCCC", // Hellgrau (Text Secondary)
+    /* Core palette */
+    primary: "#FF6B81",
+    secondary: "#FF9BAA",
+    accent: "#FF9A6C",
 
-    text: "#FAFAFA", // Fast Weiß (Text Primary)
-    textForeground: "#FFFFFF", // Weiß für Buttons / Chips
-    textLight: "#777777", // Gedämpftes Grau (Disabled Text)
+    /* Semantic */
+    success: "#81C784",
+    warning: "#FFD54F",
+    destructive: "#E57373",
+    info: "#CCCCCC",
 
-    background: "#121212", // Dunkelgrau
-    foreground: "#1E1E1E", // Anthrazit (Card / Surface)
-    icon: "#CCCCCC", // Hellgrau
-    tabIconDefault: "#777777", // Gedämpftes Grau
-    tabIconSelected: "#FF6B81", // Primary
-    border: "#333333", // Divider
-    shadow: "#333333", // Soft shadow-tone (nur Palette-Color)
+    /* Typography */
+    text: "#FAFAFA",
+    textForeground: "#FFFFFF",
+    textLight: "#777777",
+
+    /* Surfaces */
+    background: "#181818", // leichteres Grau statt Tiefschwarz
+    foreground: "#242424", // deutlicher Kontrast zur Base-Ebene
+
+    /* UI */
+    icon: "#D0D0D0",
+    tabIconDefault: "#888888",
+    tabIconSelected: "#FF6B81",
+    border: "#404040",
+    shadow: "#0D0D0D", // dunkler und subtil
   },
 };

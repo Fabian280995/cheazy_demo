@@ -11,7 +11,9 @@ export default function TabLayout() {
   const router = useRouter();
   const { colors } = useTheme();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <Tabs>
         <TabSlot />
 
@@ -31,6 +33,13 @@ export default function TabLayout() {
             style={({ pressed }) => [
               styles.aiButton,
               pressed && styles.buttonPressed,
+              {
+                shadowColor: colors.shadow,
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
             ]}
           >
             <LinearGradient
