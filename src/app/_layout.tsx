@@ -64,9 +64,7 @@ function RootLayoutNav() {
         <ThemeProvider>
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="index" />
-              </Stack>
+              <Stack screenOptions={{ headerShown: false }} />
             </AuthProvider>
           </QueryClientProvider>
         </ThemeProvider>

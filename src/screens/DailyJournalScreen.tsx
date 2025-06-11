@@ -48,7 +48,7 @@ export default function MealPlanScreen() {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              router.push(`/meals/${id}`); // Navigiere zur Detailseite für diesen Slot
+              // router.push(`/meals/${id}`); // Navigiere zur Detailseite für diesen Slot
             }}
             style={{
               padding: 6,

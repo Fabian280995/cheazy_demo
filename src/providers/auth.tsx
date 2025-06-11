@@ -53,6 +53,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, 500);
   }, [initialized, session]);
 
+  if (!initialized) {
+    return null;
+  }
+
   return (
     <AuthContext.Provider
       value={{
