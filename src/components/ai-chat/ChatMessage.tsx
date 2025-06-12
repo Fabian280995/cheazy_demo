@@ -105,7 +105,7 @@ const AiResponseMessage = ({ message }: { message: AiMessage }) => {
               padding: 12,
               backgroundColor: colors.foreground,
               borderRadius: 16,
-              marginHorizontal: 4,
+              marginHorizontal: 8,
               maxWidth: "80%",
               shadowColor: "#00000040",
               shadowOffset: { width: 0, height: 2 },
@@ -148,7 +148,6 @@ const Avatar = ({ label, bg }: { label: string; bg: string }) => {
         backgroundColor: bg,
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 8,
       }}
     >
       <Text style={{ color: colors.textForeground, fontWeight: "bold" }}>

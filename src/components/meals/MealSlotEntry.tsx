@@ -41,7 +41,7 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
         }}
       >
         <Text
-          style={{ fontWeight: "bold" }}
+          style={{ fontWeight: "bold", maxWidth: "75%" }}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
