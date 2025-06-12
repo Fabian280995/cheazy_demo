@@ -35,6 +35,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: bundleIdentifier,
+      infoPlist: {
+        NSMicrophoneUsageDescription:
+          "Wir benötigen Dein Mikrofon, um Sprachnachrichten aufzunehmen.",
+      },
     },
     android: {
       adaptiveIcon: {

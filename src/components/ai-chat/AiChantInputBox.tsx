@@ -5,16 +5,19 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Animated, { Easing, LinearTransition } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme";
+import Recorder, { RecordingState } from "./Recorder";
 
 interface Props {
   onSend: (message: string) => void;
 }
 
 const AiChantInputBox = ({ onSend }: Props) => {
+  const [recordingState, setRecordingState] = useState<RecordingState>("idle");
+
   const [inputValue, setInputValue] = React.useState("");
   const { colors } = useTheme();
   const inputRef = useRef<TextInput>(null);
@@ -30,6 +33,19 @@ const AiChantInputBox = ({ onSend }: Props) => {
     onSend(inputValue.trim());
     setInputValue("");
     inputRef.current?.blur();
+  };
+
+  const handleSendVoice = (uri: string) => {
+    console.log("Sending voice message:", uri);
+    // if (uri && durationMs > 0) {
+    //   onSend(`Voice message sent: ${uri} (${durationMs} ms)`);
+    //   setInputValue("");
+    //   inputRef.current?.blur();
+    // } else {
+    //   console.warn("No valid voice message to send");
+    //   setRecordingState("idle");
+    //   inputRef.current?.focus();
+    // }
   };
 
   return (
@@ -49,23 +65,33 @@ const AiChantInputBox = ({ onSend }: Props) => {
 
       {/* Action Row */}
       <View style={styles.row}>
-        <TouchableOpacity style={styles.btn}>
+        {/* <TouchableOpacity style={styles.btn}>
           <Feather name="mic" size={20} color={colors.text} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Recorder
+          onStart={() => setRecordingState("recording")}
+          onFinish={(uri) => {
+            setRecordingState("stopped");
+            handleSendVoice(uri);
+          }}
+          onCancel={() => setRecordingState("idle")}
+        />
 
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            {
-              backgroundColor: colors.border,
-              paddingTop: 3,
-              paddingRight: 2,
-            },
-          ]}
-          onPress={handleSendBtnPress}
-        >
-          <Feather name="send" size={20} color={colors.text} />
-        </TouchableOpacity>
+        {recordingState !== "recording" && (
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              {
+                backgroundColor: colors.border,
+                paddingTop: 3,
+                paddingRight: 2,
+              },
+            ]}
+            onPress={handleSendBtnPress}
+          >
+            <Feather name="send" size={20} color={colors.text} />
+          </TouchableOpacity>
+        )}
       </View>
     </Animated.View>
   );
