@@ -20,7 +20,7 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     textLight: "#AAAAAA",
 
     /* Surfaces */
-    background: "#FAFAFA", // etwas dunkler als Weiß → mehr Kontrast
+    background: "#F0F0F0", // etwas dunkler als Weiß → mehr Kontrast
     foreground: "#FFFFFF",
 
     /* UI */
