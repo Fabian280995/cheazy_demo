@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import Animated, { Easing, LinearTransition } from "react-native-reanimated";
-import { Feather } from "@expo/vector-icons";
-import { useTheme } from "@/providers/theme";
-import Recorder from "./Recorder";
 import { useTranscription } from "@/hooks/transcription/useTranscription";
+import { useTheme } from "@/providers/theme";
+import { Feather } from "@expo/vector-icons";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import Animated, { Easing, LinearTransition } from "react-native-reanimated";
+import Recorder from "./Recorder";
 
 interface Props {
   onSend: (message: string) => void;
@@ -41,7 +35,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
   const handleSendVoice = async (uri: string) => {
     console.log("Sending voice message:", uri);
     try {
-      const transcript = await transcribeAsync();
+      const transcript = await transcribeAsync({ uri });
       console.log("Transcription result:", transcript);
       if (transcript) {
         setInputValue((transcript as string) ?? "");

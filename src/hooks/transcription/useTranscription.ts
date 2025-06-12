@@ -1,15 +1,10 @@
+import { transcribe } from "@/api/transcription";
 import { useMutation } from "@tanstack/react-query";
 
 export const useTranscription = () => {
   return useMutation({
     mutationKey: ["transcription"],
-    mutationFn: async () => {
-      return await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          reject(new Error("Transcription failed"));
-        }, 5000);
-      });
-    },
+    mutationFn: transcribe,
     onSuccess: (data) => {
       console.log("Transcription successful:", data);
     },
