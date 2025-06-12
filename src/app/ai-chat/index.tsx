@@ -5,7 +5,7 @@ import { useTheme } from "@/providers/theme";
 import { ChatMessage as ChatMessageType, ChatRole } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -17,7 +17,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AiChat = () => {
-  const { mutate: generateMealEntries, isPending: isGenerating } =
+  const { mutateAsync: generateMealEntries, isPending: isGenerating } =
     useAiGenerateMealEntries();
   const [chatMessages, setChatMessages] = React.useState<ChatMessageType[]>([
     {
@@ -43,6 +43,30 @@ const AiChat = () => {
     };
     setChatMessages((prev) => [...prev, newMessage]);
   };
+
+  const generateEntries = async () => {
+    const messagesWithoutInitial = chatMessages.filter(
+      (msg) => msg.id !== "initial-message"
+    );
+
+    const newPrompt = messagesWithoutInitial
+      .map((msg) => {
+        return `${msg.role === ChatRole.User ? "User" : "AI"}: ${msg.content}`;
+      })
+      .join("\n");
+    console.log("Generating meal entries with prompt:", newPrompt);
+    const response = await generateMealEntries({
+      prompt: newPrompt,
+    });
+
+    console.log("Generated meal entries:", response);
+  };
+
+  useEffect(() => {
+    if (chatMessages.length > 1 && !isGenerating) {
+      generateEntries();
+    }
+  }, [chatMessages]);
 
   return (
     <SafeAreaView style={styles.flex}>
