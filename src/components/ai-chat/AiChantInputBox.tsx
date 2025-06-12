@@ -63,11 +63,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
         onChangeText={setInputValue}
       />
 
-      {/* Action Row */}
       <View style={styles.row}>
-        {/* <TouchableOpacity style={styles.btn}>
-          <Feather name="mic" size={20} color={colors.text} />
-        </TouchableOpacity> */}
         <Recorder
           onStart={() => setRecordingState("recording")}
           onFinish={(uri) => {
