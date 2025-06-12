@@ -70,18 +70,23 @@ const AiChat = () => {
         ? promptTokens.slice(-maxTokens).join(" ")
         : newPrompt;
 
-    // add attachements from last AI message if available
-    const lastAiMessage = messagesWithoutInitial
-      .filter((msg) => msg.role === ChatRole.Assistant)
-      .slice(-1)[0];
-    if (
-      lastAiMessage.role === ChatRole.Assistant &&
-      (lastAiMessage as AiMessage).attachments?.length
-    ) {
-      truncatedPrompt += `\n\nAttachments: ${
-        (lastAiMessage as AiMessage).attachments
-      }`;
+    try {
+      // add attachements from last AI message if available
+      const lastAiMessage = messagesWithoutInitial
+        .filter((msg) => msg.role === ChatRole.Assistant)
+        .slice(-1)[0];
+      if (
+        lastAiMessage.role === ChatRole.Assistant &&
+        (lastAiMessage as AiMessage).attachments?.length
+      ) {
+        truncatedPrompt += `\n\nAttachments: ${
+          (lastAiMessage as AiMessage).attachments
+        }`;
+      }
+    } catch (error) {
+      console.warn("Error adding attachments to prompt:", error);
     }
+
     const aiResponse = await generateMealEntries({
       prompt: truncatedPrompt,
     });
