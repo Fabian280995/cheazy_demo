@@ -20,10 +20,6 @@ export const aiGenerateMealEntries = async ({
   prompt: string;
   referenceDate?: string;
 }): Promise<AiResponse> => {
-  console.log("Uploading prompt to Edge Function:", prompt.slice(0, 80));
-  console.log("Edge Function URL:", EDGE_FUNCTION_URL);
-
-  /* ---------- Basisschutz ---------- */
   if (!EDGE_FUNCTION_URL) throw new Error("Edge Function URL is not defined");
   if (!TOKEN) {
     Alert.alert("Edge-Function token is not defined");

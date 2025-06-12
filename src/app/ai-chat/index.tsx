@@ -48,7 +48,6 @@ const AiChat = () => {
   };
 
   const generateEntries = async () => {
-    console.log("Generating meal entries...");
     const messagesWithoutInitial = chatMessages.filter(
       (msg) => msg.id !== "initial-message"
     );
@@ -58,9 +57,20 @@ const AiChat = () => {
         return `${msg.role === ChatRole.User ? "User" : "AI"}: ${msg.content}`;
       })
       .join("\n");
-    console.log("Generating meal entries with prompt:", newPrompt);
+
+    console.log("Full prompt for AI:", newPrompt);
+
+    // only get last 1000 tokens from newPrompt
+    const maxTokens = 1000;
+    const promptTokens = newPrompt.split(/\s+/);
+    const truncatedPrompt =
+      promptTokens.length > maxTokens
+        ? promptTokens.slice(-maxTokens).join(" ")
+        : newPrompt;
+
+    console.log("Truncated prompt for AI:", truncatedPrompt);
     const aiResponse = await generateMealEntries({
-      prompt: newPrompt,
+      prompt: truncatedPrompt,
     });
 
     setChatMessages((prev) => [

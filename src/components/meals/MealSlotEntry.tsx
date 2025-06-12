@@ -16,9 +16,10 @@ const FoodItemCard = ({ item }: { item: FoodItem }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 8,
         }}
       >
-        <Text style={{ fontWeight: "bold", marginRight: 8 }}>{name}</Text>
+        <Text style={{ fontWeight: "bold" }}>{name}</Text>
         <Text style={{ color: "gray" }}>{calories} kcal</Text>
       </View>
       <Text style={{ fontSize: 12, color: "gray" }}>
@@ -36,9 +37,16 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: 8,
         }}
       >
-        <Text style={{ fontWeight: "bold", marginRight: 8 }}>{item.name}</Text>
+        <Text
+          style={{ fontWeight: "bold" }}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {item.name}
+        </Text>
         <Text style={{ color: "gray" }}>
           {item.ingredients.reduce((sum, ing) => sum + ing.calories, 0)} kcal
         </Text>
