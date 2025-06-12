@@ -46,6 +46,7 @@ const HeaderIconButton = ({
           justifyContent: "center",
           borderRadius: 100,
           opacity: disabled ? 0.5 : 1,
+          backgroundColor: colors.foreground,
         },
         style,
       ]}

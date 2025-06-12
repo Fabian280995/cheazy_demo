@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
 
-const Home = () => {
+const Journal = () => {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -10,9 +10,9 @@ const Home = () => {
         padding: 16,
       }}
     >
-      <Text>Hallo Stack</Text>
+      <Text>Diary Stack</Text>
     </ScrollView>
   );
 };
 
-export default Home;
+export default Journal;

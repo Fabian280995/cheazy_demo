@@ -3,7 +3,7 @@ import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 
-function HomeLayout() {
+function DiaryLayout() {
   const router = useRouter();
   const { colors } = useTheme();
   return (
@@ -17,7 +17,7 @@ function HomeLayout() {
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: "Übersicht",
+          headerTitle: "Tagebuch",
           headerStyle: {
             backgroundColor: "transparent",
           },
@@ -37,4 +37,4 @@ function HomeLayout() {
   );
 }
 
-export default HomeLayout;
+export default DiaryLayout;

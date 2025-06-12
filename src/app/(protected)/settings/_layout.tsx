@@ -18,11 +18,12 @@ function SettingsLayout() {
         <Stack.Screen
           name="index"
           options={{
-            headerTitle: "",
+            headerTitle: "Einstellungen",
             headerStyle: {
               backgroundColor: "transparent",
             },
             headerShadowVisible: false,
+            headerLargeTitle: true,
             headerLeft: () => (
               <HeaderIconButton
                 iconName="arrow-left"

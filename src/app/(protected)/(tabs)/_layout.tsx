@@ -22,8 +22,8 @@ export default function TabLayout() {
           <TabTrigger name="home" href="/" asChild>
             <TabButton icon="home">Home</TabButton>
           </TabTrigger>
-          <TabTrigger name="journal" href="/journal" asChild>
-            <TabButton icon="book">Journal</TabButton>
+          <TabTrigger name="diary" href="/diary" asChild>
+            <TabButton icon="book">Tagebuch</TabButton>
           </TabTrigger>
           <TabTrigger name="overview" href="/overview" asChild>
             <TabButton icon="list">Übersicht</TabButton>
