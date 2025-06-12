@@ -63,6 +63,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "expo-router",
       "expo-secure-store",
       [
+        "expo-audio",
+        {
+          microphonePermission: "Allow cheazy to access your microphone.",
+        },
+      ],
+      [
         "expo-splash-screen",
         {
           image: "./assets/images/splash-icon.png",
