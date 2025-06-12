@@ -10,7 +10,6 @@ import {
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -19,7 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const AiChat = () => {
   const [chatMessages, setChatMessages] = React.useState<ChatMessageType[]>([
     {
-      id: "0000-0000-0000-0000",
+      id: "initial-message",
       chatId: "chat-1",
       role: ChatRole.Assistant,
       createdAt: new Date().toISOString(),
@@ -80,7 +79,7 @@ const AiChat = () => {
             data={chatMessages}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <ChatMessage chatmessage={item} />}
-            contentContainerStyle={{ paddingBottom: 12 }}
+            contentContainerStyle={{ paddingBottom: 12, paddingTop: 8 }}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.5}
           />
