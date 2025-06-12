@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!session) {
       router.replace("/(public)");
     } else {
-      router.replace("/(protected)/(tabs)");
+      router.replace("/(protected)/(tabs)/(home)");
     }
 
     setTimeout(() => {

@@ -19,7 +19,7 @@ export default function TabLayout() {
 
         {/* Custom TabBar */}
         <TabList style={styles.tabBar}>
-          <TabTrigger name="index" href="/" asChild>
+          <TabTrigger name="home" href="/" asChild>
             <TabButton icon="home">Home</TabButton>
           </TabTrigger>
           <TabTrigger name="journal" href="/journal" asChild>

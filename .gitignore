@@ -40,3 +40,4 @@ app-example
 supabase/
 ios/
 android/
+build/

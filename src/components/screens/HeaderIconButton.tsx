@@ -40,8 +40,8 @@ const HeaderIconButton = ({
       disabled={disabled}
       style={[
         {
-          width: text ? undefined : 40,
-          height: 40,
+          width: text ? undefined : 46,
+          height: 46,
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 100,

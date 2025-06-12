@@ -8,8 +8,8 @@ const OWNER = "fabian280995";
 
 // App production config
 const APP_NAME = "cheazydemo";
-const BUNDLE_IDENTIFIER = "com.cheazy.demo";
-const PACKAGE_NAME = "com.cheazy.demo";
+const BUNDLE_IDENTIFIER = "com.apprhino.cheazy";
+const PACKAGE_NAME = "com.apprhino.cheazy";
 const ICON = "./assets/images/icons/iOS-Prod.png";
 const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
 const SCHEME = "cheazydemo";
@@ -33,6 +33,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     icon: icon,
     scheme: scheme,
     ios: {
+      usesAppleSignIn: true,
+      buildNumber: "1.0.0",
+      entitlements: {
+        "com.apple.developer.applesignin": ["Default"], // :contentReference[oaicite:8]{index=8}
+      },
       supportsTablet: true,
       bundleIdentifier: bundleIdentifier,
       infoPlist: {
@@ -66,6 +71,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     plugins: [
       "expo-router",
       "expo-secure-store",
+      "expo-apple-authentication",
       [
         "expo-audio",
         {
