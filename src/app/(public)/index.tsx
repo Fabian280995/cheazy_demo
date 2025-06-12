@@ -1,4 +1,4 @@
-import FormButton from "@/components/shared/forms/FormButton";
+import FormButton from "@/components/forms/FormButton";
 import ScreenWrapper from "@/components/screens/ScreenWrapper";
 import { useTheme } from "@/providers/theme";
 import { useRouter } from "expo-router";

@@ -1,5 +1,4 @@
 import AuthContainer from "@/components/auth/AuthContainer";
-import HeaderIconButton from "@/components/shared/screens/HeaderIconButton";
 import { Stack, useRouter } from "expo-router";
 
 export default function AuthLayout() {
