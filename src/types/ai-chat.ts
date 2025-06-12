@@ -29,7 +29,8 @@ export interface AiMessage extends BaseMessage {
   /** Vom Modell generierter Text (Markdown möglich) */
   content: string;
   /** Strukturierte Vorschläge der KI */
-  attachments?: MealSlotEntry[];
+  attachments: MealSlotEntry[];
+  messageType: "text" | "loading";
 }
 
 /** Union aller Chat-Nachrichten */

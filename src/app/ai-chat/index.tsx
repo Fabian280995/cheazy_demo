@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const BOTTOM_PADDING = 12;
+const BOTTOM_PADDING = 32;
 
 const AiChat = () => {
   const flatListRef = useRef<FlatList<ChatMessageType>>(null);
@@ -30,6 +30,16 @@ const AiChat = () => {
       createdAt: new Date().toISOString(),
       type: "text",
       content: "Hallo! Wie kann ich dir helfen?",
+    },
+    {
+      id: `${Date.now()}-${Math.random()}`,
+      chatId: "chat-1",
+      role: ChatRole.Assistant,
+      createdAt: new Date().toISOString(),
+      type: "assistant",
+      messageType: "loading",
+      attachments: [],
+      content: "Ich bin dabei, deine Anfrage zu bearbeiten...",
     },
   ]);
   const router = useRouter();
@@ -83,13 +93,13 @@ const AiChat = () => {
         type: "assistant",
         content: aiResponse.answerText,
         attachments: aiResponse.entries,
+        messageType: "text",
       },
     ]);
   };
 
   useEffect(() => {
     const lastMsg = chatMessages[chatMessages.length - 1];
-
     if (lastMsg?.role === ChatRole.User && !isGenerating) {
       generateEntries();
     }
@@ -100,6 +110,35 @@ const AiChat = () => {
 
     return () => clearTimeout(timeout);
   }, [chatMessages]);
+
+  useEffect(() => {
+    let timeout: number | null = null;
+    if (isGenerating) {
+      timeout = setTimeout(() => {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            id: `${Date.now()}-${Math.random()}`,
+            chatId: "chat-1",
+            role: ChatRole.Assistant,
+            createdAt: new Date().toISOString(),
+            type: "assistant",
+            content: "Ich bin dabei, deine Anfrage zu bearbeiten...",
+            attachments: [],
+            messageType: "loading",
+          },
+        ]);
+      }, 300);
+    } else {
+      setChatMessages((prev) =>
+        prev.filter((msg: any) => msg.messageType !== "loading")
+      );
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [isGenerating]);
 
   return (
     <SafeAreaView style={styles.flex}>
