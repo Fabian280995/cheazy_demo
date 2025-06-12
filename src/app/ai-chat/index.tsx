@@ -177,7 +177,7 @@ const AiChat = () => {
             ListFooterComponent={<View style={{ height: BOTTOM_PADDING }} />}
           />
         ) : null}
-        <AiChantInputBox onSend={handleMessageSend} />
+        <AiChantInputBox onSend={handleMessageSend} disabled={isGenerating} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

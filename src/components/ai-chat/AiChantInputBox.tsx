@@ -9,9 +9,10 @@ import * as FileSystem from "expo-file-system";
 
 interface Props {
   onSend: (message: string) => void;
+  disabled?: boolean;
 }
 
-const AiChantInputBox = ({ onSend }: Props) => {
+const AiChantInputBox = ({ onSend, disabled }: Props) => {
   const { colors } = useTheme();
   const { mutateAsync: transcribeAsync, isPending: isTranscribing } =
     useTranscription();
@@ -76,6 +77,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
           }}
           onCancel={() => setIsRecording(false)}
           loading={isTranscribing}
+          disabled={disabled || isTranscribing}
         />
 
         {!isRecording && (
@@ -89,6 +91,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
               },
             ]}
             onPress={handleSendBtnPress}
+            disabled={disabled || isTranscribing}
           >
             <Feather name="send" size={20} color={colors.text} />
           </TouchableOpacity>
