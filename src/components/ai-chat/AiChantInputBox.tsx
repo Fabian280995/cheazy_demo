@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import Animated, { Easing, LinearTransition } from "react-native-reanimated";
 import Recorder from "./Recorder";
+import * as FileSystem from "expo-file-system";
 
 interface Props {
   onSend: (message: string) => void;
@@ -33,10 +34,8 @@ const AiChantInputBox = ({ onSend }: Props) => {
   };
 
   const handleSendVoice = async (uri: string) => {
-    console.log("Sending voice message:", uri);
     try {
       const transcript = await transcribeAsync({ uri });
-      console.log("Transcription result:", transcript);
       if (transcript) {
         setInputValue((transcript as string) ?? "");
       }
@@ -45,6 +44,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
     } finally {
       setIsRecording(false);
       inputRef.current?.blur();
+      await FileSystem.deleteAsync(uri, { idempotent: true });
     }
   };
 
