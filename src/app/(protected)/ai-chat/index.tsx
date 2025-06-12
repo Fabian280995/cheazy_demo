@@ -8,17 +8,20 @@ import {
   ChatRole,
 } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BlurView } from "expo-blur";
 
 const BOTTOM_PADDING = 32;
 
@@ -150,14 +153,27 @@ const AiChat = () => {
 
   return (
     <SafeAreaView style={styles.flex}>
-      <Pressable style={styles.overlay} onPress={() => router.back()} />
+      <Pressable style={styles.overlay} onPress={() => router.back()}>
+        {Platform.OS === "ios" && (
+          <BlurView intensity={10} style={styles.flex} tint="dark"></BlurView>
+        )}
+      </Pressable>
 
       <KeyboardAvoidingView
         behavior="padding"
         keyboardVerticalOffset={12}
         style={styles.kav}
       >
-        <View>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 10,
+            padding: 12,
+          }}
+        >
           <TouchableOpacity
             style={{
               width: 36,
@@ -167,7 +183,7 @@ const AiChat = () => {
               justifyContent: "center",
               alignItems: "center",
               backgroundColor: colors.foreground,
-              shadowColor: "#00000040",
+              shadowColor: colors.shadow,
               shadowOffset: {
                 width: 0,
                 height: 2,
@@ -188,7 +204,7 @@ const AiChat = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <ChatMessage chatmessage={item} />}
             contentContainerStyle={{
-              paddingTop: 8,
+              paddingTop: 64,
             }}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.5}
