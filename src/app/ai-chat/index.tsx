@@ -1,5 +1,6 @@
 import AiChantInputBox from "@/components/ai-chat/AiChantInputBox";
 import ChatMessage from "@/components/ai-chat/ChatMessage";
+import { useAiGenerateMealEntries } from "@/hooks/meals/useAiGenerateMealEntries";
 import { useTheme } from "@/providers/theme";
 import { ChatMessage as ChatMessageType, ChatRole } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
@@ -16,6 +17,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AiChat = () => {
+  const { mutate: generateMealEntries, isPending: isGenerating } =
+    useAiGenerateMealEntries();
   const [chatMessages, setChatMessages] = React.useState<ChatMessageType[]>([
     {
       id: "initial-message",

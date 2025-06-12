@@ -2,7 +2,7 @@ import * as FileSystem from "expo-file-system";
 import { Alert } from "react-native";
 
 const EDGE_FUNCTION_URL = process.env.EXPO_PUBLIC_SUPABASE_TRANSCRIPTION_URL;
-const TOKEN = process.env.EXPO_PUBLIC_SUPABASE_TRANSCRIPTION_TOKEN;
+const TOKEN = process.env.EXPO_PUBLIC_SUPABASE_EDGE_FUNCTIONS_TOKEN;
 
 export const transcribe = async ({ uri }: { uri: string }): Promise<string> => {
   console.log("Uploading recording to Edge Function:", uri);
