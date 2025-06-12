@@ -1,29 +1,32 @@
+import { Platform } from "react-native";
+import { Stack, useRouter } from "expo-router";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useTheme } from "@/providers/theme";
-import { Stack, useRouter } from "expo-router";
 import React from "react";
 
-function DiaryLayout() {
+export default function DiaryLayout() {
   const router = useRouter();
   const { colors } = useTheme();
+
   return (
     <Stack
       screenOptions={{
-        contentStyle: {
-          backgroundColor: "transparent",
+        // iOS: transparenter Header + Blur; andere: Farbe
+        headerTransparent: Platform.OS === "ios",
+        headerStyle: {
+          backgroundColor: colors.background,
         },
+        /** wichtig, sonst liegt dein Screen unter dem Header */
+        contentStyle: { backgroundColor: "transparent" },
       }}
     >
       <Stack.Screen
         name="index"
         options={{
           headerTitle: "Tagebuch",
-          headerStyle: {
-            backgroundColor: "transparent",
-          },
+          headerLargeTitle: true, // großer Titel
           animation: "none",
           headerShadowVisible: false,
-          headerLargeTitle: true,
           headerRight: () => (
             <HeaderIconButton
               iconName="settings"
@@ -36,5 +39,3 @@ function DiaryLayout() {
     </Stack>
   );
 }
-
-export default DiaryLayout;
