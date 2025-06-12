@@ -49,7 +49,7 @@ const MealSlotEntry = ({ entry, isLast = false, isFirst = false }: Props) => {
         {
           paddingVertical: 12,
           paddingHorizontal: 12,
-          backgroundColor: colors.background,
+          backgroundColor: colors.foreground,
         },
         isLast
           ? {
@@ -58,7 +58,7 @@ const MealSlotEntry = ({ entry, isLast = false, isFirst = false }: Props) => {
             }
           : {
               borderBottomWidth: 1,
-              borderBottomColor: colors.foreground,
+              borderBottomColor: colors.background,
             },
         isFirst && {
           borderTopLeftRadius: 12,
