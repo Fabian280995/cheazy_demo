@@ -48,6 +48,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!initialized) return;
 
+    if (!session) {
+      router.replace("/(public)");
+    } else {
+      router.replace("/(protected)/(tabs)");
+    }
+
     setTimeout(() => {
       SplashScreen.hideAsync();
     }, 500);

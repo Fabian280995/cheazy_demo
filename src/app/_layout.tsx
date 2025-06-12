@@ -62,15 +62,8 @@ function RootLayoutNav() {
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
               <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="meals" />
-                <Stack.Screen
-                  name="ai-chat"
-                  options={{
-                    presentation: "containedTransparentModal",
-                    animation: "fade",
-                  }}
-                />
+                <Stack.Screen name="(public)" />
+                <Stack.Screen name="(protected)" />
               </Stack>
             </AuthProvider>
           </QueryClientProvider>
