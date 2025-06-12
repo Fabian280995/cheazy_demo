@@ -8,10 +8,14 @@ export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
 }
 
 const FoodItemCard = ({ item }: { item: FoodItem }) => {
+  const { name, calories, fat, carbohydrates, protein } = item;
   return (
     <View>
       <Text>
-        {item.name} ({"cal " + item.calories})
+        {name} ({"cal " + calories})
+      </Text>
+      <Text style={{ fontSize: 12, color: "gray" }}>
+        {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
       </Text>
     </View>
   );
@@ -34,9 +38,10 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
 interface Props {
   entry: MealSlotEntryType;
   isLast?: boolean;
+  isFirst?: boolean;
 }
 
-const MealSlotEntry = ({ entry, isLast }: Props) => {
+const MealSlotEntry = ({ entry, isLast = false, isFirst = false }: Props) => {
   const { colors } = useTheme();
   return (
     <View
@@ -55,6 +60,10 @@ const MealSlotEntry = ({ entry, isLast }: Props) => {
               borderBottomWidth: 1,
               borderBottomColor: colors.foreground,
             },
+        isFirst && {
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+        },
       ]}
     >
       {isFoodItem(entry.entry) ? (
