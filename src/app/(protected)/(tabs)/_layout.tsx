@@ -19,6 +19,20 @@ export default function TabLayout() {
 
         {/* Custom TabBar */}
         <TabList style={styles.tabBar}>
+          <LinearGradient
+            colors={[
+              `${colors.background}FF`,
+              `${colors.background}FF`,
+              `${colors.background}00`,
+            ]}
+            style={{
+              position: "absolute",
+              inset: 0,
+            }}
+            //from bottom to top
+            start={{ x: 0, y: 1 }}
+            end={{ x: 0, y: 0 }}
+          />
           <TabTrigger name="home" href="/" asChild>
             <TabButton icon="home">Home</TabButton>
           </TabTrigger>
