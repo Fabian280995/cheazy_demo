@@ -10,7 +10,12 @@ import Animated, { Easing, LinearTransition } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme";
 
-const AiChantInputBox = () => {
+interface Props {
+  onSend: (message: string) => void;
+}
+
+const AiChantInputBox = ({ onSend }: Props) => {
+  const [inputValue, setInputValue] = React.useState("");
   const { colors } = useTheme();
   const inputRef = useRef<TextInput>(null);
 
@@ -18,6 +23,14 @@ const AiChantInputBox = () => {
     const t = setTimeout(() => inputRef.current?.focus(), 100);
     return () => clearTimeout(t);
   }, []);
+
+  const handleSendBtnPress = () => {
+    if (inputValue.trim() === "") return;
+
+    onSend(inputValue.trim());
+    setInputValue("");
+    inputRef.current?.blur();
+  };
 
   return (
     <Animated.View
@@ -30,6 +43,8 @@ const AiChantInputBox = () => {
         placeholder="Type your message..."
         placeholderTextColor={colors.textLight}
         style={[styles.input, { color: colors.text }]}
+        value={inputValue}
+        onChangeText={setInputValue}
       />
 
       {/* Action Row */}
@@ -47,6 +62,7 @@ const AiChantInputBox = () => {
               paddingRight: 2,
             },
           ]}
+          onPress={handleSendBtnPress}
         >
           <Feather name="send" size={20} color={colors.text} />
         </TouchableOpacity>
