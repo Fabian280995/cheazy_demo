@@ -1,13 +1,10 @@
-import { FoodItem, Recipe } from "./meals";
+import { MealSlotEntry } from "./meals";
 
 export enum ChatRole {
   User = "user",
   Assistant = "assistant",
   System = "system", // optional: für Systemprompts / Hinweise
 }
-export type ChatAttachment =
-  | { type: "foodItem"; data: FoodItem }
-  | { type: "recipe"; data: Recipe };
 
 export interface BaseMessage {
   /** UUID oder Snowflake */
@@ -32,8 +29,20 @@ export interface AiMessage extends BaseMessage {
   /** Vom Modell generierter Text (Markdown möglich) */
   content: string;
   /** Strukturierte Vorschläge der KI */
-  attachments?: ChatAttachment[];
+  attachments?: MealSlotEntry[];
 }
 
 /** Union aller Chat-Nachrichten */
 export type ChatMessage = TextMessage | AiMessage;
+
+export type AiResponse = {
+  answerText: string; // natürlichsprachige Rückmeldung der KI
+  entries: MealSlotEntry[]; // strukturierte Daten
+  totals: {
+    // aggregierte Tageswerte (optional, aber nützlich)
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fat: number;
+  };
+};

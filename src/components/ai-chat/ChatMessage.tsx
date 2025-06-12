@@ -75,55 +75,65 @@ const UserMessage = ({ message }: { message: TextMessage }) => {
 };
 
 const AiResponseMessage = ({ message }: { message: AiMessage }) => {
+  const { attachments } = message;
   const { colors } = useTheme();
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        marginVertical: 4,
-        alignItems: "center",
-        justifyContent: "flex-start",
-      }}
-    >
+    <View>
       <View
         style={{
-          width: 36,
-          height: 36,
-          borderRadius: 32,
-          backgroundColor: colors.secondary,
-          marginRight: 8,
+          flexDirection: "row",
+          marginVertical: 4,
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
         }}
       >
-        <Text
+        <View
           style={{
-            color: colors.textForeground,
-            fontWeight: "bold",
+            width: 36,
+            height: 36,
+            borderRadius: 32,
+            backgroundColor: colors.secondary,
+            marginRight: 8,
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          A
-        </Text>
+          <Text
+            style={{
+              color: colors.textForeground,
+              fontWeight: "bold",
+            }}
+          >
+            A
+          </Text>
+        </View>
+        <View
+          style={{
+            padding: 12,
+            backgroundColor: colors.foreground,
+            borderRadius: 16,
+            shadowColor: "#00000040",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 3,
+            marginLeft: 4,
+            marginRight: 4,
+            maxWidth: "80%",
+          }}
+        >
+          <Text style={{ color: colors.text }}>{message.content}</Text>
+        </View>
       </View>
-      <View
-        style={{
-          padding: 12,
-          backgroundColor: colors.foreground,
-          borderRadius: 16,
-          shadowColor: "#00000040",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 3,
-          marginLeft: 4,
-          marginRight: 4,
-          maxWidth: "80%",
-        }}
-      >
-        <Text style={{ color: colors.text }}>{message.content}</Text>
+      <View>
+        {attachments?.map((attachment) => (
+          <View key={attachment.mealSlot}>
+            <Text>{attachment.entry.name}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );

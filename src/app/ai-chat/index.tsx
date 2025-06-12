@@ -45,6 +45,7 @@ const AiChat = () => {
   };
 
   const generateEntries = async () => {
+    console.log("Generating meal entries...");
     const messagesWithoutInitial = chatMessages.filter(
       (msg) => msg.id !== "initial-message"
     );
@@ -55,15 +56,28 @@ const AiChat = () => {
       })
       .join("\n");
     console.log("Generating meal entries with prompt:", newPrompt);
-    const response = await generateMealEntries({
+    const aiResponse = await generateMealEntries({
       prompt: newPrompt,
     });
 
-    console.log("Generated meal entries:", response);
+    setChatMessages((prev) => [
+      ...prev,
+      {
+        id: `${Date.now()}-${Math.random()}`,
+        chatId: "chat-1",
+        role: ChatRole.Assistant,
+        createdAt: new Date().toISOString(),
+        type: "assistant",
+        content: aiResponse.answerText,
+        attachments: aiResponse.entries,
+      },
+    ]);
   };
 
   useEffect(() => {
-    if (chatMessages.length > 1 && !isGenerating) {
+    const lastMsg = chatMessages[chatMessages.length - 1];
+
+    if (lastMsg?.role === ChatRole.User && !isGenerating) {
       generateEntries();
     }
   }, [chatMessages]);
