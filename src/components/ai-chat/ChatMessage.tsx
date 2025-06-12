@@ -6,6 +6,7 @@ import {
   TextMessage,
 } from "@/types/ai-chat";
 import { useTheme } from "@/providers/theme";
+import MealSlotEntry from "../meals/MealSlotEntry";
 
 interface Props {
   chatmessage: ChatMessageType;
@@ -128,13 +129,22 @@ const AiResponseMessage = ({ message }: { message: AiMessage }) => {
           <Text style={{ color: colors.text }}>{message.content}</Text>
         </View>
       </View>
-      <View>
-        {attachments?.map((attachment) => (
-          <View key={attachment.mealSlot}>
-            <Text>{attachment.entry.name}</Text>
-          </View>
-        ))}
-      </View>
+      {attachments && attachments.length > 0 ? (
+        <View style={{ marginTop: 8, marginBottom: 8 }}>
+          {attachments?.map((attachment) => (
+            <MealSlotEntry
+              entry={attachment}
+              key={attachment.entry.name + "-" + attachment.date}
+              isLast={
+                attachment === attachments[attachments.length - 1]
+                  ? true
+                  : false
+              }
+              isFirst={attachment === attachments[0] ? true : false}
+            />
+          ))}
+        </View>
+      ) : null}
     </View>
   );
 };
