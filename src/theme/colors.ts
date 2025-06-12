@@ -28,7 +28,7 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     tabIconDefault: "#AAAAAA",
     tabIconSelected: "#FF6B81",
     border: "#E0E0E0",
-    shadow: "#C7C7C7", // dunkler als zuvor
+    shadow: "#7b7b7b", // dunkler als zuvor
   },
 
   dark: {
