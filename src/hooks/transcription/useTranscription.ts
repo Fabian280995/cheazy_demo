@@ -3,8 +3,12 @@ import { useMutation } from "@tanstack/react-query";
 export const useTranscription = () => {
   return useMutation({
     mutationKey: ["transcription"],
-    mutationFn: () => {
-      throw new Error("Transcription not implemented");
+    mutationFn: async () => {
+      return await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error("Transcription failed"));
+        }, 5000);
+      });
     },
     onSuccess: (data) => {
       console.log("Transcription successful:", data);

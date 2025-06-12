@@ -10,17 +10,20 @@ import Animated, { Easing, LinearTransition } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme";
 import Recorder from "./Recorder";
+import { useTranscription } from "@/hooks/transcription/useTranscription";
 
 interface Props {
   onSend: (message: string) => void;
 }
 
 const AiChantInputBox = ({ onSend }: Props) => {
-  const [isRecording, setIsRecording] = useState<boolean>(false);
-
-  const [inputValue, setInputValue] = React.useState("");
   const { colors } = useTheme();
+  const { mutateAsync: transcribeAsync, isPending: isTranscribing } =
+    useTranscription();
+
   const inputRef = useRef<TextInput>(null);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [inputValue, setInputValue] = React.useState<string>("");
 
   useEffect(() => {
     const t = setTimeout(() => inputRef.current?.focus(), 100);
@@ -35,17 +38,20 @@ const AiChantInputBox = ({ onSend }: Props) => {
     inputRef.current?.blur();
   };
 
-  const handleSendVoice = (uri: string) => {
+  const handleSendVoice = async (uri: string) => {
     console.log("Sending voice message:", uri);
-    // if (uri && durationMs > 0) {
-    //   onSend(`Voice message sent: ${uri} (${durationMs} ms)`);
-    //   setInputValue("");
-    //   inputRef.current?.blur();
-    // } else {
-    //   console.warn("No valid voice message to send");
-    //   setRecordingState("idle");
-    //   inputRef.current?.focus();
-    // }
+    try {
+      const transcript = await transcribeAsync();
+      console.log("Transcription result:", transcript);
+      if (transcript) {
+        setInputValue((transcript as string) ?? "");
+      }
+    } catch (error) {
+      console.error("Error sending voice message:", error);
+    } finally {
+      setIsRecording(false);
+      inputRef.current?.blur();
+    }
   };
 
   return (
@@ -67,10 +73,10 @@ const AiChantInputBox = ({ onSend }: Props) => {
         <Recorder
           onStart={() => setIsRecording(true)}
           onFinish={(uri) => {
-            setIsRecording(false);
             handleSendVoice(uri);
           }}
           onCancel={() => setIsRecording(false)}
+          loading={isTranscribing}
         />
 
         {!isRecording && (

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -17,9 +24,17 @@ interface Props {
   onStart?: () => void;
   onFinish: (uri: string) => void;
   onCancel?: () => void;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
-export default function Recorder({ onStart, onFinish, onCancel }: Props) {
+export default function Recorder({
+  onStart,
+  onFinish,
+  onCancel,
+  loading = false,
+  disabled = false,
+}: Props) {
   const { colors } = useTheme();
   const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY); // :contentReference[oaicite:1]{index=1}
   const [state, setState] = useState<RecordingState>("idle");
@@ -83,8 +98,13 @@ export default function Recorder({ onStart, onFinish, onCancel }: Props) {
           style={[styles.micButton]}
           onPress={startRecording}
           accessibilityLabel="Start Recording"
+          disabled={loading || disabled}
         >
-          <Feather name="mic" size={20} color={colors.text} />
+          {loading ? (
+            <ActivityIndicator size="small" color={colors.textLight} />
+          ) : (
+            <Feather name="mic" size={20} color={colors.text} />
+          )}
         </TouchableOpacity>
       )}
 
