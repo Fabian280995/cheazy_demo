@@ -9,7 +9,9 @@ function HomeLayout() {
   return (
     <Stack
       screenOptions={{
-        contentStyle: { backgroundColor: "transparent" },
+        contentStyle: {
+          backgroundColor: "transparent",
+        },
       }}
     >
       <Stack.Screen
@@ -19,6 +21,7 @@ function HomeLayout() {
           headerStyle: {
             backgroundColor: "transparent",
           },
+          animation: "none",
           headerShadowVisible: false,
           headerRight: () => (
             <HeaderIconButton
