@@ -44,19 +44,20 @@ const FoodItemCard = ({ item }: { item: FoodItem }) => {
 };
 
 const RecipeCard = ({ item }: { item: Recipe }) => {
-  const totalCalories = item.ingredients.reduce(
+  const ingredients = item.ingredients ?? [];
+  const totalCalories = ingredients.reduce(
     (sum, ing) => sum + (ing.calories_per_100 * ing.quantity) / 100,
     0
   );
-  const totalFat = item.ingredients.reduce(
+  const totalFat = ingredients.reduce(
     (sum, ing) => sum + (ing.fat_per_100 * ing.quantity) / 100,
     0
   );
-  const totalCarbohydrates = item.ingredients.reduce(
+  const totalCarbohydrates = ingredients.reduce(
     (sum, ing) => sum + (ing.carbohydrates_per_100 * ing.quantity) / 100,
     0
   );
-  const totalProtein = item.ingredients.reduce(
+  const totalProtein = ingredients.reduce(
     (sum, ing) => sum + (ing.protein_per_100 * ing.quantity) / 100,
     0
   );
@@ -87,7 +88,7 @@ const RecipeCard = ({ item }: { item: Recipe }) => {
         {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
       </Text>
       <Text style={{ fontSize: 12, color: "gray" }}>
-        Zutaten: {item.ingredients.map((ing) => ing.name).join(", ")}
+        Zutaten: {ingredients.map((ing) => ing.name).join(", ")}
       </Text>
     </View>
   );

@@ -1,5 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
+import DiaryScreen from "@/screens/DiaryScreen";
 import React from "react";
+import { ScrollView } from "react-native";
 
 const Journal = () => {
   return (
@@ -10,7 +11,7 @@ const Journal = () => {
         padding: 16,
       }}
     >
-      <Text>Diary Stack</Text>
+      <DiaryScreen />
     </ScrollView>
   );
 };
