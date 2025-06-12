@@ -9,14 +9,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Animated, { Easing, LinearTransition } from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme";
-import Recorder, { RecordingState } from "./Recorder";
+import Recorder from "./Recorder";
 
 interface Props {
   onSend: (message: string) => void;
 }
 
 const AiChantInputBox = ({ onSend }: Props) => {
-  const [recordingState, setRecordingState] = useState<RecordingState>("idle");
+  const [isRecording, setIsRecording] = useState<boolean>(false);
 
   const [inputValue, setInputValue] = React.useState("");
   const { colors } = useTheme();
@@ -65,15 +65,15 @@ const AiChantInputBox = ({ onSend }: Props) => {
 
       <View style={styles.row}>
         <Recorder
-          onStart={() => setRecordingState("recording")}
+          onStart={() => setIsRecording(true)}
           onFinish={(uri) => {
-            setRecordingState("stopped");
+            setIsRecording(false);
             handleSendVoice(uri);
           }}
-          onCancel={() => setRecordingState("idle")}
+          onCancel={() => setIsRecording(false)}
         />
 
-        {recordingState !== "recording" && (
+        {!isRecording && (
           <TouchableOpacity
             style={[
               styles.btn,

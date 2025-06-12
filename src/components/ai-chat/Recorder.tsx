@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -78,16 +78,15 @@ export default function Recorder({ onStart, onFinish, onCancel }: Props) {
     <View
       style={[styles.container, state === "recording" && { width: "100%" }]}
     >
-      {state === "idle" ||
-        (state === "stopped" && (
-          <TouchableOpacity
-            style={[styles.micButton]}
-            onPress={startRecording}
-            accessibilityLabel="Start Recording"
-          >
-            <Feather name="mic" size={20} color={colors.text} />
-          </TouchableOpacity>
-        ))}
+      {(state === "idle" || state === "stopped") && (
+        <TouchableOpacity
+          style={[styles.micButton]}
+          onPress={startRecording}
+          accessibilityLabel="Start Recording"
+        >
+          <Feather name="mic" size={20} color={colors.text} />
+        </TouchableOpacity>
+      )}
 
       {state === "recording" && (
         <>
@@ -99,13 +98,23 @@ export default function Recorder({ onStart, onFinish, onCancel }: Props) {
             <Feather name="x" size={18} color={colors.text} />
           </TouchableOpacity>
 
-          <Animated.View
-            style={[
-              styles.pulseDot,
-              pulseStyle,
-              { backgroundColor: colors.destructive },
-            ]}
-          />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Animated.View
+              style={[
+                styles.pulseDot,
+                pulseStyle,
+                { backgroundColor: colors.destructive },
+              ]}
+            />
+            <Text
+              style={{
+                color: colors.textLight,
+                marginLeft: 8,
+              }}
+            >
+              Ich höre zu...
+            </Text>
+          </View>
 
           <TouchableOpacity
             style={[styles.control, { backgroundColor: colors.text }]}
