@@ -58,7 +58,12 @@ const AiChantInputBox = ({ onSend }: Props) => {
         multiline
         placeholder="Type your message..."
         placeholderTextColor={colors.textLight}
-        style={[styles.input, { color: colors.text }]}
+        style={[
+          styles.input,
+          {
+            color: colors.text,
+          },
+        ]}
         value={inputValue}
         onChangeText={setInputValue}
       />
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
     minHeight: 40,
     maxHeight: 120,
     padding: 8,
+    borderRadius: 12,
   },
   row: {
     flexDirection: "row",
