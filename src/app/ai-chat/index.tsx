@@ -1,6 +1,7 @@
 import AiChantInputBox from "@/components/ai-chat/AiChantInputBox";
 import { useTheme } from "@/providers/theme";
 import { ChatMessage, ChatRole } from "@/types/ai-chat";
+import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -9,12 +10,22 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AiChat = () => {
-  const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([]);
+  const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([
+    {
+      id: "0000-0000-0000-0000",
+      chatId: "chat-1",
+      role: ChatRole.Assistant,
+      createdAt: new Date().toISOString(),
+      type: "text",
+      content: "Hallo! Wie kann ich dir helfen?",
+    },
+  ]);
   const router = useRouter();
   const { colors } = useTheme();
 
@@ -39,6 +50,30 @@ const AiChat = () => {
         keyboardVerticalOffset={12}
         style={styles.kav}
       >
+        <View>
+          <TouchableOpacity
+            style={{
+              width: 36,
+              height: 36,
+              zIndex: 10,
+              borderRadius: 32,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.foreground,
+              shadowColor: "#00000040",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 3,
+            }}
+            onPress={() => router.back()}
+          >
+            <Feather name="x" size={20} color={colors.text} />
+          </TouchableOpacity>
+        </View>
         {chatMessages.length > 0 ? (
           <FlatList
             data={chatMessages}
@@ -95,10 +130,54 @@ const AiChat = () => {
                   </View>
                 </View>
               ) : (
-                <View>
-                  <Text style={{ color: "#fff", marginVertical: 4 }}>
-                    {item.role}: {item.content}
-                  </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginVertical: 4,
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 32,
+                      backgroundColor: colors.secondary,
+                      marginRight: 8,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: colors.textForeground,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      A
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      padding: 12,
+                      backgroundColor: colors.foreground,
+                      borderRadius: 16,
+                      shadowColor: "#00000040",
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 3.84,
+                      elevation: 3,
+                      marginLeft: 4,
+                      marginRight: 4,
+                      maxWidth: "80%",
+                    }}
+                  >
+                    <Text style={{ color: colors.text }}>{item.content}</Text>
+                  </View>
                 </View>
               )
             }
@@ -106,22 +185,7 @@ const AiChat = () => {
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.5}
           />
-        ) : (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <Text
-              style={{
-                color: "#fff",
-                marginVertical: 4,
-                fontSize: 16,
-                fontWeight: "500",
-              }}
-            >
-              Hey, wie kann ich dir helfen?
-            </Text>
-          </View>
-        )}
+        ) : null}
         <AiChantInputBox onSend={handleMessageSend} />
       </KeyboardAvoidingView>
     </SafeAreaView>
