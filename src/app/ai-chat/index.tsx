@@ -5,7 +5,7 @@ import { useTheme } from "@/providers/theme";
 import { ChatMessage as ChatMessageType, ChatRole } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -16,7 +16,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const BOTTOM_PADDING = 12;
+
 const AiChat = () => {
+  const flatListRef = useRef<FlatList<ChatMessageType>>(null);
   const { mutateAsync: generateMealEntries, isPending: isGenerating } =
     useAiGenerateMealEntries();
   const [chatMessages, setChatMessages] = React.useState<ChatMessageType[]>([
@@ -80,6 +83,12 @@ const AiChat = () => {
     if (lastMsg?.role === ChatRole.User && !isGenerating) {
       generateEntries();
     }
+
+    const timeout = setTimeout(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }, 100);
+
+    return () => clearTimeout(timeout);
   }, [chatMessages]);
 
   return (
@@ -118,11 +127,15 @@ const AiChat = () => {
         {chatMessages.length > 0 ? (
           <FlatList
             data={chatMessages}
+            ref={flatListRef}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <ChatMessage chatmessage={item} />}
-            contentContainerStyle={{ paddingBottom: 12, paddingTop: 8 }}
+            contentContainerStyle={{
+              paddingTop: 8,
+            }}
             showsVerticalScrollIndicator={false}
             onEndReachedThreshold={0.5}
+            ListFooterComponent={<View style={{ height: BOTTOM_PADDING }} />}
           />
         ) : null}
         <AiChantInputBox onSend={handleMessageSend} />
