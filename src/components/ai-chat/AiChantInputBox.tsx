@@ -37,7 +37,7 @@ const AiChantInputBox = ({ onSend }: Props) => {
     try {
       const transcript = await transcribeAsync({ uri });
       if (transcript) {
-        setInputValue((transcript as string) ?? "");
+        setInputValue((prev) => (prev ? `${prev} ${transcript}` : transcript));
       }
     } catch (error) {
       console.error("Error sending voice message:", error);
