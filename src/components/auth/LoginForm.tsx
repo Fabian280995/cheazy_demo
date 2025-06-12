@@ -44,7 +44,7 @@ const LoginForm = () => {
         control={control}
         label="Email"
         iconName="mail"
-        placeholder="maxmustermann@steuer.de"
+        placeholder="Bitte gib deine E-Mail ein"
         disabled={isSubmitting}
       />
       <FormInput<LoginFormValues>

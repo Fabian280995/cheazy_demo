@@ -21,7 +21,7 @@ const FormLabel: React.FC<FormLabelProps> = memo(({ label, style }) => {
       accessibilityRole="header"
       style={[
         styles.label,
-        { color: colors.textForeground, textTransform: "uppercase" },
+        { color: colors.textLight, textTransform: "uppercase" },
         style,
       ]}
     >

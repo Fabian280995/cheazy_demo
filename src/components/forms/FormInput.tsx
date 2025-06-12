@@ -75,7 +75,7 @@ function FormInput<T extends FieldValues>({
   const borderColor = isFocused
     ? tintColor
       ? tintColor
-      : colors.accent
+      : colors.primary
     : colors.foreground;
 
   const backgroundColor = colors.foreground;
@@ -97,7 +97,9 @@ function FormInput<T extends FieldValues>({
             <Feather
               name={iconName}
               size={20}
-              color={isFocused ? tintColor || colors.accent : colors.textLight}
+              color={
+                isFocused ? tintColor || colors.secondary : colors.textLight
+              }
               style={styles.icon}
             />
           )}
@@ -105,7 +107,7 @@ function FormInput<T extends FieldValues>({
             ref={ref}
             value={value as any}
             placeholder={placeholder}
-            placeholderTextColor={colors.textForeground}
+            placeholderTextColor={colors.textLight}
             onChangeText={onChange}
             onBlur={() => {
               setIsFocused(false);
