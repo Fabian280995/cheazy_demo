@@ -16,10 +16,11 @@ export type FoodItem = {
   id: string;
   name: string;
   description?: string;
-  calories: number;
-  protein: number;
-  carbohydrates: number;
-  fat: number;
+  calories_per_100: number;
+  protein_per_100: number;
+  carbohydrates_per_100: number;
+  fat_per_100: number;
+  quantity: number;
 };
 
 export type Recipe = {

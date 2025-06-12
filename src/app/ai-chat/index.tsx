@@ -2,7 +2,11 @@ import AiChantInputBox from "@/components/ai-chat/AiChantInputBox";
 import ChatMessage from "@/components/ai-chat/ChatMessage";
 import { useAiGenerateMealEntries } from "@/hooks/meals/useAiGenerateMealEntries";
 import { useTheme } from "@/providers/theme";
-import { ChatMessage as ChatMessageType, ChatRole } from "@/types/ai-chat";
+import {
+  AiMessage,
+  ChatMessage as ChatMessageType,
+  ChatRole,
+} from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
@@ -58,17 +62,26 @@ const AiChat = () => {
       })
       .join("\n");
 
-    console.log("Full prompt for AI:", newPrompt);
-
     // only get last 1000 tokens from newPrompt
     const maxTokens = 1000;
     const promptTokens = newPrompt.split(/\s+/);
-    const truncatedPrompt =
+    let truncatedPrompt =
       promptTokens.length > maxTokens
         ? promptTokens.slice(-maxTokens).join(" ")
         : newPrompt;
 
-    console.log("Truncated prompt for AI:", truncatedPrompt);
+    // add attachements from last AI message if available
+    const lastAiMessage = messagesWithoutInitial
+      .filter((msg) => msg.role === ChatRole.Assistant)
+      .slice(-1)[0];
+    if (
+      lastAiMessage.role === ChatRole.Assistant &&
+      (lastAiMessage as AiMessage).attachments?.length
+    ) {
+      truncatedPrompt += `\n\nAttachments: ${
+        (lastAiMessage as AiMessage).attachments
+      }`;
+    }
     const aiResponse = await generateMealEntries({
       prompt: truncatedPrompt,
     });
