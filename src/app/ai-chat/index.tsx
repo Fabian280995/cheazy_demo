@@ -31,16 +31,6 @@ const AiChat = () => {
       type: "text",
       content: "Hallo! Wie kann ich dir helfen?",
     },
-    {
-      id: `${Date.now()}-${Math.random()}`,
-      chatId: "chat-1",
-      role: ChatRole.Assistant,
-      createdAt: new Date().toISOString(),
-      type: "assistant",
-      messageType: "loading",
-      attachments: [],
-      content: "Ich bin dabei, deine Anfrage zu bearbeiten...",
-    },
   ]);
   const router = useRouter();
   const { colors } = useTheme();

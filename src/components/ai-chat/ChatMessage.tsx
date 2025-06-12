@@ -69,8 +69,8 @@ const AiResponseMessage = ({ message }: { message: AiMessage }) => {
     if (message.messageType === "loading") {
       opacity.value = withRepeat(
         withSequence(
-          withTiming(0.3, { duration: 600 }),
-          withTiming(1, { duration: 600 })
+          withTiming(0.5, { duration: 1200 }),
+          withTiming(0.95, { duration: 1200 })
         ),
         -1,
         true
