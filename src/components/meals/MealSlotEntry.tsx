@@ -11,9 +11,16 @@ const FoodItemCard = ({ item }: { item: FoodItem }) => {
   const { name, calories, fat, carbohydrates, protein } = item;
   return (
     <View>
-      <Text>
-        {name} ({"cal " + calories})
-      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={{ fontWeight: "bold", marginRight: 8 }}>{name}</Text>
+        <Text style={{ color: "gray" }}>{calories} kcal</Text>
+      </View>
       <Text style={{ fontSize: 12, color: "gray" }}>
         {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
       </Text>
@@ -24,10 +31,18 @@ const FoodItemCard = ({ item }: { item: FoodItem }) => {
 const RecipeCard = ({ item }: { item: Recipe }) => {
   return (
     <View>
-      <Text>
-        {item.name} (
-        {"cal " + item.ingredients.reduce((sum, ing) => sum + ing.calories, 0)})
-      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={{ fontWeight: "bold", marginRight: 8 }}>{item.name}</Text>
+        <Text style={{ color: "gray" }}>
+          {item.ingredients.reduce((sum, ing) => sum + ing.calories, 0)} kcal
+        </Text>
+      </View>
       <Text style={{ fontSize: 12, color: "gray" }}>
         Zutaten: {item.ingredients.map((ing) => ing.name).join(", ")}
       </Text>
