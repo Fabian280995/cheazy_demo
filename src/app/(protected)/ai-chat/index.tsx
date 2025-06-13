@@ -202,7 +202,12 @@ const AiChat = () => {
             data={chatMessages}
             ref={flatListRef}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <ChatMessage chatmessage={item} />}
+            renderItem={({ item, index }) => (
+              <ChatMessage
+                chatmessage={item}
+                isLast={index === chatMessages.length - 1}
+              />
+            )}
             contentContainerStyle={{
               paddingTop: 64,
             }}

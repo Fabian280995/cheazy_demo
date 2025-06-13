@@ -15,7 +15,13 @@ import { ChatAvatar } from "./ChatAvatar";
 import { MealSlotEntry as MealSlotEntryType } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
 
-export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
+export const AiResponseMessage = ({
+  message,
+  isLast,
+}: {
+  message: AiMessage;
+  isLast?: boolean;
+}) => {
   const { colors } = useTheme();
 
   const opacity = useSharedValue(1);
@@ -73,9 +79,11 @@ export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
         </Bubble>
       </View>
 
-      {message.messageType === "text" && message.attachments.length > 0 && (
-        <AiResponseAttachementsList attachments={message.attachments} />
-      )}
+      {isLast &&
+        message.messageType === "text" &&
+        message.attachments.length > 0 && (
+          <AiResponseAttachementsList attachments={message.attachments} />
+        )}
     </View>
   );
 };
@@ -117,9 +125,10 @@ const AiResponseAttachementsList = ({
         const isSelected = selectedEntries.find(
           (e) => e.entry.id === att.entry.id
         );
+        console.log(att);
         return (
           <MealSlotEntry
-            key={att.entry.id + "-" + att.date}
+            key={i + "-" + att.entry.id}
             entry={att}
             isFirst={i === 0}
             isLast={i === attachments.length - 1}
