@@ -1,7 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { FoodItem, MealSlotEntry as MealSlotEntryType, Recipe } from "@/types";
 import { useTheme } from "@/providers/theme";
+import { Feather } from "@expo/vector-icons";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
@@ -98,17 +99,32 @@ interface Props {
   entry: MealSlotEntryType;
   isLast?: boolean;
   isFirst?: boolean;
+  isSelected?: boolean;
+  showSelectedState?: boolean;
+  onPress?: (entry: MealSlotEntryType) => void;
 }
 
-const MealSlotEntry = ({ entry, isLast = false, isFirst = false }: Props) => {
+const MealSlotEntry = ({
+  entry,
+  isLast = false,
+  isFirst = false,
+  isSelected,
+  showSelectedState = false,
+  onPress,
+}: Props) => {
   const { colors } = useTheme();
+
   return (
-    <View
+    <Pressable
+      onPress={() => onPress?.(entry)}
+      disabled={!onPress}
       style={[
         {
           paddingVertical: 12,
           paddingHorizontal: 12,
           backgroundColor: colors.foreground,
+          flexDirection: "row",
+          alignItems: "center",
         },
         isLast
           ? {
@@ -125,12 +141,24 @@ const MealSlotEntry = ({ entry, isLast = false, isFirst = false }: Props) => {
         },
       ]}
     >
-      {isFoodItem(entry.entry) ? (
-        <FoodItemCard item={entry.entry} />
-      ) : (
-        <RecipeCard item={entry.entry} />
+      {showSelectedState && (
+        <View>
+          <Feather
+            name={isSelected ? "check-circle" : "circle"}
+            size={24}
+            color={isSelected ? colors.success : colors.textLight}
+            style={{ marginRight: 8 }}
+          />
+        </View>
       )}
-    </View>
+      <View style={{ flex: 1 }}>
+        {isFoodItem(entry.entry) ? (
+          <FoodItemCard item={entry.entry} />
+        ) : (
+          <RecipeCard item={entry.entry} />
+        )}
+      </View>
+    </Pressable>
   );
 };
 

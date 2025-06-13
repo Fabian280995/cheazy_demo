@@ -1,8 +1,9 @@
 import { useTheme } from "@/providers/theme";
 import { AiMessage } from "@/types/ai-chat";
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, Touchable, TouchableOpacity, View } from "react-native";
 import Animated, {
+  LinearTransition,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -12,6 +13,7 @@ import Animated, {
 import MealSlotEntry from "../meals/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
 import { MealSlotEntry as MealSlotEntryType } from "@/types";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
   const { colors } = useTheme();
@@ -83,16 +85,78 @@ const AiResponseAttachementsList = ({
 }: {
   attachments: MealSlotEntryType[];
 }) => {
+  const { colors } = useTheme();
+  const [selectedEntries, setSelectedEntries] = React.useState<
+    MealSlotEntryType[]
+  >([]);
+
+  const handleEntryPress = (entry: MealSlotEntryType) => {
+    setSelectedEntries((prev) => {
+      const isSelected = prev.find((e) => e.entry.id === entry.entry.id);
+      if (isSelected) {
+        return prev.filter((e) => e.entry.id !== entry.entry.id);
+      } else {
+        return [...prev, entry];
+      }
+    });
+  };
+
   return (
     <View style={{ marginVertical: 8 }}>
-      {attachments.map((att, i) => (
-        <MealSlotEntry
-          key={att.entry.name + "-" + att.date}
-          entry={att}
-          isFirst={i === 0}
-          isLast={i === attachments.length - 1}
-        />
-      ))}
+      <Text
+        style={{
+          color: colors.textForeground,
+          fontSize: 12,
+          marginBottom: 6,
+          textAlign: "center",
+        }}
+      >
+        Halte gedrückt um die Einträge zu bearbeiten
+      </Text>
+      {attachments.map((att, i) => {
+        const isSelected = selectedEntries.find(
+          (e) => e.entry.id === att.entry.id
+        );
+        return (
+          <MealSlotEntry
+            key={att.entry.id + "-" + att.date}
+            entry={att}
+            isFirst={i === 0}
+            isLast={i === attachments.length - 1}
+            isSelected={!!isSelected}
+            showSelectedState
+            onPress={handleEntryPress}
+          />
+        );
+      })}
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 8,
+            paddingHorizontal: 12,
+            backgroundColor: colors.background,
+            borderRadius: 16,
+            marginTop: 8,
+          }}
+          onPress={() => console.log("Alle übernehmen")}
+        >
+          <LinearGradient
+            colors={[colors.primary, colors.accent]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              position: "absolute",
+              inset: 1,
+              borderRadius: 16,
+            }}
+          />
+          <Text style={{ color: colors.textForeground, fontSize: 12 }}>
+            {selectedEntries.length > 0
+              ? "Auswahl übernehmen"
+              : "Alle übernehmen"}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
