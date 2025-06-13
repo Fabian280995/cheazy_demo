@@ -11,14 +11,13 @@ import Animated, {
 } from "react-native-reanimated";
 import MealSlotEntry from "../meals/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
+import { MealSlotEntry as MealSlotEntryType } from "@/types";
 
 export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
   const { colors } = useTheme();
 
-  // 🔄 Shared value für Opazität
   const opacity = useSharedValue(1);
 
-  /* Animation nur, solange message.messageType === "loading" */
   useEffect(() => {
     if (message.messageType === "loading") {
       opacity.value = withRepeat(
@@ -38,12 +37,10 @@ export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
     opacity: opacity.value,
   }));
 
-  /* Bubble-Komponente wählen */
   const Bubble = message.messageType === "loading" ? Animated.View : View;
 
   return (
     <View>
-      {/* Avatar + Bubble */}
       <View
         style={{
           flexDirection: "row",
@@ -74,19 +71,28 @@ export const AiResponseMessage = ({ message }: { message: AiMessage }) => {
         </Bubble>
       </View>
 
-      {/* Attachments erst bei fertiger Antwort */}
       {message.messageType === "text" && message.attachments.length > 0 && (
-        <View style={{ marginVertical: 8 }}>
-          {message.attachments.map((att, i) => (
-            <MealSlotEntry
-              key={att.entry.name + "-" + att.date}
-              entry={att}
-              isFirst={i === 0}
-              isLast={i === message.attachments.length - 1}
-            />
-          ))}
-        </View>
+        <AiResponseAttachementsList attachments={message.attachments} />
       )}
+    </View>
+  );
+};
+
+const AiResponseAttachementsList = ({
+  attachments,
+}: {
+  attachments: MealSlotEntryType[];
+}) => {
+  return (
+    <View style={{ marginVertical: 8 }}>
+      {attachments.map((att, i) => (
+        <MealSlotEntry
+          key={att.entry.name + "-" + att.date}
+          entry={att}
+          isFirst={i === 0}
+          isLast={i === attachments.length - 1}
+        />
+      ))}
     </View>
   );
 };
