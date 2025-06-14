@@ -38,8 +38,6 @@ export function useHeaderOptions({
         fontWeight: "900",
         color: colors.text,
       },
-
-      headerTintColor: colors.primary,
     };
   }, [title, largeTitle, backgroundColor]);
 }
