@@ -35,7 +35,7 @@ const DailyCaloriesCard = () => {
             width: 36,
             height: 36,
             borderRadius: 16,
-            backgroundColor: colors.accent,
+            // backgroundColor: colors.accent,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -98,6 +98,48 @@ const DailyCaloriesCard = () => {
           showScaleLabels={true}
           labelColor={colors.textLight}
         />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 4,
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                backgroundColor: colors.textLight,
+                borderRadius: 6,
+                gap: 4,
+                height: 18,
+                width: 18,
+              }}
+            />
+            <Text
+              style={{
+                fontFamily: "Inter",
+                fontSize: 14,
+                fontWeight: "700",
+                color: colors.textLight,
+                marginLeft: 4,
+              }}
+            >
+              Target Range
+            </Text>
+          </View>
+          <Text
+            style={{
+              fontFamily: "Inter",
+              fontSize: 14,
+              fontWeight: "700",
+              color: colors.textLight,
+            }}
+          >
+            {targetMin} - {targetMax} kcal
+          </Text>
+        </View>
       </View>
     </View>
   );
