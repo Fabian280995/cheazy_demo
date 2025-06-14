@@ -4,7 +4,6 @@ import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
 import { Feather } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -17,7 +16,6 @@ interface Section {
 
 /* ---------- Component ---------- */
 export default function DiaryScreen() {
-  const router = useRouter();
   const { colors } = useTheme();
   const [sections, setSections] = React.useState<Section[]>([]);
 
@@ -49,8 +47,8 @@ export default function DiaryScreen() {
               alignItems: "center",
               backgroundColor: colors.foreground,
               padding: 12,
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16,
               borderBottomWidth: 1,
               borderBottomColor: colors.foreground,
             }}
