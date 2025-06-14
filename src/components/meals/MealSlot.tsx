@@ -1,9 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { MealSlotEntry as METype } from "@/types";
 import { useTheme } from "@/providers/theme";
 import { Feather } from "@expo/vector-icons";
 import MealSlotEntry from "./MealSlotEntry";
+import CardIcon from "../shared/CardIcon";
+import { useRouter } from "expo-router";
 
 interface Props {
   title: string;
@@ -12,6 +14,7 @@ interface Props {
 
 const MealSlot = ({ title, entries }: Props) => {
   const { colors } = useTheme();
+  const router = useRouter();
   return (
     <View>
       <View
@@ -20,9 +23,7 @@ const MealSlot = ({ title, entries }: Props) => {
           justifyContent: "space-between",
           alignItems: "center",
           backgroundColor: colors.foreground,
-          paddingHorizontal: 16,
-          paddingTop: 12,
-          paddingBottom: 8,
+          padding: 12,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           borderBottomWidth: 1,
@@ -46,16 +47,50 @@ const MealSlot = ({ title, entries }: Props) => {
 
       {/* Section-Items */}
       {entries.map((item, idx) => {
-        const isLast = idx === entries.length - 1;
-
         return (
           <MealSlotEntry
             key={`${item.date}-${item.mealSlot}-${item.entry.id}`}
             entry={item}
-            isLast={isLast}
           />
         );
       })}
+
+      <TouchableOpacity
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: colors.foreground,
+          paddingHorizontal: 12,
+          paddingVertical: 12,
+          borderBottomLeftRadius: 16,
+          borderBottomRightRadius: 16,
+        }}
+        onPress={
+          () => null
+          // router.push({
+          //   pathname: "/meals/add-entry",
+          //   params: { mealSlot: title },
+          // })
+        }
+      >
+        <CardIcon
+          name="add"
+          size={36}
+          color={colors.textForeground}
+          bgColor={colors.primary}
+        />
+        <Text
+          style={{
+            fontFamily: "Nunito",
+            color: colors.text,
+            fontWeight: "700",
+            fontSize: 14,
+            marginLeft: 8,
+          }}
+        >
+          Eintrag hinzufügen
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
