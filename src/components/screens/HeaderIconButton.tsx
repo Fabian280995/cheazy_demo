@@ -42,8 +42,8 @@ const HeaderIconButton = ({
       disabled={disabled}
       style={[
         {
-          width: text ? undefined : 46,
-          height: 46,
+          width: text ? undefined : 36,
+          height: 36,
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 100,
@@ -67,7 +67,7 @@ const HeaderIconButton = ({
           {iconName && (
             <Feather
               name={iconName}
-              size={24}
+              size={20}
               color={color ? color : colors.text}
             />
           )}
