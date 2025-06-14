@@ -27,10 +27,7 @@ const CaloryRing: React.FC<Props> = ({
   const radius = (size - stroke) / 2;
   const circ = 2 * Math.PI * radius;
 
-  // ⬇️ Startwert = aktueller Progress, nicht 0
   const pct = useSharedValue(Math.min(progress, 1));
-
-  /* nur animieren, wenn sich progress ändert */
   useEffect(() => {
     pct.value = withTiming(Math.min(progress, 1), { duration: 800 });
   }, [progress]);
@@ -39,12 +36,10 @@ const CaloryRing: React.FC<Props> = ({
     strokeDashoffset: circ * (1 - pct.value),
   }));
 
-  /* Start bei 12 Uhr */
   const rotate = `rotate(-90 ${size / 2} ${size / 2})`;
 
   return (
     <Svg width={size} height={size}>
-      {/* Track (kein Rund-Cap nötig) */}
       <Circle
         cx={size / 2}
         cy={size / 2}

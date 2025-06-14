@@ -113,7 +113,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                 width: DAY_WIDTH,
               }}
             >
-              {isOpen && (
+              {isOpen ? (
                 <VerticalBar
                   progress={value / TARGET_CAL}
                   isCurrentDay={
@@ -121,10 +121,14 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                     day.getMonth() === currentDate.getMonth()
                   }
                 />
-              )}
+              ) : null}
               <Animated.View
                 layout={LinearTransition}
-                style={{ width: DAY_WIDTH, height: DAY_WIDTH }}
+                style={{
+                  width: DAY_WIDTH,
+                  height: DAY_WIDTH,
+                  backgroundColor: colors.background,
+                }}
               >
                 {!isOpen && (
                   <CaloryRing
