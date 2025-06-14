@@ -13,14 +13,7 @@ const DailyNutritionScoreCard = () => {
     <Card>
       <CardHeader
         title="Nutrition Score"
-        Icon={() => (
-          <CardIcon
-            name="tag"
-            color={colors.success}
-            bgColor={colors.success}
-            gradient
-          />
-        )}
+        Icon={() => <CategoryIcon id={"fruit"} gradient />}
       />
       <View
         style={{

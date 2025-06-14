@@ -50,7 +50,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
         />
       )}
       <Icon
-        size={(size / 4) * 3}
+        size={(size / 3) * 2}
         color={gradient ? colors.textForeground : color}
       />
     </View>

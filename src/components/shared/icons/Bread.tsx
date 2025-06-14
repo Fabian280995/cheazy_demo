@@ -22,6 +22,9 @@ const Bread: React.FC<BreadProps> = ({ size = 96, color = "black" }) => (
         3 122 -14z m-156 -51 c106 -54 140 -149 79 -218 l-30 -35 0 -189 0 -189 -124
         32 c-69 17 -129 35 -135 39 -7 4 -11 63 -11 168 l0 161 -32 33 c-71 73 -21
         168 112 213 56 19 79 16 141 -15z"
+        fill={color}
+        stroke={color}
+        strokeWidth={32}
       />
     </G>
   </Svg>

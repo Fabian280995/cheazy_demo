@@ -24,6 +24,9 @@ const Chickenleg: React.FC<ChickenlegProps> = ({
         c-31 -32 -35 -41 -29 -68 15 -71 -58 -112 -90 -51 -9 17 -27 35 -40 40 -19 7
         -25 17 -25 40 0 32 26 50 74 50 12 0 37 15 55 34 l34 35 28 -22 29 -21 -36
         -37z"
+        fill={color}
+        stroke={color}
+        strokeWidth={32}
       />
     </G>
   </Svg>

@@ -21,6 +21,9 @@ const DairyBottle: React.FC<DairyBottleProps> = ({
         0 -27z m-13 -122 c4 -23 21 -68 37 -100 l31 -58 0 -218 c0 -131 -4 -226 -10
         -238 -10 -17 -22 -19 -148 -19 -94 0 -142 4 -150 12 -9 9 -12 77 -12 244 l0
         232 30 64 c17 34 33 78 36 96 l6 33 86 -3 86 -3 8 -42z"
+        fill={color}
+        stroke={color}
+        strokeWidth={32}
       />
     </G>
   </Svg>

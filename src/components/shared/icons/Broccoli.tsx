@@ -25,6 +25,9 @@ const Broccoli: React.FC<BroccoliProps> = ({ size = 96, color = "black" }) => (
         -105 80 -2 55 -27 146 -48 178 -8 13 -13 25 -11 26 2 1 18 7 36 13 31 11 34
         10 43 -15 6 -15 13 -41 16 -59 6 -35 26 -49 41 -30 10 11 3 72 -12 107 -5 13
         1 15 34 12 32 -3 40 -8 36 -21z"
+        fill={color}
+        stroke={color}
+        strokeWidth={32}
       />
     </G>
   </Svg>

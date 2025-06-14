@@ -9,7 +9,7 @@ interface AppleProps {
 
 const Apple: React.FC<AppleProps> = ({ size = 96, color = "black" }) => (
   <Svg width={size} height={size} viewBox="0 0 96 96" fill="none">
-    <G transform="translate(0,96) scale(0.1,-0.1)" fill={color}>
+    <G transform="translate(0,96) scale(0.1,-0.1)">
       <Path
         d="M627 906 c-62 -23 -96 -56 -132 -130 l-23 -48 -22 43 c-22 43 -77
         109 -91 109 -4 0 -15 -7 -24 -16 -14 -15 -13 -19 16 -52 30 -34 96 -159 88
@@ -21,6 +21,9 @@ const Apple: React.FC<AppleProps> = ({ size = 96, color = "black" }) => (
         m-300 -266 l59 -20 41 21 c81 43 193 8 244 -75 76 -122 27 -292 -111 -383 -56
         -38 -58 -38 -162 -40 -132 -2 -170 9 -232 65 -69 62 -111 151 -110 233 1 75
         29 139 76 175 62 47 109 53 195 24z"
+        fill={color}
+        stroke={color}
+        strokeWidth={36}
       />
     </G>
   </Svg>
