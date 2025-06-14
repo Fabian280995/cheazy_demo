@@ -1,4 +1,3 @@
-import CalendarDatePickerCard from "@/components/calendar/CalendarDatePickerCard";
 import MonthOverview from "@/components/overview/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";

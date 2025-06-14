@@ -1,7 +1,6 @@
 import ScreenHeaderBackgroundGradient from "@/components/screens/ScreenHeaderBackgroundGradient";
 import { Stack } from "expo-router";
 import React from "react";
-import { Platform } from "react-native";
 
 function HomeLayout() {
   return (
