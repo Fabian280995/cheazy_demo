@@ -1,9 +1,8 @@
-import { View, Text } from "react-native";
+import { useTheme } from "@/providers/theme"; // Adjust the import path as necessary
 import React from "react";
 import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
-import CategoryIcon from "../shared/CategoryIcon";
-import { useTheme } from "@/providers/theme";
+import CardIcon from "../shared/CardIcon";
 
 const DailyNutritionScoreCard = () => {
   const { colors } = useTheme();
@@ -12,7 +11,7 @@ const DailyNutritionScoreCard = () => {
       <CardHeader
         title="Nutrition Score"
         Icon={() => (
-          <CategoryIcon
+          <CardIcon
             name="tag"
             color={colors.success}
             bgColor={colors.success}

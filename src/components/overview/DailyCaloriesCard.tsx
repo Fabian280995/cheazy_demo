@@ -1,12 +1,11 @@
 // components/DailyCaloriesCard.tsx
-import { View, Text } from "react-native";
-import React from "react";
-import { useTheme } from "@/providers/theme";
-import { Octicons } from "@expo/vector-icons";
 import ProgressBar from "@/components/shared/ProgressBar";
+import { useTheme } from "@/providers/theme";
+import React from "react";
+import { Text, View } from "react-native";
 import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
-import CategoryIcon from "../shared/CategoryIcon";
+import CardIcon from "../shared/CardIcon";
 
 const DailyCaloriesCard = () => {
   const { colors } = useTheme();
@@ -28,7 +27,7 @@ const DailyCaloriesCard = () => {
       <CardHeader
         title="Daily Calories"
         Icon={() => (
-          <CategoryIcon
+          <CardIcon
             name="flame"
             color={colors.accent}
             bgColor={colors.warning}
