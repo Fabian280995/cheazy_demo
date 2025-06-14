@@ -3,17 +3,20 @@ import { useTheme } from "@/providers/theme";
 import { getDaysByMonth } from "@/utils/date";
 import { Feather } from "@expo/vector-icons";
 import React, { use, useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 import MonthSwitchHeaderBtns from "../calendar/MonthSwitchHeaderBtns";
+import CaloryRing from "../shared/CaloryRing";
 
 const GAP = 12;
 const DAY_WIDTH = 36;
+const BAR_HEIGHT = 112; // Höhe der vertikalen Balken
+
+const TARGET_CAL = 3200; // Beispielwert für die Zielkalorien
 
 const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const scrollRef = React.useRef<Animated.ScrollView>(null);
-  const barHeight = 112;
   const { colors } = useTheme();
   const { currentDate, updateCurrentDate } = useCalendar();
   const days = getDaysByMonth(
@@ -93,7 +96,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
         }}
       >
         {days.map((day, index) => {
-          const value = Math.random() * 100 + 20;
+          const value = Math.random() * TARGET_CAL;
           return (
             <TouchableOpacity
               key={index}
@@ -112,8 +115,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
             >
               {isOpen && (
                 <VerticalBar
-                  value={value}
-                  barHeight={barHeight}
+                  progress={value / TARGET_CAL}
                   isCurrentDay={
                     day.getDate() === currentDate.getDate() &&
                     day.getMonth() === currentDate.getMonth()
@@ -122,35 +124,48 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
               )}
               <Animated.View
                 layout={LinearTransition}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: DAY_WIDTH,
-                  height: DAY_WIDTH,
-                  borderRadius: 100,
-                  backgroundColor: isOpen
-                    ? colors.background
-                    : colors.foreground,
-                }}
+                style={{ width: DAY_WIDTH, height: DAY_WIDTH }}
               >
-                <Text
-                  style={{
-                    fontFamily: "Nunito",
-                    fontSize: 16,
-                    fontWeight:
-                      day.getDate() === currentDate.getDate() &&
-                      day.getMonth() === currentDate.getMonth()
-                        ? "900"
-                        : "700",
-                    color:
-                      day.getDate() === currentDate.getDate() &&
-                      day.getMonth() === currentDate.getMonth()
-                        ? colors.primary
-                        : colors.textLight,
-                  }}
+                {!isOpen && (
+                  <CaloryRing
+                    progress={value / TARGET_CAL}
+                    size={DAY_WIDTH}
+                    stroke={4}
+                    trackColor={colors.foreground + "22"}
+                    progressColor={colors.success}
+                  />
+                )}
+                <View
+                  style={[
+                    {
+                      position: "absolute",
+                      inset: 0,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: DAY_WIDTH,
+                      height: DAY_WIDTH,
+                    },
+                  ]}
                 >
-                  {day.getDate()}
-                </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Nunito",
+                      fontSize: 16,
+                      fontWeight:
+                        day.getDate() === currentDate.getDate() &&
+                        day.getMonth() === currentDate.getMonth()
+                          ? "900"
+                          : "700",
+                      color:
+                        day.getDate() === currentDate.getDate() &&
+                        day.getMonth() === currentDate.getMonth()
+                          ? colors.primary
+                          : colors.textLight,
+                    }}
+                  >
+                    {day.getDate()}
+                  </Text>
+                </View>
               </Animated.View>
             </TouchableOpacity>
           );
@@ -161,12 +176,10 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
 };
 
 const VerticalBar = ({
-  value,
-  barHeight,
+  progress,
   isCurrentDay,
 }: {
-  value: number;
-  barHeight: number;
+  progress: number;
   isCurrentDay: boolean;
 }) => {
   const { colors } = useTheme();
@@ -177,7 +190,7 @@ const VerticalBar = ({
       exiting={FadeIn.delay(200)}
       style={{
         width: 12,
-        height: barHeight,
+        height: BAR_HEIGHT,
         backgroundColor: colors.foreground + "aa",
         borderRadius: 8,
         overflow: "hidden",
@@ -187,7 +200,7 @@ const VerticalBar = ({
       <Animated.View
         style={{
           position: "absolute",
-          height: value,
+          height: progress * BAR_HEIGHT,
           left: 0,
           right: 0,
           bottom: 0,
