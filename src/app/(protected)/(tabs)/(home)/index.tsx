@@ -1,5 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
+import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import React from "react";
+import { ScrollView } from "react-native";
 
 const Home = () => {
   return (
@@ -10,7 +11,7 @@ const Home = () => {
         padding: 16,
       }}
     >
-      <Text>Hallo Stack</Text>
+      <DailyCaloriesCard />
     </ScrollView>
   );
 };
