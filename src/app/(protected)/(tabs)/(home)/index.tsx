@@ -1,10 +1,11 @@
 import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
+import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const Home = () => {
   const router = useRouter();
@@ -35,7 +36,10 @@ const Home = () => {
           ),
         }}
       />
-      <DailyCaloriesCard />
+      <View style={{ flex: 1, gap: 16 }}>
+        <DailyCaloriesCard />
+        <DailyNutritionScoreCard />
+      </View>
     </ScrollView>
   );
 };
