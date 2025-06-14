@@ -7,7 +7,7 @@ import MonthSwitchHeaderBtns from "../calendar/MonthSwitchHeaderBtns";
 
 const MonthOverview = () => {
   const scrollRef = React.useRef<ScrollView>(null);
-  const barHeight = 148; // Höhe der Balken
+  const barHeight = 148;
   const { colors } = useTheme();
   const { currentDate } = useCalendar();
   const days = getDaysByMonth(
@@ -32,7 +32,8 @@ const MonthOverview = () => {
     <View>
       <View
         style={{
-          padding: 12,
+          paddingHorizontal: 16,
+          marginBottom: 16,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
@@ -57,6 +58,9 @@ const MonthOverview = () => {
         ref={scrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 4,
+        }}
       >
         {days.map((day, index) => (
           <View
@@ -95,7 +99,11 @@ const MonthOverview = () => {
               style={{
                 fontFamily: "Nunito",
                 fontSize: 16,
-                fontWeight: "700",
+                fontWeight:
+                  day.getDate() === currentDate.getDate() &&
+                  day.getMonth() === currentDate.getMonth()
+                    ? "900"
+                    : "700",
                 color:
                   day.getDate() === currentDate.getDate() &&
                   day.getMonth() === currentDate.getMonth()

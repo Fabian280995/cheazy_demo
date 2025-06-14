@@ -21,7 +21,6 @@ const Home = () => {
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1 }}
       contentContainerStyle={{
-        padding: 16,
         paddingBottom: 96,
       }}
     >
@@ -38,8 +37,10 @@ const Home = () => {
           ),
         }}
       />
-      <View style={{ flex: 1, gap: 16 }}>
+      <View style={{ marginBottom: 32, marginTop: 32 }}>
         <MonthOverview />
+      </View>
+      <View style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}>
         <DailyCaloriesCard />
         <DailyNutritionScoreCard />
       </View>
