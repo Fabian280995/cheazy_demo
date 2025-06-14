@@ -8,12 +8,14 @@ interface CategoryIconProps {
   id: FoodCategoryId;
   size?: number;
   gradient?: boolean;
+  colorfull?: boolean;
 }
 
 const CategoryIcon: React.FC<CategoryIconProps> = ({
   id,
   size = 36,
   gradient = false,
+  colorfull = false,
 }) => {
   const { colors } = useTheme();
   const category = foodCategories.find((cat) => cat.id === id);
@@ -21,6 +23,8 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
   if (!category) return null;
 
   const Icon = category.icon;
+  const bgColor = colorfull ? category.backgroundColor : colors.background;
+  const color = colorfull ? category.foregroundColor : colors.text;
 
   return (
     <View
@@ -28,7 +32,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
         width: size,
         height: size,
         borderRadius: 16,
-        backgroundColor: category.backgroundColor,
+        backgroundColor: bgColor,
         justifyContent: "center",
         alignItems: "center",
         position: "relative",
@@ -47,7 +51,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
       )}
       <Icon
         size={(size / 4) * 3}
-        color={gradient ? colors.textForeground : category.foregroundColor}
+        color={gradient ? colors.textForeground : color}
       />
     </View>
   );
