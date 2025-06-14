@@ -9,8 +9,6 @@ type CalendarContextType = {
   decreaseMonth: () => void;
   increaseYear: () => void;
   decreaseYear: () => void;
-  toggleCalendarMenu: () => void;
-  calendarMenuShown: boolean;
 };
 
 const CalendarContext = createContext<CalendarContextType | undefined>(
@@ -28,7 +26,6 @@ export const CalendarProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [calendarMenuShown, setCalendarMenuShown] = useState(false);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
   const updateCurrentDate = (date: Date) => {
@@ -88,12 +85,7 @@ export const CalendarProvider = ({
   const decreaseYear = () =>
     updateCurrentDate(getYearAdjustedDate(currentDate, -1));
 
-  const toggleCalendarMenu = () => {
-    setCalendarMenuShown((prev) => !prev);
-  };
-
   const value: CalendarContextType = {
-    calendarMenuShown,
     currentDate,
     updateCurrentDate,
     increaseDay,
@@ -102,7 +94,6 @@ export const CalendarProvider = ({
     decreaseMonth,
     increaseYear,
     decreaseYear,
-    toggleCalendarMenu,
   };
 
   return (
