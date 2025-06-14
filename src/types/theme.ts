@@ -1,3 +1,5 @@
+import { FoodCategoryId } from "@/constants/foodCategories";
+
 export interface ThemeColors {
   primary: string;
   secondary: string;
@@ -21,4 +23,15 @@ export interface ThemeColors {
 export interface AppTheme {
   dark: boolean;
   colors: ThemeColors;
+  categoryColors: CategoryColorsType;
 }
+
+export interface CategoryColorDefinition {
+  background: string;
+  foreground: string;
+}
+
+export type CategoryColorsType = Record<
+  FoodCategoryId,
+  CategoryColorDefinition
+>;

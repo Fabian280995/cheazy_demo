@@ -1,7 +1,6 @@
 // components/ProgressBar.tsx
-import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 
 type ProgressBarProps = {
   /** Aktueller Messwert (z. B. konsumierte Kalorien) */
@@ -27,6 +26,7 @@ type ProgressBarProps = {
   labelColor?: string;
   /** Transparenz des Overlays im „over“-Fall (0–1) */
   overlayOpacity?: number;
+  height?: number; // Optional height prop for custom height
 };
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -39,6 +39,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   showScaleLabels = false,
   labelColor,
   overlayOpacity = 0.35,
+  height = 16,
 }) => {
   const targetLeftPct = ((targetMin - min) / (max - min)) * 100;
   const targetRightPct = ((targetMax - min) / (max - min)) * 100;
@@ -54,7 +55,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
       {/* Balken */}
       <View
         style={{
-          height: 16,
+          height: height,
           borderRadius: 16,
           backgroundColor: colors.barBackground,
           overflow: "hidden",
@@ -85,6 +86,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
             backgroundColor: colors.targetRange,
             opacity: isOver ? overlayOpacity : 1,
             zIndex: isOver ? 2 : 0,
+            minWidth: 2,
           }}
         />
       </View>

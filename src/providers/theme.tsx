@@ -1,5 +1,5 @@
 // providers/ThemeProvider.tsx
-import { Colors } from "@/theme/colors";
+import { CategoryColors, Colors } from "@/theme/colors";
 import { AppTheme, ThemeColors } from "@/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
@@ -58,6 +58,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     colors,
     toggleTheme,
     overrideAccentColor,
+    categoryColors: CategoryColors,
   };
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

@@ -1,5 +1,4 @@
-// themes/colors.ts
-import { ThemeColors } from "@/types";
+import { CategoryColorsType, ThemeColors } from "@/types";
 
 export const Colors: Record<"light" | "dark", ThemeColors> = {
   light: {
@@ -60,3 +59,54 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     shadow: "#0D0D0D", // dunkler und subtil
   },
 };
+
+export const CategoryColors: CategoryColorsType = {
+  fruit: {
+    background: "#FFB385",
+    foreground: "#D84315",
+  },
+  vegetables: {
+    background: "#8BCF9B",
+    foreground: "#1B5E20",
+  },
+  grains: {
+    background: "#FFEA8A",
+    foreground: "#F9A825",
+  },
+  "plant-protein": {
+    background: "#C7B8F2",
+    foreground: "#4527A0",
+  },
+  "animal-protein": {
+    background: "#FFBCA6",
+    foreground: "#BF360C",
+  },
+  dairy: {
+    background: "#A9D3FF",
+    foreground: "#0D47A1",
+  },
+  fats: {
+    background: "#FFD36B",
+    foreground: "#FF6F00",
+  },
+  sweets: {
+    background: "#F7A6C4",
+    foreground: "#AD1457",
+  },
+  "drinks-zero": {
+    background: "#B0BEC5",
+    foreground: "#263238",
+  },
+  "drinks-caloric": {
+    background: "#E4B7F2",
+    foreground: "#6A1B9A",
+  },
+  fastfood: {
+    background: "#C7E8A0",
+    foreground: "#33691E",
+  },
+  misc: {
+    background: "#B0BEC5",
+    foreground: "#37474F",
+  },
+} as const;
