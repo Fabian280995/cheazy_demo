@@ -15,7 +15,7 @@ export function useHeaderOptions({
   largeTitle = false,
   backgroundColor,
 }: Params = {}): NativeStackNavigationOptions {
-  const { colors, dark } = useTheme();
+  const { colors } = useTheme();
 
   return useMemo<NativeStackNavigationOptions>(() => {
     const bg = backgroundColor ?? undefined;
