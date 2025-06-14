@@ -1,4 +1,5 @@
 // components/ProgressBar.tsx
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { View, Text } from "react-native";
 
