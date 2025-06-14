@@ -6,6 +6,7 @@ import DiaryScreen from "@/screens/DiaryScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, View } from "react-native";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 const Journal = () => {
   const router = useRouter();
@@ -36,10 +37,10 @@ const Journal = () => {
           ),
         }}
       />
-      <View style={{ flex: 1, gap: 16 }}>
+      <Animated.View layout={LinearTransition} style={{ flex: 1, gap: 16 }}>
         <CalendarDatePickerCard small />
         <DiaryScreen />
-      </View>
+      </Animated.View>
     </ScrollView>
   );
 };
