@@ -9,7 +9,7 @@ const ScreenHeaderBackgroundGradient = () => {
       colors={[
         `${colors.background}FF`,
         `${colors.background}FF`,
-        `${colors.foreground}00`,
+        `${colors.background}00`,
       ]}
       style={{
         position: "absolute",
