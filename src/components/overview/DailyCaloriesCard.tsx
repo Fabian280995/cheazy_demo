@@ -37,9 +37,9 @@ const DailyCaloriesCard = () => {
       />
 
       {/* Content */}
-      <View style={{ marginTop: 12, gap: 16 }}>
+      <View style={{ marginTop: 12 }}>
         {/* Zahlen */}
-        <View>
+        <View style={{ marginBottom: 12 }}>
           <Text
             style={{
               fontFamily: "Nunito",
@@ -55,7 +55,7 @@ const DailyCaloriesCard = () => {
               fontFamily: "Inter",
               color: colors.textLight,
               fontSize: 16,
-              fontWeight: "700",
+              fontWeight: "500",
             }}
           >
             Goal: {goalCals} kcal
@@ -83,7 +83,7 @@ const DailyCaloriesCard = () => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginTop: 4,
+            marginTop: 16,
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
