@@ -21,7 +21,7 @@ export const FoodItemCard = ({ item }: { item: FoodItem }) => {
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-      <CategoryIcon id={category} size={40} colorfull />
+      <CategoryIcon id={category} size={36} colorfull />
       <View style={{ flex: 1 }}>
         <View
           style={{
