@@ -1,6 +1,5 @@
 import ScreenHeaderBackgroundGradient from "@/components/screens/ScreenHeaderBackgroundGradient";
 import { useTheme } from "@/providers/theme";
-import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
