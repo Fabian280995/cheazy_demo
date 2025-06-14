@@ -14,7 +14,7 @@ export const MEAL_SLOTS: MealSlot[] = [
 
 /* ─────────────── Mock-Entries ─────────────── */
 export const mockEntries: MealSlotEntry[] = [
-  /* Frühstück ─ Haferbrei */
+  /* Frühstück ─ Haferbrei (≈ 175 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "Breakfast",
@@ -26,11 +26,27 @@ export const mockEntries: MealSlotEntry[] = [
       carbohydrates_per_100: 12,
       fat_per_100: 1.4,
       quantity: 250,
-      category: "grains", // ✅
+      category: "grains",
     },
   },
 
-  /* Vormittagssnack ─ Apfel */
+  /* Frühstück ─ Peanut-Butter-Toast (≈ 400 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "Breakfast",
+    entry: {
+      id: "f11",
+      name: "Peanut-Butter-Toast",
+      calories_per_100: 400,
+      protein_per_100: 13,
+      carbohydrates_per_100: 36,
+      fat_per_100: 24,
+      quantity: 100,
+      category: "fats",
+    },
+  },
+
+  /* Vormittagssnack ─ Apfel (≈ 78 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "MorningSnack",
@@ -42,11 +58,11 @@ export const mockEntries: MealSlotEntry[] = [
       carbohydrates_per_100: 14,
       fat_per_100: 0.2,
       quantity: 150,
-      category: "fruit", // ✅
+      category: "fruit",
     },
   },
 
-  /* Mittag ─ Quinoasalat (Rezept) */
+  /* Mittag ─ Quinoasalat (Recipe, ≈ 275 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "Lunch",
@@ -88,7 +104,59 @@ export const mockEntries: MealSlotEntry[] = [
     },
   },
 
-  /* Nachmittagssnack ─ Mandeln */
+  /* Mittag ─ Burger & Fries (Recipe, ≈ 985 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "Lunch",
+    entry: {
+      id: "r3",
+      name: "Cheeseburger mit Pommes",
+      ingredients: [
+        {
+          id: "f12",
+          name: "Burger-Brötchen",
+          calories_per_100: 300,
+          protein_per_100: 9,
+          carbohydrates_per_100: 55,
+          fat_per_100: 4,
+          quantity: 80,
+          category: "grains",
+        },
+        {
+          id: "f13",
+          name: "Rindfleisch-Patty",
+          calories_per_100: 250,
+          protein_per_100: 20,
+          carbohydrates_per_100: 0,
+          fat_per_100: 18,
+          quantity: 120,
+          category: "animal-protein",
+        },
+        {
+          id: "f14",
+          name: "Cheddar",
+          calories_per_100: 403,
+          protein_per_100: 25,
+          carbohydrates_per_100: 1.3,
+          fat_per_100: 33,
+          quantity: 30,
+          category: "dairy",
+        },
+        {
+          id: "f15",
+          name: "Pommes",
+          calories_per_100: 312,
+          protein_per_100: 3.4,
+          carbohydrates_per_100: 41,
+          fat_per_100: 15,
+          quantity: 150,
+          category: "fastfood",
+        },
+      ],
+    },
+  },
+
+  /* Nachmittagssnack ─ Mandeln (≈ 173 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "AfternoonSnack",
@@ -105,7 +173,23 @@ export const mockEntries: MealSlotEntry[] = [
     },
   },
 
-  /* Abendessen ─ Gegrilltes Hähnchen mit Gemüse (Rezept) */
+  /* Nachmittagssnack ─ Protein-Shake (≈ 300 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "AfternoonSnack",
+    entry: {
+      id: "f16",
+      name: "Protein-Shake",
+      calories_per_100: 120,
+      protein_per_100: 20,
+      carbohydrates_per_100: 5,
+      fat_per_100: 2,
+      quantity: 250,
+      category: "animal-protein",
+    },
+  },
+
+  /* Abendessen ─ Hähnchen & Gemüse (Recipe, ≈ 340 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "Dinner",
@@ -147,19 +231,67 @@ export const mockEntries: MealSlotEntry[] = [
     },
   },
 
-  /* Abendsnack ─ Quark mit Beeren */
+  /* Dessert ─ Schokoladenkuchen (≈ 450 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "Dinner",
+    entry: {
+      id: "f17",
+      name: "Schokoladenkuchen, Stück",
+      calories_per_100: 450,
+      protein_per_100: 5,
+      carbohydrates_per_100: 50,
+      fat_per_100: 25,
+      quantity: 100,
+      category: "sweets",
+    },
+  },
+
+  /* Spätabend ─ Vanilleeis (≈ 300 kcal) */
   {
     date: "2025-06-08",
     mealSlot: "EveningSnack",
     entry: {
-      id: "f10",
-      name: "Magerquark mit Beeren",
-      calories_per_100: 75,
+      id: "f18",
+      name: "Vanilleeis",
+      calories_per_100: 200,
+      protein_per_100: 4,
+      carbohydrates_per_100: 24,
+      fat_per_100: 10,
+      quantity: 150,
+      category: "sweets",
+    },
+  },
+
+  /* Spätabend ─ Pizza-Slice (≈ 400 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "EveningSnack",
+    entry: {
+      id: "f19",
+      name: "Pizza-Slice Salami",
+      calories_per_100: 320,
       protein_per_100: 12,
-      carbohydrates_per_100: 6,
-      fat_per_100: 0.3,
-      quantity: 200,
-      category: "dairy",
+      carbohydrates_per_100: 34,
+      fat_per_100: 15,
+      quantity: 125,
+      category: "fastfood",
+    },
+  },
+
+  /* Getränk ─ Cola (≈ 150 kcal) */
+  {
+    date: "2025-06-08",
+    mealSlot: "EveningSnack",
+    entry: {
+      id: "f20",
+      name: "Cola",
+      calories_per_100: 42,
+      protein_per_100: 0,
+      carbohydrates_per_100: 10.5,
+      fat_per_100: 0,
+      quantity: 355,
+      category: "drinks-caloric",
     },
   },
 ];
