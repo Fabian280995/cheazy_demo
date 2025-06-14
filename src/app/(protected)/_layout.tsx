@@ -5,6 +5,7 @@ export default function ProtectedLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="meals" />
+      <Stack.Screen name="settings" />
       <Stack.Screen
         name="ai-chat"
         options={{

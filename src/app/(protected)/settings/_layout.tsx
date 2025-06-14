@@ -1,38 +1,19 @@
-import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import ScreenHeaderBackgroundGradient from "@/components/screens/ScreenHeaderBackgroundGradient";
 import ScreenWrapper from "@/components/screens/ScreenWrapper";
-import { useTheme } from "@/providers/theme";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 
 function SettingsLayout() {
-  const router = useRouter();
-  const { colors } = useTheme();
-
   return (
     <ScreenWrapper>
       <Stack
         screenOptions={{
+          headerTransparent: true,
+          headerBackground: () => <ScreenHeaderBackgroundGradient />,
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
-        <Stack.Screen
-          name="index"
-          options={{
-            headerTitle: "Einstellungen",
-            headerStyle: {
-              backgroundColor: "transparent",
-            },
-            headerShadowVisible: false,
-            headerLargeTitle: true,
-            headerLeft: () => (
-              <HeaderIconButton
-                iconName="arrow-left"
-                onPress={() => router.back()}
-                color={colors.text}
-              />
-            ),
-          }}
-        />
+        <Stack.Screen name="index" />
       </Stack>
     </ScreenWrapper>
   );
