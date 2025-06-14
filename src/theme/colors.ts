@@ -9,9 +9,9 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     accent: "#FF9A6C", // Orange-Pink
 
     /* Semantic */
-    success: "#4CAF50",
-    warning: "#FFC107",
-    destructive: "#F44336",
+    success: "#81C784",
+    warning: "#FFD54F",
+    destructive: "#E57373",
     info: "#555555",
 
     /* Typography */
