@@ -50,15 +50,18 @@ export default function DiaryScreen() {
               borderTopLeftRadius: 16,
               borderTopRightRadius: 16,
               borderBottomWidth: 1,
-              borderBottomColor: colors.foreground,
+              borderBottomColor: colors.background,
             }}
           >
             <Text
               style={{
-                fontSize: 16,
-                fontWeight: "bold",
+                fontSize: 18,
                 color: colors.text,
+                fontFamily: "Nunito",
+                fontWeight: "800",
               }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
               {section.title}
             </Text>
@@ -70,7 +73,7 @@ export default function DiaryScreen() {
               style={{
                 padding: 6,
                 borderRadius: 8,
-                backgroundColor: colors.foreground,
+                backgroundColor: colors.background,
               }}
             >
               <Feather name="plus" size={16} color={colors.icon} />

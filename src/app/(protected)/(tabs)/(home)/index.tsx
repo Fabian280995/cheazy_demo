@@ -19,6 +19,7 @@ const Home = () => {
       style={{ flex: 1 }}
       contentContainerStyle={{
         padding: 16,
+        paddingBottom: 64,
       }}
     >
       <Stack.Screen
