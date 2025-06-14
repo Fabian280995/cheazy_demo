@@ -1,6 +1,5 @@
 import MealSlot from "@/components/meals/MealSlot";
 import { MEAL_SLOTS, mockEntries } from "@/constants/mealSlots";
-import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
 import React from "react";
@@ -13,7 +12,6 @@ interface Section {
 }
 
 export default function DiaryScreen() {
-  const { colors } = useTheme();
   const [sections, setSections] = React.useState<Section[]>([]);
 
   React.useEffect(() => {
