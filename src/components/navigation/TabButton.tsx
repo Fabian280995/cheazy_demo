@@ -20,7 +20,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
           styles.buttonBase,
           {
             borderColor: isFocused ? colors.text : colors.textLight,
-            backgroundColor: isFocused ? colors.text : colors.background,
+            backgroundColor: isFocused ? colors.text : colors.foreground,
             shadowColor: colors.shadow,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.25,
