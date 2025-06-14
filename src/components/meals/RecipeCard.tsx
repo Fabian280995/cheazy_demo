@@ -5,7 +5,7 @@ import CardIcon from "../shared/CardIcon";
 import { useTheme } from "@/providers/theme";
 
 export const RecipeCard = ({ item }: { item: Recipe }) => {
-  const { categoryColors } = useTheme();
+  const { categoryColors, colors } = useTheme();
   const ingredients = item.ingredients ?? [];
   const totalCalories = ingredients.reduce(
     (sum, ing) => sum + (ing.calories_per_100 * ing.quantity) / 100,
@@ -48,19 +48,19 @@ export const RecipeCard = ({ item }: { item: Recipe }) => {
               fontFamily: "Nunito",
               fontWeight: "800",
               maxWidth: "75%",
+              color: colors.text,
             }}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
             {item.name}
           </Text>
-          <Text style={{ color: "gray" }}>{calories} kcal</Text>
+          <Text style={{ color: colors.text, fontWeight: "800" }}>
+            {calories} kcal
+          </Text>
         </View>
-        <Text style={{ fontSize: 12, color: "gray" }}>
+        <Text style={{ fontSize: 12, color: colors.textLight }}>
           {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
-        </Text>
-        <Text style={{ fontSize: 12, color: "gray" }}>
-          Zutaten: {ingredients.map((ing) => ing.name).join(", ")}
         </Text>
       </View>
     </View>
