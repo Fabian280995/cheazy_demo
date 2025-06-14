@@ -17,101 +17,124 @@ interface FoodCategory {
   icon: FC<{ size?: number; color?: string }>;
 }
 
-export const foodCategories: FoodCategory[] = [
+export const foodCategories = [
+  /* Obst */
   {
     id: "fruit",
     name: "Obst",
     description: "Frisches, getrocknetes oder verarbeitetes Obst",
-    backgroundColor: "#FFF3E0",
-    foregroundColor: "#E65100",
+    backgroundColor: "#FFB385", // saftiges Apricot
+    foregroundColor: "#D84315", // sattes Blutorange
     icon: Apple,
   },
+
+  /* Gemüse */
   {
     id: "vegetables",
     name: "Gemüse",
     description: "Frisches, tiefgekühltes oder gegartes Gemüse",
-    backgroundColor: "#E8F5E9",
-    foregroundColor: "#2E7D32",
+    backgroundColor: "#8BCF9B", // Avocado-Midtone
+    foregroundColor: "#1B5E20", // tiefer Blattgrün-Kontrast
     icon: Broccoli,
   },
+
+  /* Getreide & Stärken */
   {
     id: "grains",
     name: "Getreide & Stärken",
     description: "Brot, Reis, Nudeln, Kartoffeln, Haferflocken, Mais etc.",
-    backgroundColor: "#FFFDE7",
-    foregroundColor: "#F9A825",
+    backgroundColor: "#FFEA8A", // goldgelbe Cerealien-Basis
+    foregroundColor: "#F9A825", // kerniges Korn-Ocker
     icon: Bread,
   },
+
+  /* Proteine – pflanzlich */
   {
     id: "plant-protein",
-    name: "Proteine - Pflanzlich",
+    name: "Proteine – Pflanzlich",
     description: "Hülsenfrüchte, Tofu, Tempeh, Seitan, Nüsse, Samen",
-    backgroundColor: "#EDE7F6",
-    foregroundColor: "#512DA8",
+    backgroundColor: "#C7B8F2", // pastelliger Lavendel
+    foregroundColor: "#4527A0", // kräftiges Indigo
     icon: Seed,
   },
+
+  /* Proteine – tierisch */
   {
     id: "animal-protein",
-    name: "Proteine - Tierisch",
+    name: "Proteine – Tierisch",
     description: "Fleisch, Fisch, Eier",
-    backgroundColor: "#FBE9E7",
-    foregroundColor: "#D84315",
+    backgroundColor: "#FFBCA6", // Lachsrosa
+    foregroundColor: "#BF360C", // dunkles Rostrot
     icon: Chickenleg,
   },
+
+  /* Milchprodukte */
   {
     id: "dairy",
     name: "Milchprodukte",
     description: "Milch, Joghurt, Käse",
-    backgroundColor: "#E3F2FD",
-    foregroundColor: "#1565C0",
+    backgroundColor: "#A9D3FF", // cremiges Hellblau
+    foregroundColor: "#0D47A1", // sattes Royal-Blue
     icon: DairyBottle,
   },
+
+  /* Fette & Öle */
   {
     id: "fats",
     name: "Fette & Öle",
     description: "Pflanzliche Öle, Butter, Avocado, fetthaltige Saucen",
-    backgroundColor: "#FFF8E1",
-    foregroundColor: "#FF6F00",
+    backgroundColor: "#FFD36B", // helles Mango-Gelb
+    foregroundColor: "#FF6F00", // kräftiges Kürbis-Orange
     icon: Avocado,
   },
+
+  /* Süßes & Snacks */
   {
     id: "sweets",
     name: "Süßes & Snacks",
     description: "Süßigkeiten, Kuchen, Chips, Riegel etc.",
-    backgroundColor: "#FCE4EC",
-    foregroundColor: "#C2185B",
+    backgroundColor: "#F7A6C4", // Zuckerwatte-Pink
+    foregroundColor: "#AD1457", // tiefes Beeren-Pink
     icon: Candy,
   },
+
+  /* Drinks – kalorienfrei */
   {
     id: "drinks-zero",
-    name: "Getränke - ohne Kalorien",
+    name: "Getränke – ohne Kalorien",
     description: "Wasser, ungesüßter Tee, schwarzer Kaffee",
-    backgroundColor: "#ECEFF1",
-    foregroundColor: "#37474F",
+    backgroundColor: "#B0BEC5", // kühles Nebelgrau
+    foregroundColor: "#263238", // Espresso-Anthrazit
     icon: Apple, // Platzhalter
   },
+
+  /* Drinks – kalorienhaltig */
   {
     id: "drinks-caloric",
-    name: "Getränke - mit Kalorien",
+    name: "Getränke – mit Kalorien",
     description: "Softdrinks, Säfte, Milchshakes, alkoholische Getränke",
-    backgroundColor: "#F3E5F5",
-    foregroundColor: "#6A1B9A",
+    backgroundColor: "#E4B7F2", // sanftes Flieder
+    foregroundColor: "#6A1B9A", // volles Violett
     icon: Apple, // Platzhalter
   },
+
+  /* Fast Food & Fertiggerichte */
   {
     id: "fastfood",
     name: "Fertiggerichte & Fast Food",
     description: "Pizza, Burger, Tiefkühlgerichte, Convenience-Food",
-    backgroundColor: "#F1F8E9",
-    foregroundColor: "#689F38",
+    backgroundColor: "#C7E8A0", // helles Salat-Grün
+    foregroundColor: "#33691E", // dunkles Kräuter-Grün
     icon: Apple, // Platzhalter
   },
+
+  /* Sonstiges & Gewürze */
   {
     id: "misc",
     name: "Sonstiges & Gewürze",
     description: "Salz, Pfeffer, Kräuter, Saucen, Supplements",
-    backgroundColor: "#ECEFF1",
-    foregroundColor: "#455A64",
+    backgroundColor: "#B0BEC5", // neutral-graue Basis
+    foregroundColor: "#37474F", // Graphitgrau
     icon: Apple, // Platzhalter
   },
 ] as const;

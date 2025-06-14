@@ -24,7 +24,7 @@ const DailyNutritionScoreCard = () => {
         }}
       >
         {foodCategories.map(({ id }) => (
-          <CategoryIcon key={id} id={id} />
+          <CategoryIcon key={id} id={id} colorfull />
         ))}
       </View>
     </Card>
