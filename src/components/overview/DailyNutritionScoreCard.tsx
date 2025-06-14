@@ -3,6 +3,9 @@ import React from "react";
 import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
+import CategoryIcon from "../shared/icons/CategoryIcon";
+import { View } from "react-native";
+import { foodCategories } from "@/constants/foodCategories";
 
 const DailyNutritionScoreCard = () => {
   const { colors } = useTheme();
@@ -19,6 +22,18 @@ const DailyNutritionScoreCard = () => {
           />
         )}
       />
+      <View
+        style={{
+          marginTop: 12,
+          gap: 16,
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}
+      >
+        {foodCategories.map(({ id }) => (
+          <CategoryIcon key={id} id={id} />
+        ))}
+      </View>
     </Card>
   );
 };
