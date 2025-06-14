@@ -1,3 +1,4 @@
+// CaloryRing.tsx  – Fix: initial value = progress
 import React, { useEffect } from "react";
 import Svg, { Circle } from "react-native-svg";
 import Animated, {
@@ -26,34 +27,34 @@ const CaloryRing: React.FC<Props> = ({
   const radius = (size - stroke) / 2;
   const circ = 2 * Math.PI * radius;
 
-  const pct = useSharedValue(0);
+  // ⬇️ Startwert = aktueller Progress, nicht 0
+  const pct = useSharedValue(Math.min(progress, 1));
 
-  /* animiere auf neuen Fortschritt */
+  /* nur animieren, wenn sich progress ändert */
   useEffect(() => {
     pct.value = withTiming(Math.min(progress, 1), { duration: 800 });
   }, [progress]);
 
-  /* dynamischer Offset → animiert den Fortschritt */
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset: circ * (1 - pct.value),
   }));
 
-  /* Rotation um –90° (Start bei 12 Uhr) */
+  /* Start bei 12 Uhr */
   const rotate = `rotate(-90 ${size / 2} ${size / 2})`;
 
   return (
     <Svg width={size} height={size}>
-      {/* Track */}
+      {/* Track (kein Rund-Cap nötig) */}
       <Circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
         stroke={trackColor}
         strokeWidth={stroke}
+        strokeLinecap="butt"
         fill="none"
         transform={rotate}
       />
-
       {/* Progress */}
       <AnimatedCircle
         cx={size / 2}
