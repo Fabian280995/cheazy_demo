@@ -15,22 +15,22 @@ const DailyNutritionScoreCard = () => {
       />
       <View style={{ marginTop: 12, gap: 12 }}>
         <NutritionBar
-          name="Protein"
-          value={75}
-          target={180}
-          categoryColorProfile="dairy"
-        />
-        <NutritionBar
           name="Carbohydrates"
           value={320}
           target={300}
-          categoryColorProfile="vegetables"
+          categoryColorProfile="carbs"
         />
         <NutritionBar
           name="Fats"
           value={70}
           target={80}
-          categoryColorProfile="fats"
+          categoryColorProfile="fat"
+        />
+        <NutritionBar
+          name="Protein"
+          value={75}
+          target={180}
+          categoryColorProfile="protein"
         />
       </View>
     </Card>
@@ -48,7 +48,7 @@ const NutritionBar = ({
   value: number;
   target: number;
   deviation?: number;
-  categoryColorProfile: "vegetables" | "fats" | "dairy";
+  categoryColorProfile: "protein" | "fat" | "carbs";
 }) => {
   const { colors, categoryColors } = useTheme();
 
@@ -100,9 +100,9 @@ const NutritionBar = ({
         colors={{
           barBackground: colors.background,
           targetRange: colors.textLight,
-          inRange: categoryColors[categoryColorProfile].background,
-          normal: categoryColors[categoryColorProfile].background,
-          over: categoryColors[categoryColorProfile].background,
+          inRange: colors[categoryColorProfile],
+          normal: colors[categoryColorProfile],
+          over: colors[categoryColorProfile],
         }}
         overlayOpacity={0.8}
       />

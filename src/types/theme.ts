@@ -18,6 +18,10 @@ export interface ThemeColors {
   destructive: string;
   shadow: string;
   border: string;
+
+  protein: string;
+  carbs: string;
+  fat: string;
 }
 
 export interface AppTheme {

@@ -27,7 +27,10 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     tabIconDefault: "#AAAAAA",
     tabIconSelected: "#FF6B81",
     border: "#E0E0E0",
-    shadow: "#7b7b7b", // dunkler als zuvor
+    shadow: "#7b7b7b",
+    protein: "#81C784",
+    fat: "#FFD54F",
+    carbs: "#E57373",
   },
 
   dark: {
@@ -56,7 +59,10 @@ export const Colors: Record<"light" | "dark", ThemeColors> = {
     tabIconDefault: "#888888",
     tabIconSelected: "#FF6B81",
     border: "#404040",
-    shadow: "#0D0D0D", // dunkler und subtil
+    shadow: "#0D0D0D",
+    protein: "#81C784",
+    fat: "#FFD54F",
+    carbs: "#E57373",
   },
 };
 
