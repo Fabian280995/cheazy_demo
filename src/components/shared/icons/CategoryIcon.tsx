@@ -40,7 +40,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
     >
       {gradient && (
         <LinearGradient
-          colors={[category.backgroundColor, category.foregroundColor]}
+          colors={[bgColor, color]}
           style={{
             position: "absolute",
             width: size,
