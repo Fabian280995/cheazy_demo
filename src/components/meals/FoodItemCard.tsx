@@ -2,8 +2,10 @@ import { FoodItem } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
 import CategoryIcon from "../shared/icons/CategoryIcon";
+import { useTheme } from "@/providers/theme";
 
 export const FoodItemCard = ({ item }: { item: FoodItem }) => {
+  const { colors } = useTheme();
   const {
     name,
     calories_per_100,
@@ -34,17 +36,25 @@ export const FoodItemCard = ({ item }: { item: FoodItem }) => {
           <Text
             style={{
               fontFamily: "Nunito",
-              fontWeight: "800",
+              fontWeight: "700",
+              maxWidth: "75%",
+              color: colors.text,
             }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
-            {name}
+            {name}{" "}
+            <Text style={{ color: colors.textLight, fontWeight: "700" }}>
+              {quantity}g
+            </Text>
           </Text>
-          <Text style={{ color: "gray" }}>{calories} kcal</Text>
+          <Text style={{ color: colors.text, fontWeight: "700" }}>
+            {calories} kcal
+          </Text>
         </View>
         <Text style={{ fontSize: 12, color: "gray" }}>
           {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
         </Text>
-        <Text style={{ fontSize: 12, color: "gray" }}>Menge: {quantity}g</Text>
       </View>
     </View>
   );
