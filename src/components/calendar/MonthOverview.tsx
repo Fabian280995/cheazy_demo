@@ -9,9 +9,9 @@ import {
   useWindowDimensions,
 } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import DayNutriIndicator from "./DayNutriIndicator";
 import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
 import { VerticalNutriBar } from "./VerticalNutritionBar";
-import DayNutriIndicator from "./DayNutriIndicator";
 
 // constants
 const GAP = 12;
