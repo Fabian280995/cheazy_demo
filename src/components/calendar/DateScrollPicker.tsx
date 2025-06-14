@@ -5,7 +5,11 @@ import WeekPager from "./WeekPager";
 import WeekdayFooter from "./WeekdayFooter";
 import useMonthWeeks from "@/hooks/calendar/useMonthWeeks";
 
-const DateScrollPicker: React.FC = () => {
+interface Props {
+  small?: boolean;
+}
+
+const DateScrollPicker = ({ small = false }: Props) => {
   const [width, setWidth] = useState(Dimensions.get("window").width);
   const weeks = useMonthWeeks();
   const onLayout = useCallback((e: LayoutChangeEvent) => {
@@ -13,9 +17,9 @@ const DateScrollPicker: React.FC = () => {
   }, []);
 
   return (
-    <View onLayout={onLayout} style={{ marginTop: 12 }}>
+    <View onLayout={onLayout} style={{ marginTop: small ? 4 : 12 }}>
       <WeekPager weeks={weeks} width={width} />
-      <WeekdayFooter cellWidth={width / 7} />
+      {!small && <WeekdayFooter cellWidth={width / 7} />}
     </View>
   );
 };

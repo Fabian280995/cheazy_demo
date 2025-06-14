@@ -8,7 +8,11 @@ import DateScrollPicker from "./DateScrollPicker";
 import { TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const CalendarDatePickerCard = () => {
+interface Props {
+  small?: boolean;
+}
+
+const CalendarDatePickerCard = ({ small = false }: Props) => {
   const { categoryColors, colors } = useTheme();
   const { currentDate, increaseMonth, decreaseMonth } = useCalendar();
   return (
@@ -18,14 +22,16 @@ const CalendarDatePickerCard = () => {
           month: "long",
           year: "numeric",
         })}
-        Icon={() => (
-          <CardIcon
-            name="calendar"
-            bgColor={categoryColors.dairy.background}
-            color={`${categoryColors.dairy.foreground}88`}
-            gradient
-          />
-        )}
+        Icon={() =>
+          !small && (
+            <CardIcon
+              name="calendar"
+              bgColor={categoryColors.dairy.background}
+              color={`${categoryColors.dairy.foreground}88`}
+              gradient
+            />
+          )
+        }
       >
         <View style={{ flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
@@ -67,7 +73,7 @@ const CalendarDatePickerCard = () => {
         </View>
       </CardHeader>
 
-      <DateScrollPicker />
+      <DateScrollPicker small={small} />
     </Card>
   );
 };

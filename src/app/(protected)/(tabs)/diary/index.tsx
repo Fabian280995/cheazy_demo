@@ -37,7 +37,7 @@ const Journal = () => {
         }}
       />
       <View style={{ flex: 1, gap: 16 }}>
-        <CalendarDatePickerCard />
+        <CalendarDatePickerCard small />
         <DiaryScreen />
       </View>
     </ScrollView>

@@ -30,8 +30,8 @@ const DayButton: React.FC<Props> = ({
           {
             alignItems: "center",
             justifyContent: "center",
-            paddingVertical: 16,
-            paddingHorizontal: 4,
+            width: 36,
+            height: 36,
             borderRadius: 16,
           },
           isSelected && { backgroundColor: colors.success },
