@@ -28,8 +28,9 @@ const DailyCaloriesCard = () => {
         </View>
         <Text
           style={{
+            fontFamily: "Nunito",
             color: colors.text,
-            fontWeight: "bold",
+            fontWeight: "800",
             marginLeft: 8,
             fontSize: 16,
           }}
