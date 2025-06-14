@@ -17,7 +17,7 @@ const WeekdayFooter: React.FC<{ cellWidth: number }> = ({ cellWidth }) => {
   );
 };
 const s = StyleSheet.create({
-  row: { flexDirection: "row", justifyContent: "space-between" },
+  row: { flexDirection: "row", justifyContent: "space-between", marginTop: 4 },
   lbl: {
     fontFamily: "Nunito",
     fontSize: 14,

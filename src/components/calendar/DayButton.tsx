@@ -30,7 +30,7 @@ const DayButton: React.FC<Props> = ({
           {
             alignItems: "center",
             justifyContent: "center",
-            paddingVertical: 12,
+            paddingVertical: 16,
             paddingHorizontal: 4,
             borderRadius: 16,
           },
