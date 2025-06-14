@@ -2,7 +2,7 @@ import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import { getDaysByMonth } from "@/utils/date";
 import { Feather } from "@expo/vector-icons";
-import React from "react";
+import React, { use, useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 import MonthSwitchHeaderBtns from "../calendar/MonthSwitchHeaderBtns";
@@ -10,8 +10,8 @@ import MonthSwitchHeaderBtns from "../calendar/MonthSwitchHeaderBtns";
 const GAP = 12;
 const DAY_WIDTH = 36;
 
-const MonthOverview = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
+  const [isOpen, setIsOpen] = React.useState(true);
   const scrollRef = React.useRef<Animated.ScrollView>(null);
   const barHeight = 112;
   const { colors } = useTheme();
@@ -33,6 +33,12 @@ const MonthOverview = () => {
     }
   }, [currentDate, days]);
 
+  useEffect(() => {
+    if (!canOpen) {
+      setIsOpen(false);
+    }
+  }, [canOpen]);
+
   return (
     <View style={{ marginTop: 16, marginBottom: 16 }}>
       <View
@@ -51,6 +57,7 @@ const MonthOverview = () => {
             alignItems: "center",
             gap: 8,
           }}
+          disabled={!canOpen}
         >
           <Text
             style={{
@@ -65,11 +72,13 @@ const MonthOverview = () => {
               year: "numeric",
             })}
           </Text>
-          <Feather
-            name={isOpen ? "chevron-up" : "chevron-down"}
-            size={24}
-            color={colors.text}
-          />
+          {canOpen && (
+            <Feather
+              name={isOpen ? "chevron-up" : "chevron-down"}
+              size={24}
+              color={colors.text}
+            />
+          )}
         </TouchableOpacity>
         <MonthSwitchHeaderBtns foreground />
       </View>

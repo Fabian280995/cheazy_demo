@@ -5,7 +5,7 @@ import { useTheme } from "@/providers/theme";
 import DiaryScreen from "@/screens/DiaryScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
 const Journal = () => {
