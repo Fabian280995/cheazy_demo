@@ -61,7 +61,7 @@ const MealSlot = ({ title, entries }: Props) => {
           alignItems: "center",
           backgroundColor: colors.foreground,
           paddingHorizontal: 12,
-          paddingVertical: 12,
+          paddingVertical: 8,
           borderBottomLeftRadius: 16,
           borderBottomRightRadius: 16,
         }}
