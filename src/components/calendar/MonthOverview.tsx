@@ -56,7 +56,7 @@ const getWeeksByMonth = (year: number, month: number) => {
  * Component
  ***************************/
 const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false); // standardmäßig geschlossen
   const scrollRef = React.useRef<Animated.ScrollView>(null);
 
   const { width: screenWidth } = useWindowDimensions();
@@ -64,22 +64,22 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
   const { colors } = useTheme();
   const { currentDate, updateCurrentDate } = useCalendar();
 
-  // Dynamische Breite je Tag auf Basis des Bildschirms berechnen
+  // Dynamische Breite je Tag berechnen (responsive)
   const dayWidth = useMemo(
     () => (screenWidth - SCROLL_HORIZONTAL_PADDING * 2 - GAP * 6) / 7,
     [screenWidth]
   );
 
-  // Gesamtbreite einer Woche
+  // Gesamtbreite einer Woche (7 Tage + interne Abstände)
   const weekWidth = useMemo(() => dayWidth * 7 + GAP * 6, [dayWidth]);
 
-  // Wochen-Array memoisiert, nur bei Monatswechsel neu berechnet
+  // Wochen-Array nur bei Monatswechsel neu berechnen
   const weeks = useMemo(
     () => getWeeksByMonth(currentDate.getFullYear(), currentDate.getMonth()),
     [currentDate.getFullYear(), currentDate.getMonth()]
   );
 
-  // Index der aktuellen Woche im Array
+  // Index der Woche, die den aktuellen Tag enthält
   const currentWeekIndex = useMemo(
     () =>
       weeks.findIndex((week) =>
@@ -92,7 +92,9 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
     [weeks, currentDate]
   );
 
-  // Automatisch zur aktuellen Woche scrollen
+  /**************************************************
+   * Scroll immer auf die aktuelle Woche positionieren
+   **************************************************/
   useEffect(() => {
     if (scrollRef.current && currentWeekIndex !== -1) {
       const xOffset = currentWeekIndex * (weekWidth + WEEK_GAP);
@@ -100,10 +102,9 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
     }
   }, [currentWeekIndex, weekWidth]);
 
+  // Öffnen/Schließen basierend auf canOpen
   useEffect(() => {
-    if (!canOpen) {
-      setIsOpen(false);
-    }
+    if (!canOpen) setIsOpen(false);
   }, [canOpen]);
 
   return (
@@ -118,7 +119,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
           justifyContent: "space-between",
         }}
       >
-        {/* Monat + Toggle */}
+        {/* Monatstitel + Toggle */}
         <TouchableOpacity
           onPress={() => setIsOpen(!isOpen)}
           style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
@@ -181,6 +182,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                   key={dayIdx}
                   onPress={() => {
                     updateCurrentDate(day);
+                    // Sofort zur passenden Woche scrollen (UX smoother)
                     if (scrollRef.current) {
                       scrollRef.current.scrollTo({
                         x: weekIdx * (weekWidth + WEEK_GAP),
@@ -192,9 +194,10 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                     alignItems: "center",
                     justifyContent: "center",
                     width: dayWidth,
-                    opacity: isCurrentMonth ? 1 : 0.3,
+                    opacity: isCurrentMonth ? 1 : 0.3, // Tage außerhalb des Monats abdunkeln
                   }}
                 >
+                  {/* Vertikale Bar nur, wenn geöffnet */}
                   {isOpen && (
                     <VerticalNutriBar
                       progress={value / TARGET_CAL}
@@ -202,6 +205,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                     />
                   )}
 
+                  {/* Kalorien-Ring nur im kompakten Modus und für Tage des akt. Monats */}
                   <DayNutriIndicator
                     size={dayWidth * 0.9}
                     value={value}
