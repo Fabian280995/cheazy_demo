@@ -1,6 +1,13 @@
 // components/ProgressBar.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 
 type ProgressBarProps = {
   /** Aktueller Messwert (z. B. konsumierte Kalorien) */
@@ -41,14 +48,25 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   overlayOpacity = 0.35,
   height = 16,
 }) => {
-  const targetLeftPct = ((targetMin - min) / (max - min)) * 100;
-  const targetRightPct = ((targetMax - min) / (max - min)) * 100;
-  const currentPct = ((current - min) / (max - min)) * 100;
+  const pct = (value: number) => interpolate(value, [min, max], [0, 100]);
+  const currentPct = pct(current);
+  const targetLeftPct = pct(targetMin);
+  const targetRightPct = pct(targetMax);
 
   const isInRange = current >= targetMin && current <= targetMax;
   const isOver = current > targetMax;
 
   const textColor = labelColor ?? colors.normal;
+
+  const progress = useSharedValue(0);
+
+  useEffect(() => {
+    progress.value = withDelay(300, withTiming(currentPct, { duration: 800 }));
+  }, [currentPct, progress]);
+
+  const progressStyle = useAnimatedStyle(() => ({
+    width: `${progress.value}%`,
+  }));
 
   return (
     <View style={{ flex: 1 }}>
@@ -62,17 +80,19 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         }}
       >
         {/* Fortschritt */}
-        <View
-          style={{
-            height: "100%",
-            width: `${currentPct}%`,
-            backgroundColor: isOver
-              ? colors.over
-              : isInRange
-              ? colors.inRange
-              : colors.normal,
-            zIndex: 1,
-          }}
+        <Animated.View
+          style={[
+            {
+              height: "100%",
+              backgroundColor: isOver
+                ? colors.over
+                : isInRange
+                ? colors.inRange
+                : colors.normal,
+              zIndex: 1,
+            },
+            progressStyle,
+          ]}
         />
 
         {/* Ziel-Korridor */}
