@@ -5,13 +5,22 @@ import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CategoryIcon from "../shared/icons/CategoryIcon";
 import ProgressBar from "../shared/ProgressBar";
+import CardIcon from "../shared/CardIcon";
 
 const DailyNutritionScoreCard = () => {
+  const { colors, categoryColors } = useTheme();
   return (
     <Card>
       <CardHeader
         title="Nutrition Score"
-        Icon={() => <CategoryIcon id={"vegetables"} gradient colorfull />}
+        Icon={() => (
+          <CardIcon
+            name="pie-chart"
+            color={colors.protein}
+            bgColor={categoryColors.fastfood.background}
+            gradient
+          />
+        )}
       />
       <View style={{ marginTop: 12, gap: 12 }}>
         <NutritionBar
@@ -50,7 +59,7 @@ const NutritionBar = ({
   deviation?: number;
   categoryColorProfile: "protein" | "fat" | "carbs";
 }) => {
-  const { colors, categoryColors } = useTheme();
+  const { colors } = useTheme();
 
   // Calculate the target range based on deviation
   const targetMin = target * (1 - deviation);
@@ -74,7 +83,7 @@ const NutritionBar = ({
             fontFamily: "Inter",
             color: colors.textLight,
             fontSize: 14,
-            fontWeight: "700",
+            fontWeight: "500",
           }}
         >
           {name}
@@ -82,7 +91,7 @@ const NutritionBar = ({
         <Text
           style={{
             fontFamily: "Inter",
-            color: colors.textLight,
+            color: colors.text,
             fontSize: 14,
             fontWeight: "700",
           }}
@@ -90,22 +99,36 @@ const NutritionBar = ({
           {value} / {target} g
         </Text>
       </View>
-      <ProgressBar
-        height={10}
-        current={value}
-        min={0}
-        max={progressBarRight}
-        targetMin={targetMin}
-        targetMax={targetMax}
-        colors={{
-          barBackground: colors.background,
-          targetRange: colors.textLight,
-          inRange: colors[categoryColorProfile],
-          normal: colors[categoryColorProfile],
-          over: colors[categoryColorProfile],
-        }}
-        overlayOpacity={0.8}
-      />
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text
+          style={{
+            fontFamily: "Nunito",
+            color: value > targetMax ? colors.success : colors.text,
+            fontSize: 16,
+            fontWeight: "800",
+            marginRight: 8,
+            width: "14%",
+          }}
+        >
+          {Math.round((value / target) * 100)}%
+        </Text>
+        <ProgressBar
+          height={10}
+          current={value}
+          min={0}
+          max={progressBarRight}
+          targetMin={targetMin}
+          targetMax={targetMax}
+          colors={{
+            barBackground: colors.background,
+            targetRange: colors.textLight,
+            inRange: colors[categoryColorProfile],
+            normal: colors[categoryColorProfile],
+            over: colors[categoryColorProfile],
+          }}
+          overlayOpacity={0.8}
+        />
+      </View>
     </View>
   );
 };

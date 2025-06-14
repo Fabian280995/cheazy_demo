@@ -51,7 +51,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   const textColor = labelColor ?? colors.normal;
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {/* Balken */}
       <View
         style={{
