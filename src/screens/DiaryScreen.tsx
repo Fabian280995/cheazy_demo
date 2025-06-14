@@ -7,19 +7,16 @@ import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-/* ---------- Typen ---------- */
 interface Section {
   id: MealSlotId;
   title: string;
   data: METype[];
 }
 
-/* ---------- Component ---------- */
 export default function DiaryScreen() {
   const { colors } = useTheme();
   const [sections, setSections] = React.useState<Section[]>([]);
 
-  /* Gruppieren → Sections-State füllen */
   React.useEffect(() => {
     if (mockEntries.length === 0) {
       setSections([]);
@@ -34,7 +31,6 @@ export default function DiaryScreen() {
     setSections(newSections);
   }, []);
 
-  /* ---------- Render ---------- */
   return (
     <View>
       {sections.map((section) => (
