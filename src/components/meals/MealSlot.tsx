@@ -65,12 +65,10 @@ const MealSlot = ({ title, entries }: Props) => {
           borderBottomLeftRadius: 16,
           borderBottomRightRadius: 16,
         }}
-        onPress={
-          () => null
-          // router.push({
-          //   pathname: "/meals/add-entry",
-          //   params: { mealSlot: title },
-          // })
+        onPress={() =>
+          router.push({
+            pathname: "/meal_entries/new",
+          })
         }
       >
         <CardIcon

@@ -30,6 +30,7 @@ const Settings = () => {
               iconName="arrow-left"
               onPress={() => router.back()}
               color={colors.text}
+              shadow
             />
           ),
         }}

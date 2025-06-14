@@ -12,7 +12,7 @@ type Params = {
 
 export function useHeaderOptions({
   title,
-  largeTitle = true,
+  largeTitle = false,
   backgroundColor,
 }: Params = {}): NativeStackNavigationOptions {
   const { colors, dark } = useTheme();
