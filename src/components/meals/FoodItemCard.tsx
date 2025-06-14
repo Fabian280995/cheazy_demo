@@ -31,7 +31,14 @@ export const FoodItemCard = ({ item }: { item: FoodItem }) => {
             gap: 8,
           }}
         >
-          <Text style={{ fontWeight: "bold" }}>{name}</Text>
+          <Text
+            style={{
+              fontFamily: "Nunito",
+              fontWeight: "800",
+            }}
+          >
+            {name}
+          </Text>
           <Text style={{ color: "gray" }}>{calories} kcal</Text>
         </View>
         <Text style={{ fontSize: 12, color: "gray" }}>
