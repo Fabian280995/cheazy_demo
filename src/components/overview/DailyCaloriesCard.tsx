@@ -4,6 +4,9 @@ import React from "react";
 import { useTheme } from "@/providers/theme";
 import { Octicons } from "@expo/vector-icons";
 import ProgressBar from "@/components/shared/ProgressBar";
+import Card from "../shared/Card";
+import CardHeader from "../shared/CardHeader";
+import CategoryIcon from "../shared/CategoryIcon";
 
 const DailyCaloriesCard = () => {
   const { colors } = useTheme();
@@ -21,39 +24,18 @@ const DailyCaloriesCard = () => {
     Math.ceil(Math.max(consumedCals, targetMax + 200) / step) * step;
 
   return (
-    <View
-      style={{
-        padding: 12,
-        borderRadius: 16,
-        backgroundColor: colors.foreground,
-      }}
-    >
-      {/* Header */}
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <View
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: 16,
-            backgroundColor: colors.accent,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Octicons name="flame" size={18} color={colors.textForeground} />
-        </View>
-        <Text
-          style={{
-            fontFamily: "Nunito",
-            color: colors.text,
-            fontWeight: "800",
-            marginLeft: 8,
-            fontSize: 16,
-          }}
-        >
-          Daily Calories
-        </Text>
-      </View>
+    <Card>
+      <CardHeader
+        title="Daily Calories"
+        Icon={() => (
+          <CategoryIcon
+            name="flame"
+            color={colors.accent}
+            bgColor={colors.warning}
+            gradient
+          />
+        )}
+      />
 
       {/* Content */}
       <View style={{ marginTop: 12, gap: 16 }}>
@@ -141,7 +123,7 @@ const DailyCaloriesCard = () => {
           </Text>
         </View>
       </View>
-    </View>
+    </Card>
   );
 };
 
