@@ -19,7 +19,7 @@ const Journal = () => {
       style={{ flex: 1 }}
       contentContainerStyle={{
         padding: 16,
-        paddingBottom: 64,
+        paddingBottom: 96,
       }}
     >
       <Stack.Screen

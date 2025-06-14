@@ -32,9 +32,9 @@ export default function DiaryScreen() {
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1, gap: 16 }}>
       {sections.map((section) => (
-        <View key={section.id} style={{ marginBottom: 24 }}>
+        <View key={section.id}>
           {/* Section-Header */}
           <View
             style={{
@@ -88,9 +88,6 @@ export default function DiaryScreen() {
               />
             );
           })}
-
-          {/* Abstand unter jeder Section */}
-          <View style={{ height: 8 }} />
         </View>
       ))}
     </View>
