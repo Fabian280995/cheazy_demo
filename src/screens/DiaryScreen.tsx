@@ -42,7 +42,9 @@ export default function DiaryScreen() {
               justifyContent: "space-between",
               alignItems: "center",
               backgroundColor: colors.foreground,
-              padding: 12,
+              paddingHorizontal: 12,
+              paddingTop: 16,
+              paddingBottom: 8,
               borderTopLeftRadius: 16,
               borderTopRightRadius: 16,
               borderBottomWidth: 1,
@@ -51,29 +53,17 @@ export default function DiaryScreen() {
           >
             <Text
               style={{
-                fontSize: 18,
-                color: colors.text,
                 fontFamily: "Nunito",
+                color: colors.text,
                 fontWeight: "800",
+                fontSize: 16,
               }}
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               {section.title}
             </Text>
-
-            <TouchableOpacity
-              onPress={() => {
-                // router.push(`/meals/${section.id}`);
-              }}
-              style={{
-                padding: 6,
-                borderRadius: 8,
-                backgroundColor: colors.background,
-              }}
-            >
-              <Feather name="plus" size={16} color={colors.icon} />
-            </TouchableOpacity>
+            <Feather name="chevron-right" size={20} color={colors.text} />
           </View>
 
           {/* Section-Items */}
