@@ -1,10 +1,8 @@
-import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useTheme } from "@/providers/theme";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 
 function HomeLayout() {
-  const router = useRouter();
   const { colors } = useTheme();
   return (
     <Stack
@@ -14,25 +12,7 @@ function HomeLayout() {
         },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{
-          headerTitle: "Übersicht",
-          headerStyle: {
-            backgroundColor: "transparent",
-          },
-          animation: "none",
-          headerShadowVisible: false,
-          headerLargeTitle: true,
-          headerRight: () => (
-            <HeaderIconButton
-              iconName="settings"
-              onPress={() => router.push("/settings")}
-              color={colors.text}
-            />
-          ),
-        }}
-      />
+      <Stack.Screen name="index" />
     </Stack>
   );
 }

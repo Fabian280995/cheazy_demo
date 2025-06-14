@@ -1,12 +1,10 @@
-import { Platform } from "react-native";
-import { Stack, useRouter } from "expo-router";
-import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useTheme } from "@/providers/theme";
-import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { Stack } from "expo-router";
+import React from "react";
+import { Platform } from "react-native";
 
 export default function DiaryLayout() {
-  const router = useRouter();
   const { colors } = useTheme();
 
   return (
@@ -34,29 +32,7 @@ export default function DiaryLayout() {
         contentStyle: { backgroundColor: "transparent" },
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{
-          headerTitle: "Tagebuch",
-          headerLargeTitle: true, // großer Titel
-          animation: "none",
-          headerShadowVisible: false,
-          headerRight: () => (
-            <HeaderIconButton
-              iconName="settings"
-              onPress={() => router.push("/settings")}
-              color={colors.text}
-              style={{
-                shadowColor: colors.shadow,
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 3,
-              }}
-            />
-          ),
-        }}
-      />
+      <Stack.Screen name="index" />
     </Stack>
   );
 }
