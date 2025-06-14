@@ -5,8 +5,8 @@ import { useTheme } from "@/providers/theme";
 import CaloryRing from "../shared/CaloryRing";
 
 interface Props {
-  value: number;
-  target: number;
+  value?: number;
+  target?: number;
   ringShown?: boolean;
   size?: number;
   isCurrentDay?: boolean;
@@ -15,8 +15,8 @@ interface Props {
 
 const DayNutriIndicator = ({
   size = 36,
-  value,
-  target,
+  value = 1,
+  target = 0,
   ringShown = false,
   isCurrentDay = false,
   date,
@@ -36,7 +36,7 @@ const DayNutriIndicator = ({
           progress={value / target}
           size={size}
           stroke={4}
-          trackColor={colors.foreground + "22"}
+          trackColor={colors.foreground + "88"}
           progressColor={colors.success}
         />
       )}
