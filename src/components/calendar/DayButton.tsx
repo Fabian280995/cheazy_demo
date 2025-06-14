@@ -1,6 +1,6 @@
 // DayButton.tsx
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { useTheme } from "@/providers/theme";
 
 type Props = {
@@ -21,17 +21,26 @@ const DayButton: React.FC<Props> = ({
   const { colors } = useTheme();
   return (
     <TouchableOpacity
-      style={[
-        s.btn,
-        { width },
-        isSelected && { backgroundColor: colors.primary },
-      ]}
+      style={[s.btn, { width }]}
       activeOpacity={0.7}
       onPress={() => onPress(date)}
     >
-      <Text style={[s.txt, !isCurrentMonth && s.outside]}>
-        {date.getDate()}
-      </Text>
+      <View
+        style={[
+          {
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 12,
+            paddingHorizontal: 4,
+            borderRadius: 16,
+          },
+          isSelected && { backgroundColor: colors.success },
+        ]}
+      >
+        <Text style={[s.txt, !isCurrentMonth && s.outside]}>
+          {date.getDate()}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -40,8 +49,6 @@ const s = StyleSheet.create({
   btn: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 8,
-    borderRadius: 12,
   },
   txt: { fontSize: 18, fontWeight: "700" },
   outside: { opacity: 0.4 },
