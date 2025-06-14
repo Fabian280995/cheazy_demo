@@ -8,6 +8,7 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import CaloryRing from "../shared/CaloryRing";
 import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
 import { VerticalNutriBar } from "./VerticalNutritionBar";
+import DayNutriIndicator from "./DayNutriIndicator";
 
 const GAP = 12;
 const DAY_WIDTH = 36;
@@ -122,55 +123,17 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                   }
                 />
               ) : null}
-              <Animated.View
-                layout={LinearTransition}
-                style={{
-                  width: DAY_WIDTH,
-                  height: DAY_WIDTH,
-                  backgroundColor: colors.background,
-                }}
-              >
-                {!isOpen && (
-                  <CaloryRing
-                    progress={value / TARGET_CAL}
-                    size={DAY_WIDTH}
-                    stroke={4}
-                    trackColor={colors.foreground + "22"}
-                    progressColor={colors.success}
-                  />
-                )}
-                <View
-                  style={[
-                    {
-                      position: "absolute",
-                      inset: 0,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: DAY_WIDTH,
-                      height: DAY_WIDTH,
-                    },
-                  ]}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "Nunito",
-                      fontSize: 16,
-                      fontWeight:
-                        day.getDate() === currentDate.getDate() &&
-                        day.getMonth() === currentDate.getMonth()
-                          ? "900"
-                          : "700",
-                      color:
-                        day.getDate() === currentDate.getDate() &&
-                        day.getMonth() === currentDate.getMonth()
-                          ? colors.primary
-                          : colors.textLight,
-                    }}
-                  >
-                    {day.getDate()}
-                  </Text>
-                </View>
-              </Animated.View>
+              <DayNutriIndicator
+                size={DAY_WIDTH}
+                value={value}
+                ringShown={!isOpen}
+                target={TARGET_CAL}
+                date={day.getDate()}
+                isCurrentDay={
+                  day.getDate() === currentDate.getDate() &&
+                  day.getMonth() === currentDate.getMonth()
+                }
+              />
             </TouchableOpacity>
           );
         })}
