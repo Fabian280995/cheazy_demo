@@ -18,7 +18,7 @@ export function useHeaderOptions({
   const { colors, dark } = useTheme();
 
   return useMemo<NativeStackNavigationOptions>(() => {
-    const bg = backgroundColor ?? "transparent";
+    const bg = backgroundColor ?? undefined;
 
     return {
       headerTitle: title,
@@ -27,23 +27,19 @@ export function useHeaderOptions({
 
       headerStyle: { backgroundColor: bg },
 
-      /* Nunito – Überschriften */
       headerTitleStyle: {
-        fontFamily: "Nunito_700Bold",
+        fontFamily: "Nunito",
+        fontWeight: "800",
         fontSize: 18,
         color: colors.text,
       },
       headerLargeTitleStyle: {
-        fontFamily: "Nunito_900Black",
+        fontFamily: "Nunito",
+        fontWeight: "900",
         color: colors.text,
       },
 
       headerTintColor: colors.primary,
-      headerBackTitleStyle: { fontFamily: "Inter_400Regular" },
-
-      headerBlurEffect: dark
-        ? "systemUltraThinMaterialDark"
-        : "systemUltraThinMaterialLight",
     };
   }, [title, largeTitle, backgroundColor]);
 }

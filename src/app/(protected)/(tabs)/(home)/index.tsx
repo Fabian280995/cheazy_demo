@@ -11,8 +11,7 @@ const Home = () => {
   const { colors } = useTheme();
   const headerOptions = useHeaderOptions({
     title: "Übersicht",
-    backgroundColor: colors.background,
-    largeTitle: true,
+    largeTitle: false,
   });
   return (
     <ScrollView

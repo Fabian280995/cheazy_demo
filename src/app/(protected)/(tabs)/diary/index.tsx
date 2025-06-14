@@ -11,8 +11,7 @@ const Journal = () => {
   const { colors } = useTheme();
   const headerOptions = useHeaderOptions({
     title: "Tagebuch",
-    backgroundColor: colors.background,
-    largeTitle: true,
+    largeTitle: false,
   });
   return (
     <ScrollView
