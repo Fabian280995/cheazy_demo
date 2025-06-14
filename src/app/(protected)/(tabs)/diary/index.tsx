@@ -1,4 +1,4 @@
-import MonthOverview from "@/components/overview/MonthOverview";
+import MonthOverview from "@/components/calendar/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";

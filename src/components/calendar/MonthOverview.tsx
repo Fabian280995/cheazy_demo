@@ -4,13 +4,13 @@ import { getDaysByMonth } from "@/utils/date";
 import { Feather } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
-import MonthSwitchHeaderBtns from "../calendar/MonthSwitchHeaderBtns";
+import Animated, { LinearTransition } from "react-native-reanimated";
 import CaloryRing from "../shared/CaloryRing";
+import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
+import { VerticalNutriBar } from "./VerticalNutritionBar";
 
 const GAP = 12;
 const DAY_WIDTH = 36;
-const BAR_HEIGHT = 112; // Höhe der vertikalen Balken
 
 const TARGET_CAL = 3200; // Beispielwert für die Zielkalorien
 
@@ -114,7 +114,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
               }}
             >
               {isOpen ? (
-                <VerticalBar
+                <VerticalNutriBar
                   progress={value / TARGET_CAL}
                   isCurrentDay={
                     day.getDate() === currentDate.getDate() &&
@@ -176,45 +176,6 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
         })}
       </Animated.ScrollView>
     </View>
-  );
-};
-
-const VerticalBar = ({
-  progress,
-  isCurrentDay,
-}: {
-  progress: number;
-  isCurrentDay: boolean;
-}) => {
-  const { colors } = useTheme();
-
-  return (
-    <Animated.View
-      entering={FadeIn.delay(300)}
-      exiting={FadeIn.delay(200)}
-      style={{
-        width: 12,
-        height: BAR_HEIGHT,
-        backgroundColor: colors.foreground + "aa",
-        borderRadius: 8,
-        overflow: "hidden",
-        marginBottom: 8,
-      }}
-    >
-      <Animated.View
-        style={{
-          position: "absolute",
-          height: progress * BAR_HEIGHT,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          borderRadius: 8,
-          backgroundColor: isCurrentDay
-            ? colors.success
-            : colors.textLight + "88",
-        }}
-      />
-    </Animated.View>
   );
 };
 
