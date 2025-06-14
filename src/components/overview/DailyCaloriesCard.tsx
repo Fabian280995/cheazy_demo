@@ -73,7 +73,7 @@ const DailyCaloriesCard = () => {
             barBackground: colors.background,
             targetRange: colors.textLight,
             inRange: colors.success,
-            normal: colors.accent,
+            normal: colors.success,
             over: colors.destructive,
           }}
           showScaleLabels={true}
