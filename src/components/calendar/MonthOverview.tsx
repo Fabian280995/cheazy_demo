@@ -56,7 +56,7 @@ const getWeeksByMonth = (year: number, month: number) => {
  * Component
  ***************************/
 const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
   const scrollRef = React.useRef<Animated.ScrollView>(null);
 
   const { width: screenWidth } = useWindowDimensions();
@@ -100,7 +100,6 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
     }
   }, [currentWeekIndex, weekWidth]);
 
-  // canOpen steuert, ob vertikale Bars angezeigt werden
   useEffect(() => {
     if (!canOpen) {
       setIsOpen(false);
