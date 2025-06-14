@@ -1,4 +1,5 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import SettingsList from "@/components/settings/SettingsList";
 import { useSignOut } from "@/hooks/auth/useSignOut";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
@@ -35,17 +36,7 @@ const Settings = () => {
           ),
         }}
       />
-      <TouchableOpacity
-        onPress={() => logout()}
-        style={{
-          padding: 16,
-          backgroundColor: colors.destructive,
-          borderRadius: 8,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: colors.textForeground }}>Logout</Text>
-      </TouchableOpacity>
+      <SettingsList />
     </ScrollView>
   );
 };
