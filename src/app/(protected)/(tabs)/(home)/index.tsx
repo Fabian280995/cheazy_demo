@@ -1,3 +1,4 @@
+import CalendarDatePickerCard from "@/components/calendar/CalendarDatePickerCard";
 import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
@@ -37,6 +38,7 @@ const Home = () => {
         }}
       />
       <View style={{ flex: 1, gap: 16 }}>
+        <CalendarDatePickerCard />
         <DailyCaloriesCard />
         <DailyNutritionScoreCard />
       </View>
