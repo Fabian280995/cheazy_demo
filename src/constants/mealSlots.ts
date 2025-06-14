@@ -1,4 +1,7 @@
 import { MealSlot, MealSlotEntry } from "@/types";
+import {
+  FoodCategoryId as Cat, // Alias für kürzeres Mapping
+} from "@/constants/foodCategories";
 
 export const MEAL_SLOTS: MealSlot[] = [
   { id: "Breakfast", label: "Frühstück", sortOrder: 1 },
@@ -9,20 +12,41 @@ export const MEAL_SLOTS: MealSlot[] = [
   { id: "EveningSnack", label: "Zwischenmahlzeit Abend", sortOrder: 6 },
 ];
 
-// Mock-Daten: eine Mischung aus FoodItems und Recipes
+/* ─────────────── Mock-Entries ─────────────── */
 export const mockEntries: MealSlotEntry[] = [
+  /* Frühstück ─ Haferbrei */
   {
     date: "2025-06-08",
     mealSlot: "Breakfast",
     entry: {
       id: "f1",
       name: "Haferbrei",
-      calories: 250,
-      protein: 8,
-      carbohydrates: 45,
-      fat: 4,
+      calories_per_100: 70,
+      protein_per_100: 2.4,
+      carbohydrates_per_100: 12,
+      fat_per_100: 1.4,
+      quantity: 250,
+      category: "grains", // ✅
     },
   },
+
+  /* Vormittagssnack ─ Apfel */
+  {
+    date: "2025-06-08",
+    mealSlot: "MorningSnack",
+    entry: {
+      id: "f5",
+      name: "Apfel",
+      calories_per_100: 52,
+      protein_per_100: 0.3,
+      carbohydrates_per_100: 14,
+      fat_per_100: 0.2,
+      quantity: 150,
+      category: "fruit", // ✅
+    },
+  },
+
+  /* Mittag ─ Quinoasalat (Rezept) */
   {
     date: "2025-06-08",
     mealSlot: "Lunch",
@@ -32,43 +56,39 @@ export const mockEntries: MealSlotEntry[] = [
       ingredients: [
         {
           id: "f2",
-          name: "Quinoa",
-          calories: 120,
-          protein: 4,
-          carbohydrates: 21,
-          fat: 2,
+          name: "Quinoa, gekocht",
+          calories_per_100: 120,
+          protein_per_100: 4.1,
+          carbohydrates_per_100: 21.3,
+          fat_per_100: 1.9,
+          quantity: 150,
+          category: "grains",
         },
         {
           id: "f3",
           name: "Tomaten",
-          calories: 20,
-          protein: 1,
-          carbohydrates: 4,
-          fat: 0.2,
+          calories_per_100: 18,
+          protein_per_100: 0.9,
+          carbohydrates_per_100: 3.9,
+          fat_per_100: 0.2,
+          quantity: 80,
+          category: "vegetables",
         },
         {
           id: "f4",
           name: "Avocado",
-          calories: 160,
-          protein: 2,
-          carbohydrates: 8,
-          fat: 15,
+          calories_per_100: 160,
+          protein_per_100: 2,
+          carbohydrates_per_100: 8.5,
+          fat_per_100: 15,
+          quantity: 50,
+          category: "fats",
         },
       ],
     },
   },
-  {
-    date: "2025-06-08",
-    mealSlot: "MorningSnack",
-    entry: {
-      id: "f5",
-      name: "Apfel",
-      calories: 80,
-      protein: 0.5,
-      carbohydrates: 19,
-      fat: 0.3,
-    },
-  },
+
+  /* Nachmittagssnack ─ Mandeln */
   {
     date: "2025-06-08",
     mealSlot: "AfternoonSnack",
@@ -76,12 +96,16 @@ export const mockEntries: MealSlotEntry[] = [
       id: "f6",
       name: "Mandeln",
       description: "Handvoll",
-      calories: 170,
-      protein: 6,
-      carbohydrates: 6,
-      fat: 15,
+      calories_per_100: 575,
+      protein_per_100: 21,
+      carbohydrates_per_100: 22,
+      fat_per_100: 49,
+      quantity: 30,
+      category: "fats",
     },
   },
+
+  /* Abendessen ─ Gegrilltes Hähnchen mit Gemüse (Rezept) */
   {
     date: "2025-06-08",
     mealSlot: "Dinner",
@@ -92,40 +116,50 @@ export const mockEntries: MealSlotEntry[] = [
         {
           id: "f7",
           name: "Hähnchenbrust",
-          calories: 200,
-          protein: 35,
-          carbohydrates: 0,
-          fat: 5,
+          calories_per_100: 165,
+          protein_per_100: 31,
+          carbohydrates_per_100: 0,
+          fat_per_100: 3.6,
+          quantity: 180,
+          category: "animal-protein",
         },
         {
           id: "f8",
           name: "Zucchini",
-          calories: 25,
-          protein: 2,
-          carbohydrates: 4,
-          fat: 0.5,
+          calories_per_100: 17,
+          protein_per_100: 1.2,
+          carbohydrates_per_100: 3.1,
+          fat_per_100: 0.3,
+          quantity: 100,
+          category: "vegetables",
         },
         {
           id: "f9",
           name: "Paprika",
-          calories: 30,
-          protein: 1,
-          carbohydrates: 6,
-          fat: 0.3,
+          calories_per_100: 31,
+          protein_per_100: 1,
+          carbohydrates_per_100: 6,
+          fat_per_100: 0.3,
+          quantity: 80,
+          category: "vegetables",
         },
       ],
     },
   },
+
+  /* Abendsnack ─ Quark mit Beeren */
   {
     date: "2025-06-08",
     mealSlot: "EveningSnack",
     entry: {
       id: "f10",
-      name: "Quark mit Beeren",
-      calories: 140,
-      protein: 12,
-      carbohydrates: 15,
-      fat: 2,
+      name: "Magerquark mit Beeren",
+      calories_per_100: 75,
+      protein_per_100: 12,
+      carbohydrates_per_100: 6,
+      fat_per_100: 0.3,
+      quantity: 200,
+      category: "dairy",
     },
   },
 ];

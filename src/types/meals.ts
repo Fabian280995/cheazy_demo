@@ -1,3 +1,5 @@
+import { FoodCategoryId } from "@/constants/foodCategories";
+
 export type MealSlotId =
   | "Breakfast"
   | "MorningSnack"
@@ -21,6 +23,7 @@ export type FoodItem = {
   carbohydrates_per_100: number;
   fat_per_100: number;
   quantity: number;
+  category: FoodCategoryId;
 };
 
 export type Recipe = {
