@@ -1,3 +1,4 @@
+import ScreenHeaderBackgroundGradient from "@/components/screens/ScreenHeaderBackgroundGradient";
 import { useTheme } from "@/providers/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
@@ -10,21 +11,7 @@ function HomeLayout() {
     <Stack
       screenOptions={{
         headerTransparent: Platform.OS === "ios",
-        headerBackground: () => (
-          <LinearGradient
-            colors={[
-              `${colors.background}FF`,
-              `${colors.background}FF`,
-              `${colors.foreground}00`,
-            ]}
-            style={{
-              position: "absolute",
-              inset: 0,
-            }}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-          />
-        ),
+        headerBackground: () => <ScreenHeaderBackgroundGradient />,
         contentStyle: { backgroundColor: "transparent" },
       }}
     >

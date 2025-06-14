@@ -1,3 +1,4 @@
+import ScreenHeaderBackgroundGradient from "@/components/screens/ScreenHeaderBackgroundGradient";
 import { useTheme } from "@/providers/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
@@ -12,22 +13,7 @@ export default function DiaryLayout() {
       screenOptions={{
         // iOS: transparenter Header + Blur; andere: Farbe
         headerTransparent: Platform.OS === "ios",
-        headerBackground: () => (
-          <LinearGradient
-            colors={[
-              `${colors.background}FF`,
-              `${colors.background}FF`,
-              `${colors.foreground}00`,
-            ]}
-            style={{
-              position: "absolute",
-              inset: 0,
-            }}
-            //from bottom to top
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-          />
-        ),
+        headerBackground: () => <ScreenHeaderBackgroundGradient />,
         /** wichtig, sonst liegt dein Screen unter dem Header */
         contentStyle: { backgroundColor: "transparent" },
       }}

@@ -19,6 +19,7 @@ interface Props {
   text?: string;
   children?: React.ReactNode;
   style?: ViewStyle;
+  shadow?: boolean;
 }
 
 const HeaderIconButton = ({
@@ -31,6 +32,7 @@ const HeaderIconButton = ({
   text,
   style,
   children,
+  shadow = false,
 }: Props) => {
   const { colors } = useTheme();
   return (
@@ -47,6 +49,13 @@ const HeaderIconButton = ({
           borderRadius: 100,
           opacity: disabled ? 0.5 : 1,
           backgroundColor: colors.foreground,
+        },
+        shadow && {
+          shadowColor: colors.shadow,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 3,
         },
         style,
       ]}

@@ -29,6 +29,7 @@ const Home = () => {
               iconName="settings"
               onPress={() => router.push("/settings")}
               color={colors.text}
+              shadow
             />
           ),
         }}
