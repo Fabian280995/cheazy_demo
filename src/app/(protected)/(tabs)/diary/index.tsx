@@ -1,4 +1,5 @@
 import CalendarDatePickerCard from "@/components/calendar/CalendarDatePickerCard";
+import MonthOverview from "@/components/overview/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
@@ -20,7 +21,6 @@ const Journal = () => {
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1 }}
       contentContainerStyle={{
-        padding: 16,
         paddingBottom: 96,
       }}
     >
@@ -37,8 +37,12 @@ const Journal = () => {
           ),
         }}
       />
-      <Animated.View layout={LinearTransition} style={{ flex: 1, gap: 16 }}>
-        <CalendarDatePickerCard small />
+      <MonthOverview />
+      <Animated.View
+        layout={LinearTransition}
+        style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
+      >
+        {/* <CalendarDatePickerCard small /> */}
         <DiaryScreen />
       </Animated.View>
     </ScrollView>
