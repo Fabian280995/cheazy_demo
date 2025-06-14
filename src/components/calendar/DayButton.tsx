@@ -1,7 +1,7 @@
 // DayButton.tsx
-import React from "react";
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
 import { useTheme } from "@/providers/theme";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   date: Date;
@@ -30,14 +30,20 @@ const DayButton: React.FC<Props> = ({
           {
             alignItems: "center",
             justifyContent: "center",
-            width: 36,
-            height: 36,
+            width: 42,
+            height: 42,
             borderRadius: 16,
+            backgroundColor: isSelected ? colors.primary : colors.background,
           },
-          isSelected && { backgroundColor: colors.success },
         ]}
       >
-        <Text style={[s.txt, !isCurrentMonth && s.outside]}>
+        <Text
+          style={[
+            s.txt,
+            !isCurrentMonth && s.outside,
+            isSelected && { color: colors.textForeground },
+          ]}
+        >
           {date.getDate()}
         </Text>
       </View>

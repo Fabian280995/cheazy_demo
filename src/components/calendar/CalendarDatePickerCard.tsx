@@ -5,8 +5,6 @@ import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 import DateScrollPicker from "./DateScrollPicker";
-import { TouchableOpacity, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
 
 interface Props {
@@ -14,7 +12,7 @@ interface Props {
 }
 
 const CalendarDatePickerCard = ({ small = false }: Props) => {
-  const { categoryColors, colors } = useTheme();
+  const { categoryColors } = useTheme();
   const { currentDate, increaseMonth, decreaseMonth } = useCalendar();
   return (
     <Card>
