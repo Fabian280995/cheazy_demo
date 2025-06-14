@@ -1,10 +1,11 @@
+import CalendarDatePickerCard from "@/components/calendar/CalendarDatePickerCard";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import DiaryScreen from "@/screens/DiaryScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 
 const Journal = () => {
   const router = useRouter();
@@ -35,7 +36,10 @@ const Journal = () => {
           ),
         }}
       />
-      <DiaryScreen />
+      <View style={{ flex: 1, gap: 16 }}>
+        <CalendarDatePickerCard />
+        <DiaryScreen />
+      </View>
     </ScrollView>
   );
 };
