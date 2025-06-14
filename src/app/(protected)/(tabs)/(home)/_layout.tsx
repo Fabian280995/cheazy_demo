@@ -9,7 +9,6 @@ function HomeLayout() {
   return (
     <Stack
       screenOptions={{
-        // iOS: transparenter Header + Blur; andere: Farbe
         headerTransparent: Platform.OS === "ios",
         headerBackground: () => (
           <LinearGradient
@@ -22,12 +21,10 @@ function HomeLayout() {
               position: "absolute",
               inset: 0,
             }}
-            //from bottom to top
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
           />
         ),
-        /** wichtig, sonst liegt dein Screen unter dem Header */
         contentStyle: { backgroundColor: "transparent" },
       }}
     >

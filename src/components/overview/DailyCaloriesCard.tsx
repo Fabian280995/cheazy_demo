@@ -35,7 +35,7 @@ const DailyCaloriesCard = () => {
             width: 36,
             height: 36,
             borderRadius: 16,
-            // backgroundColor: colors.accent,
+            backgroundColor: colors.accent,
             justifyContent: "center",
             alignItems: "center",
           }}
