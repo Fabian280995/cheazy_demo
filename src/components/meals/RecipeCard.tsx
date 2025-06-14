@@ -1,7 +1,11 @@
 import { Recipe } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
+import CardIcon from "../shared/CardIcon";
+import { useTheme } from "@/providers/theme";
+
 export const RecipeCard = ({ item }: { item: Recipe }) => {
+  const { categoryColors } = useTheme();
   const ingredients = item.ingredients ?? [];
   const totalCalories = ingredients.reduce(
     (sum, ing) => sum + (ing.calories_per_100 * ing.quantity) / 100,
@@ -24,30 +28,41 @@ export const RecipeCard = ({ item }: { item: Recipe }) => {
   const carbohydrates = Math.round(totalCarbohydrates);
   const protein = Math.round(totalProtein);
   return (
-    <View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 8,
-        }}
-      >
-        <Text
-          style={{ fontWeight: "bold", maxWidth: "75%" }}
-          numberOfLines={1}
-          ellipsizeMode="tail"
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+      <CardIcon
+        name="list"
+        color={categoryColors.dairy.foreground}
+        bgColor={categoryColors.dairy.background}
+      />
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 8,
+          }}
         >
-          {item.name}
+          <Text
+            style={{
+              fontFamily: "Nunito",
+              fontWeight: "800",
+              maxWidth: "75%",
+            }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {item.name}
+          </Text>
+          <Text style={{ color: "gray" }}>{calories} kcal</Text>
+        </View>
+        <Text style={{ fontSize: 12, color: "gray" }}>
+          {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
         </Text>
-        <Text style={{ color: "gray" }}>{calories} kcal</Text>
+        <Text style={{ fontSize: 12, color: "gray" }}>
+          Zutaten: {ingredients.map((ing) => ing.name).join(", ")}
+        </Text>
       </View>
-      <Text style={{ fontSize: 12, color: "gray" }}>
-        {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
-      </Text>
-      <Text style={{ fontSize: 12, color: "gray" }}>
-        Zutaten: {ingredients.map((ing) => ing.name).join(", ")}
-      </Text>
     </View>
   );
 };
