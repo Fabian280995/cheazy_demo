@@ -37,3 +37,15 @@ export const getMonthWeeks = (year: number, month: number): Week[] => {
 
   return weeks;
 };
+
+export const getDaysByMonth = (year: number, month: number): Date[] => {
+  const first = new Date(year, month, 1);
+  const last = new Date(year, month + 1, 0);
+  const days: Date[] = [];
+
+  for (let d = first; d <= last; d.setDate(d.getDate() + 1)) {
+    days.push(new Date(d));
+  }
+
+  return days;
+};

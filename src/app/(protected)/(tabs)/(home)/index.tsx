@@ -1,6 +1,7 @@
 import CalendarDatePickerCard from "@/components/calendar/CalendarDatePickerCard";
 import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
+import MonthOverview from "@/components/overview/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
@@ -38,7 +39,7 @@ const Home = () => {
         }}
       />
       <View style={{ flex: 1, gap: 16 }}>
-        <CalendarDatePickerCard />
+        <MonthOverview />
         <DailyCaloriesCard />
         <DailyNutritionScoreCard />
       </View>

@@ -7,6 +7,7 @@ import CardIcon from "../shared/CardIcon";
 import DateScrollPicker from "./DateScrollPicker";
 import { TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
 
 interface Props {
   small?: boolean;
@@ -33,44 +34,7 @@ const CalendarDatePickerCard = ({ small = false }: Props) => {
           )
         }
       >
-        <View style={{ flexDirection: "row", gap: 8 }}>
-          <TouchableOpacity
-            style={{
-              width: 32,
-              height: 32,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 100,
-              backgroundColor: colors.background,
-            }}
-            onPress={decreaseMonth}
-          >
-            <Feather
-              name="chevron-left"
-              size={24}
-              color={colors.icon}
-              style={{ marginLeft: -2 }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: 32,
-              height: 32,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 100,
-              backgroundColor: colors.background,
-            }}
-            onPress={increaseMonth}
-          >
-            <Feather
-              name="chevron-right"
-              size={24}
-              color={colors.icon}
-              style={{ marginLeft: 3 }}
-            />
-          </TouchableOpacity>
-        </View>
+        <MonthSwitchHeaderBtns />
       </CardHeader>
 
       <DateScrollPicker small={small} />
