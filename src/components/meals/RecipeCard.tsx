@@ -46,7 +46,7 @@ export const RecipeCard = ({ item }: { item: Recipe }) => {
           <Text
             style={{
               fontFamily: "Nunito",
-              fontWeight: "800",
+              fontWeight: "700",
               maxWidth: "75%",
               color: colors.text,
             }}
@@ -55,7 +55,7 @@ export const RecipeCard = ({ item }: { item: Recipe }) => {
           >
             {item.name}
           </Text>
-          <Text style={{ color: colors.text, fontWeight: "800" }}>
+          <Text style={{ color: colors.text, fontWeight: "700" }}>
             {calories} kcal
           </Text>
         </View>
