@@ -2,14 +2,16 @@ import { useAppState } from "@/hooks/useAppState";
 import { useOnlineManager } from "@/hooks/useOnlineManager";
 import { AuthProvider } from "@/providers/auth";
 import { ThemeProvider } from "@/providers/theme";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { pickFontAssets } from "@/utils/fonts";
+import * as Inter from "@expo-google-fonts/inter";
+import * as Nunito from "@expo-google-fonts/nunito";
 import {
   focusManager,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { AppStateStatus, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -22,13 +24,14 @@ export {
   ErrorBoundary,
 } from "expo-router";
 
-export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
-    ...FontAwesome.font,
-  });
+const fonts = {
+  ...pickFontAssets(Inter, "Inter_"),
+  ...pickFontAssets(Nunito, "Nunito_"),
+};
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+export default function RootLayout() {
+  const [loaded, error] = useFonts(fonts);
+
   useEffect(() => {
     if (error) throw error;
     if (loaded) SplashScreen.hideAsync();
