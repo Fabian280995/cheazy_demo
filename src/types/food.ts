@@ -23,4 +23,4 @@ export type FoodItem = {
   category: FoodCategoryId;
 };
 
-export type FoodModel = Tables<"food">;
+export type FoodModel = Tables<"foods">;
