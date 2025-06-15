@@ -1,5 +1,6 @@
 import { foodCategories } from "@/constants/foodCategories";
 import { FC } from "react";
+import { Tables } from "./supabase";
 
 export type FoodCategoryId = (typeof foodCategories)[number]["id"];
 export interface FoodCategory {
@@ -21,3 +22,5 @@ export type FoodItem = {
   quantity: number;
   category: FoodCategoryId;
 };
+
+export type FoodModel = Tables<"food">;
