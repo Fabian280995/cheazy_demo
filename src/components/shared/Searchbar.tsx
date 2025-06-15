@@ -8,6 +8,9 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Card from "./Card";
+import CardIcon from "./CardIcon";
+import { useTheme } from "@/providers/theme";
 
 export interface SearchBarProps {
   value: string;
@@ -19,9 +22,6 @@ export interface SearchBarProps {
   placeholder?: string;
   debounceDelay?: number;
   autoSearch?: boolean;
-  style?: View["props"]["style"];
-  inputStyle?: TextInput["props"]["style"];
-  iconColor?: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -33,10 +33,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Suche …",
   debounceDelay = 500,
   autoSearch = true,
-  style,
-  inputStyle,
-  iconColor = "#888",
 }) => {
+  const { colors } = useTheme();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -60,44 +58,58 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <View style={[styles.container, style]}>
-      <TextInput
-        style={[styles.input, inputStyle]}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        editable={!disabled}
-        returnKeyType="search"
-        onSubmitEditing={triggerSearch}
-      />
-
-      {loading ? (
-        <ActivityIndicator style={styles.spinner} />
-      ) : (
-        <TouchableOpacity onPress={triggerSearch} disabled={disabled}>
-          <Ionicons name="search" size={20} color={iconColor} />
-        </TouchableOpacity>
-      )}
+    <View
+      style={{
+        backgroundColor: colors.foreground,
+        padding: 4,
+        borderRadius: 16,
+      }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TextInput
+          style={{
+            fontFamily: "Inter",
+            fontSize: 16,
+            flex: 1,
+            padding: 8,
+            color: colors.text,
+            paddingLeft: 12,
+          }}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          editable={!disabled}
+          returnKeyType="search"
+          onSubmitEditing={triggerSearch}
+          cursorColor={colors.secondary}
+          placeholderTextColor={colors.textLight}
+        />
+        <View
+          style={{
+            marginLeft: 8,
+            width: 40,
+            height: 40,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator size={"small"} color={colors.secondary} />
+          ) : (
+            <TouchableOpacity onPress={triggerSearch} disabled={disabled}>
+              <CardIcon
+                name="search"
+                size={40}
+                color={colors.secondary}
+                bgColor={colors.primary}
+                gradient
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 10,
-    backgroundColor: "#EFEFEF",
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-  },
-  spinner: {
-    marginLeft: 8,
-  },
-});
 
 export default SearchBar;
