@@ -32,6 +32,7 @@ export type Database = {
           carbs_g_per_100: number
           category_id: string | null
           created_by: string | null
+          description: string | null
           fat_g_per_100: number
           id: string
           kcal_per_100: number
@@ -42,6 +43,7 @@ export type Database = {
           carbs_g_per_100: number
           category_id?: string | null
           created_by?: string | null
+          description?: string | null
           fat_g_per_100: number
           id?: string
           kcal_per_100: number
@@ -52,6 +54,7 @@ export type Database = {
           carbs_g_per_100?: number
           category_id?: string | null
           created_by?: string | null
+          description?: string | null
           fat_g_per_100?: number
           id?: string
           kcal_per_100?: number
@@ -569,6 +572,15 @@ export type Database = {
       pgroonga_wal_truncate: {
         Args: Record<PropertyKey, never> | { indexname: unknown }
         Returns: number
+      }
+      search_food: {
+        Args: { q: string }
+        Returns: {
+          id: string
+          name: string
+          rank: number
+          snippet: string
+        }[]
       }
     }
     Enums: {
