@@ -1,17 +1,26 @@
 import { supabase } from "@/lib/supabase";
-import { FoodSearchResponseItem } from "@/types";
+import { FoodModel, FoodSearchResponse } from "@/types";
 
-export async function fullTextSearch(
-  query: string,
-  page = 0,
-  pageSize = 25
-): Promise<FoodSearchResponseItem[]> {
-  const { data, error } = await supabase.rpc("search_food_paginated", {
-    q: query,
-    p_offset: page * pageSize,
-    p_limit: pageSize,
+export async function searchFoodIds({
+  q,
+  max = 50,
+}: {
+  q: string;
+  max?: number;
+}) {
+  const { data, error } = await supabase.rpc("search_food_ids", {
+    q,
+    limit_ids: max,
   });
-
   if (error) throw error;
-  return data as FoodSearchResponseItem[];
+  return data as FoodSearchResponse[];
+}
+
+export async function fetchFoodsByIds(ids: string[]): Promise<FoodModel[]> {
+  const { data, error } = await supabase
+    .from("foods")
+    .select("*")
+    .in("id", ids);
+  if (error) throw error;
+  return data;
 }

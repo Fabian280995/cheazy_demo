@@ -24,8 +24,8 @@ export type FoodItem = {
 };
 
 export type FoodModel = Tables<"foods">;
-export type FoodSearchResponseItem = {
-  food: FoodModel;
+export type FoodSearchResponse = {
+  id: string;
   rank: number;
   snippet: string | null;
 };

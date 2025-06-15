@@ -1,14 +1,10 @@
-// SearchBar.tsx
 import React, { useEffect, useRef } from "react";
 import {
   ActivityIndicator,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Card from "./Card";
 import CardIcon from "./CardIcon";
 import { useTheme } from "@/providers/theme";
 
@@ -16,7 +12,6 @@ export interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
   onSearch: (query: string) => void;
-
   loading?: boolean;
   disabled?: boolean;
   placeholder?: string;
@@ -36,25 +31,36 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const { colors } = useTheme();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevValueRef = useRef<string>("");
 
   useEffect(() => {
-    if (!autoSearch || disabled) {
-      return;
-    }
+    if (!autoSearch || disabled) return;
 
     if (timer.current) clearTimeout(timer.current);
 
-    timer.current = setTimeout(() => onSearch(value), debounceDelay);
+    timer.current = setTimeout(() => {
+      const trimmed = value.trim();
+      if (trimmed && trimmed !== prevValueRef.current) {
+        prevValueRef.current = trimmed;
+        onSearch(trimmed);
+      }
+    }, debounceDelay);
 
     return () => {
-      if (timer.current) clearTimeout(timer.current);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
     };
   }, [value, debounceDelay, onSearch, autoSearch, disabled]);
 
   const triggerSearch = () => {
     if (disabled) return;
-    if (timer.current) clearTimeout(timer.current);
-    onSearch(value);
+    const trimmed = value.trim();
+    if (trimmed && trimmed !== prevValueRef.current) {
+      if (timer.current) clearTimeout(timer.current);
+      prevValueRef.current = trimmed;
+      onSearch(trimmed);
+    }
   };
 
   return (
@@ -72,8 +78,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
             fontSize: 16,
             flex: 1,
             padding: 8,
-            color: colors.text,
             paddingLeft: 12,
+            color: colors.text,
           }}
           value={value}
           onChangeText={onChangeText}
@@ -84,6 +90,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           cursorColor={colors.secondary}
           placeholderTextColor={colors.textLight}
         />
+
         <View
           style={{
             marginLeft: 8,
@@ -94,7 +101,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           }}
         >
           {loading ? (
-            <ActivityIndicator size={"small"} color={colors.secondary} />
+            <ActivityIndicator size="small" color={colors.secondary} />
           ) : (
             <TouchableOpacity onPress={triggerSearch} disabled={disabled}>
               <CardIcon
