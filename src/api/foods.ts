@@ -22,5 +22,9 @@ export async function fetchFoodsByIds(ids: string[]): Promise<FoodModel[]> {
     .select("*")
     .in("id", ids);
   if (error) throw error;
-  return data;
+
+  // Reorder to match `ids` array:
+  const rows = data as FoodModel[];
+  const map = new Map(rows.map((r) => [r.id, r]));
+  return ids.map((id) => map.get(id)!).filter(Boolean);
 }

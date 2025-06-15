@@ -52,9 +52,7 @@ const FoodSearch = () => {
             Bitte gib einen Suchbegriff ein.
           </Text>
         ) : (
-          <FoodSearchResponseList
-            searchResponses={results?.sort((a, b) => b.rank - a.rank) ?? []}
-          />
+          <FoodSearchResponseList searchResponses={results ?? []} />
         )}
       </View>
     </View>

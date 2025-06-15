@@ -12,6 +12,7 @@ interface Props {
 
 const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
   const { colors } = useTheme();
+  console.log("FoodSearchResponseList", searchResponses);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFoodsInfiniteQuery(searchResponses.map((h) => h.id) ?? [], 15);
   return (
