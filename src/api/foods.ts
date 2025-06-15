@@ -1,8 +1,8 @@
 import { supabase } from "@/lib/supabase";
+import { FoodModel } from "@/types";
 
 export type FoodSearchResponseItem = {
-  id: string;
-  name: string;
+  food: FoodModel;
   rank: number;
   snippet: string | null;
 };

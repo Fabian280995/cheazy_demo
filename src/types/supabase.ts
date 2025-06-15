@@ -576,8 +576,7 @@ export type Database = {
       search_food_paginated: {
         Args: { q: string; p_offset?: number; p_limit?: number }
         Returns: {
-          id: string
-          name: string
+          food: Database["public"]["Tables"]["foods"]["Row"]
           rank: number
           snippet: string
         }[]
