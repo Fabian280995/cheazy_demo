@@ -61,7 +61,7 @@ const MealSlot = ({ title, entries }: Props) => {
             {totalCalories} kcal
           </Text>
         </View>
-        <NutritionBar nutrients={totals} />
+        <NutritionBar nutrients={totals} opacity={0.9} />
       </View>
 
       {/* Section-Items */}

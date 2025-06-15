@@ -3,7 +3,13 @@ import { NutritionTotals } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
 
-const NutritionBar = ({ nutrients }: { nutrients: NutritionTotals }) => {
+const NutritionBar = ({
+  nutrients,
+  opacity = 1,
+}: {
+  nutrients: NutritionTotals;
+  opacity?: number;
+}) => {
   const { colors } = useTheme();
   return (
     <View
@@ -14,6 +20,7 @@ const NutritionBar = ({ nutrients }: { nutrients: NutritionTotals }) => {
         backgroundColor: colors.background,
         borderRadius: 8,
         overflow: "hidden",
+        opacity,
       }}
     >
       <NutrientBar
