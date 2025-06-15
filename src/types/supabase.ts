@@ -573,8 +573,8 @@ export type Database = {
         Args: Record<PropertyKey, never> | { indexname: unknown }
         Returns: number
       }
-      search_food: {
-        Args: { q: string }
+      search_food_paginated: {
+        Args: { q: string; p_offset?: number; p_limit?: number }
         Returns: {
           id: string
           name: string
