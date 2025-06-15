@@ -24,3 +24,8 @@ export type FoodItem = {
 };
 
 export type FoodModel = Tables<"foods">;
+export type FoodSearchResponseItem = {
+  food: FoodModel;
+  rank: number;
+  snippet: string | null;
+};

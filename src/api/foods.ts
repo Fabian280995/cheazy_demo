@@ -1,11 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { FoodModel } from "@/types";
-
-export type FoodSearchResponseItem = {
-  food: FoodModel;
-  rank: number;
-  snippet: string | null;
-};
+import { FoodSearchResponseItem } from "@/types";
 
 export async function fullTextSearch(
   query: string,
