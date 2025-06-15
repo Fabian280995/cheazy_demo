@@ -39,5 +39,5 @@ export function useHeaderOptions({
         color: colors.text,
       },
     };
-  }, [title, largeTitle, backgroundColor]);
+  }, [title, largeTitle, backgroundColor, colors]);
 }
