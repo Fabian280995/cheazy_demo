@@ -8,6 +8,7 @@ interface Props {
 }
 
 const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
+  console.log("FoodSearchResponseList", searchResponses);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useFoodsInfiniteQuery(searchResponses.map((h) => h.id) ?? [], 15);
   return (

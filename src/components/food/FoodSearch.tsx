@@ -38,7 +38,9 @@ const FoodSearch = () => {
             : "Ein Fehler ist aufgetreten"}
         </Text>
       )}
-      <FoodSearchResponseList searchResponses={results ?? []} />
+      <FoodSearchResponseList
+        searchResponses={results?.sort((a, b) => b.rank - a.rank) ?? []}
+      />
     </View>
   );
 };
