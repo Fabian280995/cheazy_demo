@@ -1,10 +1,16 @@
-import { FoodCategoryId, FoodItem, FoodModel } from "@/types";
+import { useTheme } from "@/providers/theme";
+import { FoodCategoryId, FoodModel } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
 import CategoryIcon from "../shared/icons/CategoryIcon";
-import { useTheme } from "@/providers/theme";
 
-export const FoodItemCard = ({ food }: { food: FoodModel }) => {
+export const FoodCard = ({
+  food,
+  isLast,
+}: {
+  food: FoodModel;
+  isLast?: boolean;
+}) => {
   const { colors } = useTheme();
   const {
     name,
@@ -16,7 +22,18 @@ export const FoodItemCard = ({ food }: { food: FoodModel }) => {
   } = food;
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+    <View
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
+          paddingVertical: 12,
+          paddingHorizontal: 12,
+        },
+        !isLast && { borderBottomWidth: 1, borderBottomColor: colors.border },
+      ]}
+    >
       <CategoryIcon id={category_id as FoodCategoryId} size={36} colorfull />
       <View style={{ flex: 1 }}>
         <View
@@ -31,7 +48,7 @@ export const FoodItemCard = ({ food }: { food: FoodModel }) => {
             style={{
               fontFamily: "Nunito",
               fontWeight: "700",
-              maxWidth: "75%",
+              maxWidth: "55%",
               color: colors.text,
             }}
             numberOfLines={1}

@@ -98,6 +98,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
             height: 40,
             alignItems: "center",
             justifyContent: "center",
+            flexDirection: "row",
+            gap: 8,
           }}
         >
           {loading ? (
@@ -105,7 +107,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           ) : (
             <TouchableOpacity onPress={triggerSearch} disabled={disabled}>
               <CardIcon
-                name="search"
+                name={"search"}
                 size={40}
                 color={colors.secondary}
                 bgColor={colors.primary}
