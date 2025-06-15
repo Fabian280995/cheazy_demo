@@ -6,16 +6,6 @@ import Candy from "@/components/shared/icons/Candy";
 import Chickenleg from "@/components/shared/icons/Chickenleg";
 import DairyBottle from "@/components/shared/icons/DairyBottle";
 import Seed from "@/components/shared/icons/Seed";
-import { FC } from "react";
-
-interface FoodCategory {
-  id: string;
-  name: string;
-  description: string;
-  backgroundColor: string;
-  foregroundColor: string;
-  icon: FC<{ size?: number; color?: string }>;
-}
 
 export const foodCategories = [
   /* Obst */
@@ -138,5 +128,3 @@ export const foodCategories = [
     icon: Apple, // Platzhalter
   },
 ] as const;
-
-export type FoodCategoryId = (typeof foodCategories)[number]["id"];

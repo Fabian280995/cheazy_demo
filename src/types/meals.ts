@@ -1,4 +1,4 @@
-import { FoodCategoryId } from "@/constants/foodCategories";
+import { FoodItem } from "./food";
 
 export type MealSlotId =
   | "Breakfast"
@@ -12,18 +12,6 @@ export type MealSlot = {
   id: MealSlotId;
   label: string;
   sortOrder: number;
-};
-
-export type FoodItem = {
-  id: string;
-  name: string;
-  description?: string;
-  calories_per_100: number;
-  protein_per_100: number;
-  carbohydrates_per_100: number;
-  fat_per_100: number;
-  quantity: number;
-  category: FoodCategoryId;
 };
 
 export type Recipe = {
