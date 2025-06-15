@@ -1,4 +1,10 @@
-import { View, Text, Touchable, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { MealEntryType } from "@/types";
 import { useTheme } from "@/providers/theme";
@@ -10,7 +16,11 @@ interface Props {
 
 const EntryTypeSelect = ({ selectedType, onSelect }: Props) => {
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{ flexDirection: "row", alignItems: "center" }}
+    >
       <EntryTypeButton
         type="food"
         isSelected={selectedType === "food"}
@@ -21,7 +31,7 @@ const EntryTypeSelect = ({ selectedType, onSelect }: Props) => {
         isSelected={selectedType === "recipe"}
         onPress={() => onSelect("recipe")}
       />
-    </View>
+    </ScrollView>
   );
 };
 
