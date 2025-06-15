@@ -86,7 +86,7 @@ const MealSlot = ({ title, entries }: Props) => {
         }}
         onPress={() =>
           router.push({
-            pathname: "/meal_entries/new",
+            pathname: "/meal_entries",
           })
         }
       >
