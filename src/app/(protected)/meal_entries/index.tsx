@@ -5,6 +5,7 @@ import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useTheme } from "@/providers/theme";
 import EntryTypeSelect from "@/components/meal-entries/EntryTypeSelect";
 import { MealEntryType } from "@/types";
+import FoodSearch from "@/components/food/FoodSearch";
 
 const MealEntries = () => {
   const router = useRouter();
@@ -37,6 +38,15 @@ const MealEntries = () => {
         }}
       />
       <EntryTypeSelect selectedType={selectedType} onSelect={setSelectedType} />
+      {selectedType === "food" ? (
+        <FoodSearch />
+      ) : (
+        <View style={{ marginTop: 16, alignItems: "center" }}>
+          <Text style={{ color: colors.text }}>
+            Recipes will be implemented soon!
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
