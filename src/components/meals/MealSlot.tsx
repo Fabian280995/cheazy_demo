@@ -1,11 +1,12 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import { MealSlotEntry as METype } from "@/types";
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
-import MealSlotEntry from "./MealSlotEntry";
-import CardIcon from "../shared/CardIcon";
+import { MealSlotEntry as METype } from "@/types";
+import { calcTotals } from "@/utils/meals";
 import { useRouter } from "expo-router";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import CardIcon from "../shared/CardIcon";
+import MealSlotEntry from "./MealSlotEntry";
+import NutritionBar from "../nutrition/NutritionBar";
 
 interface Props {
   title: string;
@@ -15,13 +16,12 @@ interface Props {
 const MealSlot = ({ title, entries }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
+  const totals = React.useMemo(() => calcTotals(entries), [entries]);
+  const totalCalories = totals.calories.toFixed(0);
   return (
     <View>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
           backgroundColor: colors.foreground,
           padding: 12,
           borderTopLeftRadius: 16,
@@ -30,23 +30,42 @@ const MealSlot = ({ title, entries }: Props) => {
           borderBottomColor: colors.background,
         }}
       >
-        <Text
+        <View
           style={{
-            fontFamily: "Nunito",
-            color: colors.text,
-            fontWeight: "800",
-            fontSize: 16,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 8,
           }}
-          numberOfLines={1}
-          ellipsizeMode="tail"
         >
-          {title}
-        </Text>
-        <Feather name="chevron-right" size={20} color={colors.text} />
+          <Text
+            style={{
+              fontFamily: "Nunito",
+              color: colors.text,
+              fontWeight: "800",
+              fontSize: 16,
+            }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {title}
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Inter",
+              color: colors.text,
+              fontWeight: "500",
+              fontSize: 16,
+            }}
+          >
+            {totalCalories} kcal
+          </Text>
+        </View>
+        <NutritionBar nutrients={totals} />
       </View>
 
       {/* Section-Items */}
-      {entries.map((item, idx) => {
+      {entries.map((item) => {
         return (
           <MealSlotEntry
             key={`${item.date}-${item.mealSlot}-${item.entry.id}`}

@@ -38,3 +38,10 @@ export type MealSlotEntry = {
   mealSlot: MealSlotId;
   entry: FoodItem | Recipe;
 };
+
+export type NutritionTotals = {
+  calories: number; // kcal
+  protein: number; // g
+  carbs: number; // g
+  fat: number; // g
+};
