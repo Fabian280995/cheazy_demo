@@ -1,5 +1,5 @@
 // src/components/food/FoodSearchResponseList.tsx
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { FlatList, Text, View, Button } from "react-native";
 import { useTheme } from "@/providers/theme";
 import { useFoodsInfiniteQuery } from "@/hooks/foods/useFoodsInfiniteQuery";
@@ -29,10 +29,13 @@ const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
   }, [data]);
 
   // Render-Funktion für FlatList
-  const renderItem = ({ item, index }: { item: FoodModel; index: number }) => {
-    const isLast = hasNextPage && index === flatData.length - 1;
-    return <FoodCard food={item} key={item.id} isLast={isLast} />;
-  };
+  const renderItem = useCallback(
+    ({ item, index }: { item: FoodModel; index: number }) => {
+      const isLast = index === flatData.length - 1;
+      return <FoodCard food={item} key={item.id} isLast={isLast} />;
+    },
+    [flatData]
+  );
 
   // Key-Extractor
   const keyExtractor = (item: FoodModel) => item.id;

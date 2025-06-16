@@ -31,7 +31,9 @@ export const FoodCard = ({
           paddingVertical: 12,
           paddingHorizontal: 12,
         },
-        !isLast && { borderBottomWidth: 1, borderBottomColor: colors.border },
+        !isLast
+          ? { borderBottomWidth: 1, borderBottomColor: colors.border }
+          : {},
       ]}
     >
       <CategoryIcon id={category_id as FoodCategoryId} size={36} colorfull />
