@@ -29,15 +29,17 @@ const FoodSearch = () => {
   }
 
   return (
-    <View style={{ padding: 12, flex: 1 }}>
-      <SearchBar
-        value={query}
-        onChangeText={setQuery}
-        onSearch={handleSearch}
-        loading={isLoading}
-        placeholder="Suche nach Lebensmitteln..."
-      />
-      <View style={{ marginTop: 16 }}>
+    <View style={{ flex: 1 }}>
+      <View style={{ paddingHorizontal: 12, marginTop: 16 }}>
+        <SearchBar
+          value={query}
+          onChangeText={setQuery}
+          onSearch={handleSearch}
+          loading={isLoading}
+          placeholder="Suche nach Lebensmitteln..."
+        />
+      </View>
+      <View>
         {isLoading ? (
           <ActivityIndicator
             size="large"

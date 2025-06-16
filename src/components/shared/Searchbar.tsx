@@ -69,6 +69,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
         backgroundColor: colors.foreground,
         padding: 4,
         borderRadius: 16,
+        borderWidth: 1,
+        borderColor: colors.border,
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>

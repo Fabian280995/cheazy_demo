@@ -31,8 +31,11 @@ const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
   // Render-Funktion für FlatList
   const renderItem = useCallback(
     ({ item, index }: { item: FoodModel; index: number }) => {
+      const isFirst = index === 0;
       const isLast = index === flatData.length - 1;
-      return <FoodCard food={item} key={item.id} isLast={isLast} />;
+      return (
+        <FoodCard food={item} key={item.id} isLast={isLast} isFirst={isFirst} />
+      );
     },
     [flatData]
   );
@@ -87,9 +90,11 @@ const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       contentContainerStyle={{
-        backgroundColor: colors.foreground,
-        borderRadius: 16,
+        paddingHorizontal: 12,
+        paddingTop: 16,
+        paddingBottom: 96,
       }}
+      keyboardDismissMode="on-drag"
       onEndReached={() => {
         if (hasNextPage && !isFetchingNextPage) {
           fetchNextPage(); // 2️⃣ onPress-Wrap erneut

@@ -7,9 +7,11 @@ import CategoryIcon from "../shared/icons/CategoryIcon";
 export const FoodCard = ({
   food,
   isLast,
+  isFirst = false,
 }: {
   food: FoodModel;
   isLast?: boolean;
+  isFirst?: boolean;
 }) => {
   const { colors } = useTheme();
   const {
@@ -30,10 +32,16 @@ export const FoodCard = ({
           gap: 8,
           paddingVertical: 12,
           paddingHorizontal: 12,
+          backgroundColor: colors.foreground,
         },
         !isLast
           ? { borderBottomWidth: 1, borderBottomColor: colors.border }
-          : {},
+          : {
+              borderBottomWidth: 0,
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            },
+        isFirst ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 } : {},
       ]}
     >
       <CategoryIcon id={category_id as FoodCategoryId} size={36} colorfull />
