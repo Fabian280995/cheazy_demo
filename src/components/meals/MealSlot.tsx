@@ -23,7 +23,8 @@ const MealSlot = ({ title, entries }: Props) => {
       <View
         style={{
           backgroundColor: colors.foreground,
-          padding: 12,
+          paddingHorizontal: 12,
+          paddingVertical: 8,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           borderBottomWidth: 1,
@@ -35,14 +36,13 @@ const MealSlot = ({ title, entries }: Props) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: 8,
           }}
         >
           <Text
             style={{
               fontFamily: "Nunito",
               color: colors.text,
-              fontWeight: "800",
+              fontWeight: "900",
               fontSize: 16,
             }}
             numberOfLines={1}
@@ -53,15 +53,21 @@ const MealSlot = ({ title, entries }: Props) => {
           <Text
             style={{
               fontFamily: "Inter",
-              color: colors.text,
-              fontWeight: "500",
+              color: colors.primary,
+              fontWeight: "700",
               fontSize: 16,
             }}
           >
             {totalCalories} kcal
           </Text>
         </View>
-        <NutritionBar nutrients={totals} opacity={0.9} />
+        <Text
+          style={{ fontSize: 12, color: "gray", textAlign: "right" }}
+          ellipsizeMode="tail"
+        >
+          {totals.fat.toFixed(0)}g Fett, {totals.carbs.toFixed(0)}g
+          Kohlenhydrate, {totals.protein.toFixed(0)}g Eiweiß
+        </Text>
       </View>
 
       {/* Section-Items */}
