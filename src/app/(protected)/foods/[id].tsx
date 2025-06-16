@@ -1,10 +1,18 @@
-import { View, Text, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  ScrollViewBase,
+} from "react-native";
 import React from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useGetFoodById } from "@/hooks/foods/useGetFoodById";
 import { useTheme } from "@/providers/theme";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import FoodDetailScreen from "@/screens/FoodDetailScreen";
+import { FoodModel } from "@/types";
 
 const FoodDetail = () => {
   const router = useRouter();
@@ -28,6 +36,9 @@ const FoodDetail = () => {
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
       contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{
+        paddingBottom: 96,
+      }}
     >
       <Stack.Screen
         options={{
@@ -42,26 +53,14 @@ const FoodDetail = () => {
           ),
         }}
       />
-      <View style={{ paddingHorizontal: 12, marginTop: 16 }}>
-        <Text style={{ fontSize: 24, fontWeight: "bold", color: colors.text }}>
-          {food.name}
-        </Text>
-        <Text style={{ marginTop: 8, color: colors.text }}>
-          {food.description || "No description available."}
-        </Text>
-        <Text style={{ marginTop: 16, color: colors.text }}>
-          Calories: {food.kcal_per_100} kcal
-        </Text>
-        <Text style={{ marginTop: 8, color: colors.text }}>
-          Protein: {food.protein_g_per_100} g
-        </Text>
-        <Text style={{ marginTop: 8, color: colors.text }}>
-          Carbohydrates: {food.carbs_g_per_100} g
-        </Text>
-        <Text style={{ marginTop: 8, color: colors.text }}>
-          Fat: {food.fat_g_per_100} g
-        </Text>
-      </View>
+      <FoodDetailScreen
+        food={food}
+        onAddFood={(food: FoodModel) => {
+          // Handle adding food to a meal or diary
+          console.log("Add food:", food);
+        }}
+        addLabel="Zu Mahlzeit hinzufügen"
+      />
     </ScrollView>
   );
 };

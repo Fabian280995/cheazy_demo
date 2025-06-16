@@ -21,9 +21,28 @@ const NutritionBar = ({
   // Calculate the target range based on deviation
   const targetMin = target * (1 - deviation);
   const targetMax = target * (1 + deviation);
-  const step = Math.max(value, targetMax) >= 5000 ? 1000 : 500;
-  const progressBarRight =
-    Math.ceil(Math.max(value, targetMax + 200) / step) * step;
+  const highestValue = Math.max(value, targetMax);
+  const step =
+    highestValue >= 5000
+      ? 1000
+      : highestValue >= 1000
+      ? 500
+      : highestValue >= 500
+      ? 100
+      : highestValue >= 200
+      ? 50
+      : highestValue >= 100
+      ? 20
+      : highestValue >= 50
+      ? 10
+      : highestValue >= 20
+      ? 5
+      : highestValue >= 10
+      ? 2
+      : highestValue >= 5
+      ? 1
+      : 0.5;
+  const progressBarRight = Math.ceil(Math.max(value, targetMax) / step) * step;
 
   return (
     <View>
