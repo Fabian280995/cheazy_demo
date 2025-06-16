@@ -36,8 +36,8 @@ const DayNutriIndicator = ({
           progress={value / target}
           size={size}
           stroke={4}
-          trackColor={colors.foreground + "88"}
-          progressColor={colors.success}
+          trackColor={colors.foreground + "aa"}
+          progressColor={isCurrentDay ? colors.primary : colors.textLight}
         />
       )}
       <View
