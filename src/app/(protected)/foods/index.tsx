@@ -5,6 +5,7 @@ import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Foods = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const Foods = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: 42 }}>
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -34,7 +35,7 @@ const Foods = () => {
         }}
       />
       <FoodSearch onSelect={handleSelect} />
-    </View>
+    </SafeAreaView>
   );
 };
 

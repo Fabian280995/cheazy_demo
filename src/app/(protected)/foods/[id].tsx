@@ -24,7 +24,10 @@ const FoodDetail = () => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      contentInsetAdjustmentBehavior="automatic"
+    >
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -38,7 +41,7 @@ const FoodDetail = () => {
           ),
         }}
       />
-      <View style={{ padding: 16 }}>
+      <View style={{ paddingHorizontal: 12, marginTop: 16 }}>
         <Text style={{ fontSize: 24, fontWeight: "bold", color: colors.text }}>
           {food.name}
         </Text>

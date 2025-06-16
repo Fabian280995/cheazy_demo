@@ -6,6 +6,7 @@ function FoodsLayout() {
   return (
     <Stack
       screenOptions={{
+        headerTransparent: true,
         headerBackground: () => <ScreenHeaderBackgroundGradient />,
         contentStyle: { backgroundColor: "transparent" },
       }}
