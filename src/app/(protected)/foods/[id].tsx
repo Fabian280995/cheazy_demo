@@ -15,6 +15,7 @@ const FoodDetail = () => {
     title: "",
     largeTitle: false,
   });
+
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
