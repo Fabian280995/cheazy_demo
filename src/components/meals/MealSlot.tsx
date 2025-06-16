@@ -6,7 +6,6 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
-import NutritionBar from "../nutrition/NutritionBar";
 
 interface Props {
   title: string;
