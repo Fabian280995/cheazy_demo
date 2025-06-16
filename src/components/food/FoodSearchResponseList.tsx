@@ -1,6 +1,13 @@
 // src/components/food/FoodSearchResponseList.tsx
 import React, { useCallback, useMemo } from "react";
-import { FlatList, Text, View, Button } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  Button,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "@/providers/theme";
 import { useFoodsInfiniteQuery } from "@/hooks/foods/useFoodsInfiniteQuery";
 import { FoodModel, FoodSearchResponse } from "@/types";
@@ -8,9 +15,13 @@ import { FoodCard } from "./FoodCard";
 
 interface Props {
   searchResponses: FoodSearchResponse[];
+  onSelectFood?: (foodId: string) => void;
 }
 
-const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
+const FoodSearchResponseList: React.FC<Props> = ({
+  searchResponses,
+  onSelectFood,
+}) => {
   const { colors } = useTheme();
 
   // IDs aus der Suche ziehen
@@ -34,7 +45,20 @@ const FoodSearchResponseList: React.FC<Props> = ({ searchResponses }) => {
       const isFirst = index === 0;
       const isLast = index === flatData.length - 1;
       return (
-        <FoodCard food={item} key={item.id} isLast={isLast} isFirst={isFirst} />
+        <TouchableOpacity
+          onPress={() => {
+            if (onSelectFood) {
+              onSelectFood(item.id);
+            }
+          }}
+        >
+          <FoodCard
+            food={item}
+            key={item.id}
+            isLast={isLast}
+            isFirst={isFirst}
+          />
+        </TouchableOpacity>
       );
     },
     [flatData]

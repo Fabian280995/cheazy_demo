@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { FoodModel, FoodSearchResponse } from "@/types";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export async function searchFoodIds({
   q,
@@ -27,4 +28,17 @@ export async function fetchFoodsByIds(ids: string[]): Promise<FoodModel[]> {
   const rows = data as FoodModel[];
   const map = new Map(rows.map((r) => [r.id, r]));
   return ids.map((id) => map.get(id)!).filter(Boolean);
+}
+
+export async function getFoodById(id: string): Promise<FoodModel | null> {
+  const { data, error } = await supabase
+    .from("foods")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+
+  if (!data) throw new Error(`Food with ID ${id} not found`);
+
+  return data;
 }

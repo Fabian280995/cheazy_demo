@@ -5,7 +5,11 @@ import FoodSearchResponseList from "./FoodSearchResponseList";
 import { useSearchFoodIds } from "@/hooks/foods/useSearchFoodIds";
 import { useTheme } from "@/providers/theme";
 
-const FoodSearch = () => {
+interface Props {
+  onSelect: (foodId: string) => void;
+}
+
+const FoodSearch = ({ onSelect }: Props) => {
   const { colors } = useTheme();
   const [query, setQuery] = React.useState("");
   const {
@@ -51,7 +55,10 @@ const FoodSearch = () => {
             Bitte gib einen Suchbegriff ein.
           </Text>
         ) : (
-          <FoodSearchResponseList searchResponses={results ?? []} />
+          <FoodSearchResponseList
+            searchResponses={results ?? []}
+            onSelectFood={onSelect}
+          />
         )}
       </View>
     </View>
