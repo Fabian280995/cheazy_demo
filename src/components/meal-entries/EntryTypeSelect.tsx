@@ -19,7 +19,10 @@ const EntryTypeSelect = ({ selectedType, onSelect }: Props) => {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ flexDirection: "row", alignItems: "center" }}
+      contentContainerStyle={{
+        padding: 12,
+        gap: 12,
+      }}
     >
       <EntryTypeButton
         type="food"
@@ -56,7 +59,6 @@ const EntryTypeButton = ({
         justifyContent: "center",
         backgroundColor: isSelected ? colors.primary : colors.foreground,
         borderRadius: 16,
-        marginRight: 10,
         shadowColor: isSelected ? colors.shadow : "transparent",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,

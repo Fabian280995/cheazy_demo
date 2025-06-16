@@ -24,8 +24,12 @@ const FoodSearch = () => {
     await search({ q: searchQuery });
   };
 
+  if (isError) {
+    console.error("Error searching for foods:", error);
+  }
+
   return (
-    <View style={{ flex: 1, marginTop: 16 }}>
+    <View style={{ padding: 12, flex: 1 }}>
       <SearchBar
         value={query}
         onChangeText={setQuery}
@@ -33,14 +37,7 @@ const FoodSearch = () => {
         loading={isLoading}
         placeholder="Suche nach Lebensmitteln..."
       />
-      <View style={{ flex: 1, marginTop: 16 }}>
-        {isError && (
-          <Text style={{ color: "red", textAlign: "center", marginTop: 16 }}>
-            {error instanceof Error
-              ? error.message
-              : "Ein Fehler ist aufgetreten"}
-          </Text>
-        )}
+      <View style={{ marginTop: 16 }}>
         {isLoading ? (
           <ActivityIndicator
             size="large"

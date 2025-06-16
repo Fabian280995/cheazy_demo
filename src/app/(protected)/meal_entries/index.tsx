@@ -20,9 +20,7 @@ const MealEntries = () => {
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1 }}
-      contentContainerStyle={{
-        padding: 16,
-      }}
+      keyboardDismissMode="on-drag"
     >
       <Stack.Screen
         options={{
@@ -41,7 +39,7 @@ const MealEntries = () => {
       {selectedType === "food" ? (
         <FoodSearch />
       ) : (
-        <View style={{ marginTop: 16, alignItems: "center" }}>
+        <View style={{ marginTop: 12, alignItems: "center" }}>
           <Text style={{ color: colors.text }}>
             Recipes will be implemented soon!
           </Text>
