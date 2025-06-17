@@ -2,6 +2,7 @@ import { useTheme } from "@/providers/theme"; // Adjust the import path as neces
 import React from "react";
 import { Text, View } from "react-native";
 import ProgressBar from "../shared/ProgressBar";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 const NutritionBar = ({
   name,
