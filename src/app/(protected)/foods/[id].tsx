@@ -65,22 +65,14 @@ const FoodDetail = () => {
           </Text>
         </View>
       ) : (
-        <ScrollView
-          style={{ flex: 1, backgroundColor: colors.background }}
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerStyle={{
-            paddingBottom: 96,
+        <FoodDetailScreen
+          food={food}
+          onAddFood={(food: FoodModel) => {
+            // Handle adding food to a meal or diary
+            console.log("Add food:", food);
           }}
-        >
-          <FoodDetailScreen
-            food={food}
-            onAddFood={(food: FoodModel) => {
-              // Handle adding food to a meal or diary
-              console.log("Add food:", food);
-            }}
-            addLabel="Zu Mahlzeit hinzufügen"
-          />
-        </ScrollView>
+          addLabel="Zu Mahlzeit hinzufügen"
+        />
       )}
     </>
   );

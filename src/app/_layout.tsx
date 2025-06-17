@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/providers/theme";
 import { pickFontAssets } from "@/utils/fonts";
 import * as Inter from "@expo-google-fonts/inter";
 import * as Nunito from "@expo-google-fonts/nunito";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   focusManager,
   QueryClient,
@@ -60,18 +61,20 @@ function RootLayoutNav() {
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaProvider>
-        <ThemeProvider>
-          <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="(public)" />
-                <Stack.Screen name="(protected)" />
-              </Stack>
-            </AuthProvider>
-          </QueryClientProvider>
-        </ThemeProvider>
-      </SafeAreaProvider>
+      <BottomSheetModalProvider>
+        <SafeAreaProvider>
+          <ThemeProvider>
+            <QueryClientProvider client={queryClient}>
+              <AuthProvider>
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(public)" />
+                  <Stack.Screen name="(protected)" />
+                </Stack>
+              </AuthProvider>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
