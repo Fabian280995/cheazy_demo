@@ -10,14 +10,16 @@ const NutritionBar = ({
   target,
   deviation = 0,
   categoryColorProfile,
-  hideTarget = false,
+  showTargetLabel = true,
+  showTargetRange = true,
 }: {
   name: string;
   value: number;
   target: number;
   deviation?: number;
   categoryColorProfile: "protein" | "fat" | "carbs";
-  hideTarget?: boolean;
+  showTargetLabel?: boolean;
+  showTargetRange?: boolean;
 }) => {
   const { colors } = useTheme();
 
@@ -77,7 +79,7 @@ const NutritionBar = ({
             fontWeight: "700",
           }}
         >
-          {value.toFixed(2)} {!hideTarget && "/ " + target.toFixed(0)} g
+          {value.toFixed(2)} {showTargetLabel && "/ " + target.toFixed(0)} g
         </Text>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -108,6 +110,7 @@ const NutritionBar = ({
             over: colors[categoryColorProfile],
           }}
           overlayOpacity={0.8}
+          showTargetRange={showTargetRange}
         />
       </View>
     </View>

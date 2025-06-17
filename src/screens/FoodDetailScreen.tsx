@@ -165,7 +165,7 @@ const FoodDetailScreen = ({
                 {mealSlot ? mealSlot.label : "Frühstück"}
               </Text>
             </View>
-            <Pressable
+            <View
               style={{
                 flex: 1,
                 borderRadius: 16,
@@ -174,33 +174,81 @@ const FoodDetailScreen = ({
                 alignItems: "center",
                 justifyContent: "center",
                 height: 64,
-              }}
-              onPress={() => {
-                inputRef.current?.focus();
+                flexDirection: "row",
               }}
             >
-              <TextInput
-                ref={inputRef}
-                style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  fontFamily: "Nunito",
-                }}
-                keyboardType="numeric"
-                value={quantity.toString()}
-                onChangeText={(text) => {
-                  const num = parseInt(text);
-                  if (!isNaN(num) && num > 0) {
-                    setQuantity(num);
+              <TouchableOpacity
+                onPress={() => {
+                  const newQuantity = quantity - 10;
+                  if (newQuantity >= 0) {
+                    setQuantity(newQuantity);
                   } else {
                     setQuantity(0);
                   }
                 }}
-                placeholder="100"
-                placeholderTextColor={colors.textLight}
-                maxLength={5}
-              />
-            </Pressable>
+                style={{
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: 8,
+                }}
+              >
+                <Feather name="minus" size={16} color={colors.textLight} />
+              </TouchableOpacity>
+              <Pressable
+                style={{
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: 1,
+                }}
+                onPress={() => {
+                  inputRef.current?.focus();
+                }}
+              >
+                <TextInput
+                  ref={inputRef}
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    fontFamily: "Nunito",
+                  }}
+                  keyboardType="numeric"
+                  value={quantity.toString()}
+                  onChangeText={(text) => {
+                    const num = parseInt(text);
+                    if (!isNaN(num) && num > 0) {
+                      setQuantity(num);
+                    } else {
+                      setQuantity(0);
+                    }
+                  }}
+                  placeholder="100"
+                  placeholderTextColor={colors.textLight}
+                  maxLength={5}
+                  returnKeyType="done"
+                  returnKeyLabel="Fertig"
+                />
+              </Pressable>
+              <TouchableOpacity
+                onPress={() => {
+                  const newQuantity = quantity + 10;
+                  if (newQuantity >= 0) {
+                    setQuantity(newQuantity);
+                  } else {
+                    setQuantity(0);
+                  }
+                }}
+                style={{
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: 8,
+                }}
+              >
+                <Feather name="plus" size={16} color={colors.textLight} />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={{ gap: 12 }}>
@@ -219,21 +267,24 @@ const FoodDetailScreen = ({
               value={food.carbs_g_per_100 * (quantity / 100)}
               target={quantity}
               categoryColorProfile="carbs"
-              hideTarget
+              showTargetLabel={false}
+              showTargetRange={false}
             />
             <NutritionBar
               name="Fette"
               value={food.fat_g_per_100 * (quantity / 100)}
               target={quantity}
               categoryColorProfile="fat"
-              hideTarget
+              showTargetLabel={false}
+              showTargetRange={false}
             />
             <NutritionBar
               name="Proteine"
               value={food.protein_g_per_100 * (quantity / 100)}
               target={quantity}
               categoryColorProfile="protein"
-              hideTarget
+              showTargetLabel={false}
+              showTargetRange={false}
             />
           </View>
         </ScrollView>

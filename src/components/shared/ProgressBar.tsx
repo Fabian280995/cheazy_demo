@@ -34,6 +34,7 @@ type ProgressBarProps = {
   /** Transparenz des Overlays im „over“-Fall (0–1) */
   overlayOpacity?: number;
   height?: number; // Optional height prop for custom height
+  showTargetRange?: boolean; // Optional prop to show target range
 };
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -47,6 +48,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   labelColor,
   overlayOpacity = 0.35,
   height = 16,
+  showTargetRange = true,
 }) => {
   const pct = (value: number) => interpolate(value, [min, max], [0, 100]);
   const currentPct = pct(current);
@@ -96,19 +98,21 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         />
 
         {/* Ziel-Korridor */}
-        <View
-          style={{
-            position: "absolute",
-            left: `${targetLeftPct}%`,
-            width: `${targetRightPct - targetLeftPct}%`,
-            height: "100%",
-            borderRadius: 6,
-            backgroundColor: colors.targetRange,
-            opacity: isOver ? overlayOpacity : 1,
-            zIndex: isOver ? 2 : 0,
-            minWidth: 2,
-          }}
-        />
+        {showTargetRange && (
+          <View
+            style={{
+              position: "absolute",
+              left: `${targetLeftPct}%`,
+              width: `${targetRightPct - targetLeftPct}%`,
+              height: "100%",
+              borderRadius: 6,
+              backgroundColor: colors.targetRange,
+              opacity: isOver ? overlayOpacity : 1,
+              zIndex: isOver ? 2 : 0,
+              minWidth: 2,
+            }}
+          />
+        )}
       </View>
 
       {/* optionale Skalenbeschriftung */}
