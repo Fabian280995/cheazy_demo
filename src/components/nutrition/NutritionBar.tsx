@@ -46,6 +46,8 @@ const NutritionBar = ({
       ? 1
       : 0.5;
   const progressBarRight = Math.ceil(Math.max(value, targetMax) / step) * step;
+  const pct = Math.round((value / target) * 100);
+  const pctText = isNaN(pct) ? "0" : pct.toString();
 
   return (
     <View>
@@ -89,7 +91,7 @@ const NutritionBar = ({
             width: "14%",
           }}
         >
-          {Math.round((value / target) * 100)}%
+          {pctText}%
         </Text>
         <ProgressBar
           height={10}

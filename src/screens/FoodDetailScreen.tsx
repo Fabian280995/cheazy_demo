@@ -101,7 +101,7 @@ const FoodDetailScreen = ({
           contentContainerStyle={{
             paddingTop: 20,
             paddingHorizontal: 24,
-            gap: 32,
+            gap: 16,
           }}
         >
           <FoodDetailHeader food={food} />
