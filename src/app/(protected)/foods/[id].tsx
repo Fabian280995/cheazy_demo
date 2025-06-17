@@ -4,6 +4,7 @@ import {
   ScrollView,
   SafeAreaView,
   ScrollViewBase,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -24,22 +25,8 @@ const FoodDetail = () => {
     largeTitle: false,
   });
 
-  if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (!food) {
-    return <Text>Food not found</Text>;
-  }
-
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: colors.background }}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={{
-        paddingBottom: 96,
-      }}
-    >
+    <>
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -53,15 +40,49 @@ const FoodDetail = () => {
           ),
         }}
       />
-      <FoodDetailScreen
-        food={food}
-        onAddFood={(food: FoodModel) => {
-          // Handle adding food to a meal or diary
-          console.log("Add food:", food);
-        }}
-        addLabel="Zu Mahlzeit hinzufügen"
-      />
-    </ScrollView>
+      {isLoading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.background,
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.secondary} />
+        </View>
+      ) : !food ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.background,
+          }}
+        >
+          <Text style={{ color: colors.text }}>
+            Nahrungsmittel nicht gefunden.
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          style={{ flex: 1, backgroundColor: colors.background }}
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={{
+            paddingBottom: 96,
+          }}
+        >
+          <FoodDetailScreen
+            food={food}
+            onAddFood={(food: FoodModel) => {
+              // Handle adding food to a meal or diary
+              console.log("Add food:", food);
+            }}
+            addLabel="Zu Mahlzeit hinzufügen"
+          />
+        </ScrollView>
+      )}
+    </>
   );
 };
 
