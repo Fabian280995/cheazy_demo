@@ -9,12 +9,14 @@ const NutritionBar = ({
   target,
   deviation = 0,
   categoryColorProfile,
+  hideTarget = false,
 }: {
   name: string;
   value: number;
   target: number;
   deviation?: number;
   categoryColorProfile: "protein" | "fat" | "carbs";
+  hideTarget?: boolean;
 }) => {
   const { colors } = useTheme();
 
@@ -72,7 +74,7 @@ const NutritionBar = ({
             fontWeight: "700",
           }}
         >
-          {value} / {target} g
+          {value} {!hideTarget && "/ " + target.toFixed(0)} g
         </Text>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>

@@ -17,14 +17,13 @@ const CardHeader = ({ Icon, title, children }: PropsWithChildren<Props>) => {
         justifyContent: "space-between",
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
         {Icon && <Icon />}
         <Text
           style={{
             fontFamily: "Nunito",
             color: colors.text,
             fontWeight: "800",
-            marginLeft: 8,
             fontSize: 16,
           }}
         >
