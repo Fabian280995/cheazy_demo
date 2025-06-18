@@ -1,32 +1,22 @@
+import FoodDetailHeader from "@/components/food/FoodDetailHeader";
 import NutritionBar from "@/components/nutrition/NutritionBar";
-import Card from "@/components/shared/Card";
-import CardHeader from "@/components/shared/CardHeader";
-import CardIcon from "@/components/shared/CardIcon";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
+import { foodCategories } from "@/constants/foodCategories";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { FoodCategoryId, FoodModel } from "@/types";
-import React, { useCallback, useRef } from "react";
+import { Feather } from "@expo/vector-icons";
+import React, { useRef } from "react";
 import {
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from "react-native";
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
-import { padding } from "aes-js";
-import { foodCategories } from "@/constants/foodCategories";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FoodDetailHeader from "@/components/food/FoodDetailHeader";
-import { Feather } from "@expo/vector-icons";
 
 interface Props {
   food: FoodModel;
@@ -40,14 +30,18 @@ const FoodDetailScreen = ({
   addLabel = "Hinzufügen",
 }: Props) => {
   const inputRef = useRef<TextInput>(null);
-  const { colors, categoryColors } = useTheme();
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const datetime = new Date();
   const mealSlot = MEAL_SLOTS.find((slot) => slot.id === "Breakfast");
-  const [quantity, setQuantity] = React.useState(100);
+  const [quantity, setQuantity] = React.useState<number>(100);
   const height = useWindowDimensions().height;
 
   const category = foodCategories.find((cat) => cat.id === food.category_id);
+  const totalCalories = (food.kcal_per_100 * quantity) / 100;
+  const totalCarbs = food.carbs_g_per_100 * (quantity / 100);
+  const totalFat = food.fat_g_per_100 * (quantity / 100);
+  const totalProtein = food.protein_g_per_100 * (quantity / 100);
   return (
     <View
       style={{
@@ -172,9 +166,10 @@ const FoodDetailScreen = ({
                 borderWidth: 1,
                 borderColor: colors.border,
                 alignItems: "center",
-                justifyContent: "center",
                 height: 64,
                 flexDirection: "row",
+                overflow: "hidden",
+                backgroundColor: colors.foreground,
               }}
             >
               <TouchableOpacity
@@ -190,7 +185,9 @@ const FoodDetailScreen = ({
                   height: "100%",
                   alignItems: "center",
                   justifyContent: "center",
-                  paddingHorizontal: 8,
+
+                  paddingLeft: 8,
+                  paddingRight: 4,
                 }}
               >
                 <Feather name="minus" size={16} color={colors.textLight} />
@@ -212,6 +209,8 @@ const FoodDetailScreen = ({
                     fontSize: 16,
                     fontWeight: "bold",
                     fontFamily: "Nunito",
+                    height: "100%",
+                    width: "100%",
                   }}
                   keyboardType="numeric"
                   value={quantity.toString()}
@@ -223,8 +222,12 @@ const FoodDetailScreen = ({
                       setQuantity(0);
                     }
                   }}
-                  placeholder="100"
-                  placeholderTextColor={colors.textLight}
+                  textAlign="center"
+                  textAlignVertical="center"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoComplete="off"
+                  enablesReturnKeyAutomatically={true}
                   maxLength={5}
                   returnKeyType="done"
                   returnKeyLabel="Fertig"
@@ -243,7 +246,8 @@ const FoodDetailScreen = ({
                   height: "100%",
                   alignItems: "center",
                   justifyContent: "center",
-                  paddingHorizontal: 8,
+                  paddingLeft: 4,
+                  paddingRight: 8,
                 }}
               >
                 <Feather name="plus" size={16} color={colors.textLight} />
@@ -260,11 +264,11 @@ const FoodDetailScreen = ({
                 fontWeight: "900",
               }}
             >
-              {(food.kcal_per_100 * quantity) / 100} kcal
+              {totalCalories.toFixed(0)} kcal
             </Text>
             <NutritionBar
               name="Kohlenhydrate"
-              value={food.carbs_g_per_100 * (quantity / 100)}
+              value={totalCarbs}
               target={quantity}
               categoryColorProfile="carbs"
               showTargetLabel={false}
@@ -272,7 +276,7 @@ const FoodDetailScreen = ({
             />
             <NutritionBar
               name="Fette"
-              value={food.fat_g_per_100 * (quantity / 100)}
+              value={totalFat}
               target={quantity}
               categoryColorProfile="fat"
               showTargetLabel={false}
@@ -280,7 +284,7 @@ const FoodDetailScreen = ({
             />
             <NutritionBar
               name="Proteine"
-              value={food.protein_g_per_100 * (quantity / 100)}
+              value={totalProtein}
               target={quantity}
               categoryColorProfile="protein"
               showTargetLabel={false}
@@ -294,7 +298,7 @@ const FoodDetailScreen = ({
             backgroundColor: colors.primary,
             paddingVertical: 12,
             paddingHorizontal: 24,
-            borderRadius: 8,
+            borderRadius: 16,
             alignItems: "center",
             position: "absolute",
             bottom: insets.bottom + 16,
