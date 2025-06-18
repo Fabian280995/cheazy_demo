@@ -35,7 +35,8 @@ export const MealEntryProvider = ({
       </View>
     );
 
-  if (error)
+  if (error) {
+    console.error("Fehler beim Laden des Eintrags:", error);
     return (
       <View
         style={{
@@ -50,6 +51,7 @@ export const MealEntryProvider = ({
         </Text>
       </View>
     );
+  }
 
   if (!mealEntry)
     return (

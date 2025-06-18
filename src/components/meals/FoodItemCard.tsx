@@ -5,7 +5,11 @@ import CategoryIcon from "../shared/icons/CategoryIcon";
 import { useTheme } from "@/providers/theme";
 import { useRouter } from "expo-router";
 
-export const FoodItemCard = ({ item }: { item: FoodItem }) => {
+interface Props {
+  item: FoodItem;
+}
+
+export const FoodItemCard = ({ item }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const {
@@ -26,7 +30,7 @@ export const FoodItemCard = ({ item }: { item: FoodItem }) => {
   return (
     <TouchableOpacity
       style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-      onPress={() => router.push(`/(protected)/meal_entries/${item.id}`)}
+      onPress={() => router.push(`/(protected)/foods/${item.id}`)}
     >
       <CategoryIcon id={category} size={36} colorfull />
       <View style={{ flex: 1 }}>
