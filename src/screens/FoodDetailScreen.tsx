@@ -13,6 +13,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  Touchable,
   TouchableOpacity,
   useWindowDimensions,
   View,
@@ -168,6 +169,8 @@ const FoodDetailScreen = ({
                 alignItems: "center",
                 justifyContent: "center",
                 height: 64,
+                position: "relative",
+                padding: 12,
               }}
             >
               <Text
@@ -175,10 +178,62 @@ const FoodDetailScreen = ({
                   fontSize: 16,
                   fontWeight: "bold",
                   fontFamily: "Nunito",
+                  textAlign: "center",
+                  textAlignVertical: "center",
+                }}
+                numberOfLines={mealSlot.label.lastIndexOf(" ") > 0 ? 2 : 1}
+                adjustsFontSizeToFit
+                ellipsizeMode="tail"
+              >
+                {mealSlot.label}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  const currentIndex = MEAL_SLOTS.findIndex(
+                    (slot) => slot.id === mealSlot?.id
+                  );
+                  const nextIndex =
+                    (currentIndex - 1 + MEAL_SLOTS.length) % MEAL_SLOTS.length;
+                  setMealSlot(MEAL_SLOTS[nextIndex]);
+                }}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  right: 0,
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  height: 32,
+                  padding: 2,
                 }}
               >
-                {mealSlot ? mealSlot.label : "Frühstück"}
-              </Text>
+                <Feather name="chevron-up" size={16} color={colors.textLight} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  const currentIndex = MEAL_SLOTS.findIndex(
+                    (slot) => slot.id === mealSlot?.id
+                  );
+                  const nextIndex = (currentIndex + 1) % MEAL_SLOTS.length;
+                  setMealSlot(MEAL_SLOTS[nextIndex]);
+                }}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  height: 32,
+                  padding: 2,
+                }}
+              >
+                <Feather
+                  name="chevron-down"
+                  size={16}
+                  color={colors.textLight}
+                />
+              </TouchableOpacity>
             </View>
             <View
               style={{
