@@ -9,7 +9,7 @@ import { useAuth } from "@/providers/auth";
 import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
-import { FoodModel, MealSlotId } from "@/types";
+import { MealSlotId } from "@/types";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
@@ -31,8 +31,10 @@ const FoodDetail = () => {
 
   const { data: food, isLoading } = useGetFoodById(id as string);
   const { data: mealEntryData } = useMealEntryQuery(mealEntryId as string);
-  const { mutateAsync: createFoodMealEntry } = useCreateFoodMealEntry();
-  const { mutateAsync: updateFoodMealEntry } = useUpdateFoodMealEntry();
+  const { mutateAsync: createFoodMealEntry, isPending: creating } =
+    useCreateFoodMealEntry();
+  const { mutateAsync: updateFoodMealEntry, isPending: updating } =
+    useUpdateFoodMealEntry();
 
   const handleAddFood = async (
     date: Date,
@@ -113,6 +115,7 @@ const FoodDetail = () => {
           food={food}
           onAddFood={handleAddFood}
           addLabel="Zu Mahlzeit hinzufügen"
+          isLoading={creating || updating}
           initialEntryData={
             mealEntryData
               ? {

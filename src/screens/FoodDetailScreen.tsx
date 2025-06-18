@@ -26,12 +26,14 @@ interface Props {
   onAddFood: (datetime: Date, mealSlot: MealSlotId, quantity: number) => void;
   addLabel?: string;
   initialEntryData?: initialEntryData | undefined;
+  isLoading?: boolean;
 }
 
 const FoodDetailScreen = ({
   food,
   onAddFood,
   addLabel = "Hinzufügen",
+  isLoading = false,
   initialEntryData = {
     id: undefined,
     datetime: new Date(),
@@ -56,6 +58,7 @@ const FoodDetailScreen = ({
   const totalProtein = food.protein_g_per_100 * (quantity / 100);
 
   useEffect(() => {
+    if (isLoading) return;
     if (initialEntryData) {
       setDatetime(initialEntryData.datetime);
       setMealSlot(initialEntryData.mealSlot);
@@ -145,6 +148,8 @@ const FoodDetailScreen = ({
           onPress={() => onAddFood(datetime, mealSlot.id, quantity)}
           label={addLabel}
           insets={insets}
+          loading={isLoading}
+          disabled={isLoading || quantity <= 0 || !datetime || !mealSlot.id}
         />
       </Animated.View>
     </View>
