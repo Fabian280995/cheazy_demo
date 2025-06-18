@@ -1,4 +1,5 @@
 import FoodDetailHeader from "@/components/food/FoodDetailHeader";
+import MealSlotSelect from "@/components/meal-slots/MealSlotSelect";
 import NutritionBar from "@/components/nutrition/NutritionBar";
 import CardHeader from "@/components/shared/CardHeader";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
@@ -170,81 +171,9 @@ const FoodDetailScreen = ({
                 })}
               </Text>
             </View>
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 16,
-                borderWidth: 1,
-                borderColor: colors.border,
-                alignItems: "center",
-                justifyContent: "center",
-                height: 64,
-                position: "relative",
-                padding: 16,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  fontFamily: "Nunito",
-                  textAlign: "center",
-                  textAlignVertical: "center",
-                }}
-                numberOfLines={mealSlot.label.lastIndexOf(" ") > 0 ? 2 : 1}
-                adjustsFontSizeToFit
-                ellipsizeMode="tail"
-              >
-                {mealSlot.label}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  const currentIndex = MEAL_SLOTS.findIndex(
-                    (slot) => slot.id === mealSlot?.id
-                  );
-                  const nextIndex =
-                    (currentIndex - 1 + MEAL_SLOTS.length) % MEAL_SLOTS.length;
-                  setMealSlot(MEAL_SLOTS[nextIndex]);
-                }}
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: -4,
-                  right: 0,
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  height: 35,
-                  padding: 4,
-                }}
-              >
-                <Feather name="chevron-up" size={16} color={colors.textLight} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  const currentIndex = MEAL_SLOTS.findIndex(
-                    (slot) => slot.id === mealSlot?.id
-                  );
-                  const nextIndex = (currentIndex + 1) % MEAL_SLOTS.length;
-                  setMealSlot(MEAL_SLOTS[nextIndex]);
-                }}
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  bottom: -4,
-                  right: 0,
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                  height: 35,
-                  padding: 4,
-                }}
-              >
-                <Feather
-                  name="chevron-down"
-                  size={16}
-                  color={colors.textLight}
-                />
-              </TouchableOpacity>
-            </View>
+
+            <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
+
             <View
               style={{
                 flex: 1,
