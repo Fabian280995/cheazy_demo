@@ -73,7 +73,7 @@ const NutritionBar = ({
         </Text>
         <Text
           style={{
-            fontFamily: "Inter",
+            fontFamily: "Nunito",
             color: colors.text,
             fontSize: 14,
             fontWeight: "700",
