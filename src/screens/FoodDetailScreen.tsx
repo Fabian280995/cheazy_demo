@@ -5,9 +5,9 @@ import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
-import { FoodCategoryId, FoodModel } from "@/types";
+import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   Pressable,
   ScrollView,
@@ -20,30 +20,47 @@ import {
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+interface initialEntryData {
+  datetime: Date;
+  mealSlot: MealSlot;
+  quantity?: number;
+}
+
 interface Props {
   food: FoodModel;
   onAddFood: (food: FoodModel) => void;
   addLabel?: string;
+  initialEntryData?: initialEntryData;
 }
 
 const FoodDetailScreen = ({
   food,
   onAddFood,
   addLabel = "Hinzufügen",
+  initialEntryData = {
+    datetime: new Date(),
+    mealSlot: MEAL_SLOTS[0],
+    quantity: 100,
+  },
 }: Props) => {
-  const inputRef = useRef<TextInput>(null);
   const { colors } = useTheme();
-  const insets = useSafeAreaInsets();
-  const datetime = new Date();
-  const mealSlot = MEAL_SLOTS.find((slot) => slot.id === "Breakfast");
-  const [quantity, setQuantity] = React.useState<number>(100);
   const height = useWindowDimensions().height;
+  const insets = useSafeAreaInsets();
+
+  const inputRef = useRef<TextInput>(null);
+
+  const [datetime, setDatetime] = useState(initialEntryData.datetime);
+  const [mealSlot, setMealSlot] = useState(initialEntryData.mealSlot);
+  const [quantity, setQuantity] = React.useState<number>(
+    initialEntryData.quantity || 100
+  );
 
   const category = foodCategories.find((cat) => cat.id === food.category_id);
   const totalCalories = (food.kcal_per_100 * quantity) / 100;
   const totalCarbs = food.carbs_g_per_100 * (quantity / 100);
   const totalFat = food.fat_g_per_100 * (quantity / 100);
   const totalProtein = food.protein_g_per_100 * (quantity / 100);
+
   return (
     <View
       style={{
