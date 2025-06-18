@@ -3,8 +3,9 @@ import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useGetFoodById } from "@/hooks/foods/useGetFoodById";
 import { useCreateFoodMealEntry } from "@/hooks/meal-entries/useCreateFoodMealEntry";
 import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
-import { useUpdateFoodMealEntry } from "@/hooks/meal-entries/useupdateFoodMealEntry";
+import { useUpdateFoodMealEntry } from "@/hooks/meal-entries/useUpdateFoodMealEntry";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useAuth } from "@/providers/auth";
 import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
@@ -17,6 +18,7 @@ const FoodDetail = () => {
   const router = useRouter();
   const { colors } = useTheme();
   const { currentDate } = useCalendar();
+  const { user } = useAuth();
   const headerOptions = useHeaderOptions({
     title: "",
     largeTitle: false,
@@ -43,6 +45,10 @@ const FoodDetail = () => {
       mealSlotId,
       quantity,
     });
+    if (!user) {
+      console.error("User not authenticated");
+      return;
+    }
     if (mealEntryId) {
       await updateFoodMealEntry({
         id: mealEntryId,
@@ -57,6 +63,7 @@ const FoodDetail = () => {
         date,
         slot: mealSlotId,
         quantityG: quantity,
+        userId: user.id,
       });
     }
     router.back();

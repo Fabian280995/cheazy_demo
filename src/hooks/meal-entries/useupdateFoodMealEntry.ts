@@ -8,7 +8,7 @@ export const useUpdateFoodMealEntry = () => {
     mutationFn: updateFoodMealEntry,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["mealEntries", data.date],
+        queryKey: ["mealEntries", new Date(data.date)],
       });
     },
     onError: (error) => {

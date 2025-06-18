@@ -28,11 +28,13 @@ export async function createFoodMealEntry({
   slot,
   foodId,
   quantityG,
+  userId,
 }: {
   date: Date;
   slot: MealSlotId;
   foodId: string;
   quantityG: number;
+  userId: string;
 }): Promise<MeaLEntryModel> {
   const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
   const { data, error } = await supabase
@@ -43,6 +45,7 @@ export async function createFoodMealEntry({
       entry_type: "food",
       food_id: foodId,
       quantity_g: quantityG,
+      user_id: userId,
     })
     .select("*")
     .single();
