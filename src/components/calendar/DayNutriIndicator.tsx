@@ -10,6 +10,7 @@ interface Props {
   ringShown?: boolean;
   size?: number;
   isCurrentDay?: boolean;
+  isToday?: boolean;
   date: number;
 }
 
@@ -19,6 +20,7 @@ const DayNutriIndicator = ({
   target = 0,
   ringShown = false,
   isCurrentDay = false,
+  isToday = false,
   date,
 }: Props) => {
   const { colors } = useTheme();
@@ -37,7 +39,13 @@ const DayNutriIndicator = ({
           size={size}
           stroke={4}
           trackColor={colors.foreground + "aa"}
-          progressColor={isCurrentDay ? colors.primary : colors.textLight}
+          progressColor={
+            isCurrentDay
+              ? colors.primary
+              : isToday
+              ? colors.secondary
+              : colors.textLight
+          }
         />
       )}
       <View
@@ -57,7 +65,11 @@ const DayNutriIndicator = ({
             fontFamily: "Nunito",
             fontSize: 16,
             fontWeight: isCurrentDay ? "900" : "700",
-            color: isCurrentDay ? colors.primary : colors.textLight,
+            color: isCurrentDay
+              ? colors.primary
+              : isToday
+              ? colors.secondary
+              : colors.textLight,
           }}
         >
           {date}

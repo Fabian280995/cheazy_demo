@@ -47,6 +47,7 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
   const { width: screenWidth } = useWindowDimensions();
   const { colors } = useTheme();
   const { currentDate, updateCurrentDate } = useCalendar();
+  const today = useMemo(() => new Date(), []);
 
   const dayWidth = useMemo(
     () => (screenWidth - SCROLL_HORIZONTAL_PADDING * 2 - GAP * 6) / 7,
@@ -178,6 +179,11 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                     target={TARGET_CAL}
                     date={day.getDate()}
                     isCurrentDay={isCurrentDay}
+                    isToday={
+                      day.getDate() === today.getDate() &&
+                      day.getMonth() === today.getMonth() &&
+                      day.getFullYear() === today.getFullYear()
+                    }
                   />
                 </TouchableOpacity>
               );
