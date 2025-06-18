@@ -236,10 +236,10 @@ const FoodDetailScreen = ({
               <TouchableOpacity
                 onPress={() => {
                   const newQuantity = quantity + 10;
-                  if (newQuantity >= 0) {
+                  if (newQuantity <= 99999) {
                     setQuantity(newQuantity);
                   } else {
-                    setQuantity(0);
+                    setQuantity(99999);
                   }
                 }}
                 style={{
