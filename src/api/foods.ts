@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabase";
 import { FoodModel, FoodSearchResponse } from "@/types";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export async function searchFoodIds({
   q,
