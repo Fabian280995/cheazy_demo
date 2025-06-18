@@ -1,5 +1,6 @@
 import MonthOverview from "@/components/calendar/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import { useDiaryRecordQuery } from "@/hooks/diary-records/useDiaryRecordQuery";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import DiaryScreen from "@/screens/DiaryScreen";
@@ -8,13 +9,15 @@ import React from "react";
 import { ScrollView } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
-const Journal = () => {
+const Diary = () => {
   const router = useRouter();
   const { colors } = useTheme();
   const headerOptions = useHeaderOptions({
     title: "Tagebuch",
     largeTitle: false,
   });
+  const { data: diaryRecord } = useDiaryRecordQuery();
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -41,10 +44,10 @@ const Journal = () => {
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
-        <DiaryScreen />
+        <DiaryScreen id={diaryRecord?.id} />
       </Animated.View>
     </ScrollView>
   );
 };
 
-export default Journal;
+export default Diary;

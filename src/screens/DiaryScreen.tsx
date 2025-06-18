@@ -1,9 +1,11 @@
 import MealSlot from "@/components/meals/MealSlot";
-import { MEAL_SLOTS, mockEntries } from "@/constants/mealSlots";
+import { MEAL_SLOTS } from "@/constants/mealSlots";
+import { useMealEntriesQuery } from "@/hooks/meal-entries/useMealEntriesQuery";
+import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
 import React from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 interface Section {
   id: MealSlotId;
@@ -11,25 +13,36 @@ interface Section {
   data: METype[];
 }
 
-export default function DiaryScreen() {
+interface Props {
+  id?: string;
+}
+
+export default function DiaryScreen({ id }: Props) {
+  const { colors } = useTheme();
   const [sections, setSections] = React.useState<Section[]>([]);
+  const { data: mealEntries, isLoading } = useMealEntriesQuery(id);
 
   React.useEffect(() => {
-    if (mockEntries.length === 0) {
+    if (!mealEntries || mealEntries.length === 0) {
       setSections([]);
       return;
     }
-    const grouped = groupEntriesBySlot(mockEntries);
+    const grouped = groupEntriesBySlot(mealEntries);
     const newSections: Section[] = MEAL_SLOTS.map((slot) => ({
       id: slot.id,
       title: slot.label,
       data: grouped[slot.id],
     }));
     setSections(newSections);
-  }, []);
+  }, [mealEntries]);
 
   return (
     <View style={{ flex: 1, gap: 16 }}>
+      {isLoading && (
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" color={colors.secondary} />
+        </View>
+      )}
       {sections.map((section) => (
         <MealSlot
           key={section.id}

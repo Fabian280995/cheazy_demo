@@ -2,12 +2,12 @@ import { supabase } from "@/lib/supabase";
 import { DairyRecordModel } from "@/types";
 
 export async function getDiaryRecordByDate(
-  date: string
+  date: Date
 ): Promise<DairyRecordModel> {
   const { data, error } = await supabase
     .from("diary_records")
     .select("*")
-    .eq("day", date)
+    .eq("day", date.toISOString().split("T")[0])
     .single();
 
   if (error) throw error;

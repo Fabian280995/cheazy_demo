@@ -1,7 +1,6 @@
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { supabase } from "@/lib/supabase";
 import { FoodItem, MealSlotEntry, Recipe } from "@/types";
-import { id } from "zod/v4/locales";
 
 export async function getMealEntryById(id: string) {
   const { data, error } = await supabase
@@ -45,11 +44,15 @@ export async function getMealEntriesByDiaryRecordId(
         entry.entry_type === "food" && entry.food
           ? ({
               id: entry.food.id,
+              name: entry.food.name,
+              description: entry.food.description || "",
+
               calories_per_100: entry.food.kcal_per_100,
               protein_per_100: entry.food.protein_g_per_100,
               carbohydrates_per_100: entry.food.carbs_g_per_100,
               fat_per_100: entry.food.fat_g_per_100,
               quantity: entry.quantity_g,
+              category: entry.food.category_id,
             } as FoodItem)
           : entry.entry_type === "recipe" && entry.recipe
           ? ({
@@ -62,6 +65,8 @@ export async function getMealEntriesByDiaryRecordId(
                       ({
                         id: rc.food_id,
                         name: rc.food.name,
+                        description: rc.food.description || "",
+                        category: rc.food.category_id,
                         calories_per_100: rc.food.kcal_per_100,
                         protein_per_100: rc.food.protein_g_per_100,
                         carbohydrates_per_100: rc.food.carbs_g_per_100,
