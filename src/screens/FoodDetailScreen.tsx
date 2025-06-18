@@ -22,6 +22,7 @@ import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface initialEntryData {
+  id?: string;
   datetime: Date;
   mealSlot: MealSlot;
   quantity?: number;
@@ -39,6 +40,7 @@ const FoodDetailScreen = ({
   onAddFood,
   addLabel = "Hinzufügen",
   initialEntryData = {
+    id: undefined,
     datetime: new Date(),
     mealSlot: MEAL_SLOTS[0],
     quantity: 100,

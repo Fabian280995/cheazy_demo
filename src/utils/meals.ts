@@ -35,10 +35,10 @@ export function groupEntriesBySlot(
     grouped[entry.mealSlot].push(entry);
   });
 
-  // Innerhalb jeder Gruppe optional nach Datum oder anderen Kriterien sortieren
-  for (const slotId of Object.keys(grouped) as MealSlotId[]) {
-    grouped[slotId].sort((a, b) => a.date.localeCompare(b.date));
-  }
+  // // Innerhalb jeder Gruppe optional nach Datum oder anderen Kriterien sortieren
+  // for (const slotId of Object.keys(grouped) as MealSlotId[]) {
+  //   grouped[slotId].sort((a, b) => a..localeCompare(b.date));
+  // }
 
   return grouped;
 }

@@ -7,9 +7,10 @@ import { useRouter } from "expo-router";
 
 interface Props {
   item: FoodItem;
+  mealEntryId: string;
 }
 
-export const FoodItemCard = ({ item }: Props) => {
+export const FoodItemCard = ({ item, mealEntryId }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const {
@@ -30,7 +31,9 @@ export const FoodItemCard = ({ item }: Props) => {
   return (
     <TouchableOpacity
       style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-      onPress={() => router.push(`/(protected)/foods/${item.id}`)}
+      onPress={() =>
+        router.push(`/(protected)/foods/${item.id}?mealEntryId=${mealEntryId}`)
+      }
     >
       <CategoryIcon id={category} size={36} colorfull />
       <View style={{ flex: 1 }}>

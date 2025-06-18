@@ -73,12 +73,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
 
       {/* Section-Items */}
       {entries.map((item) => {
-        return (
-          <MealSlotEntry
-            key={`${item.date}-${item.mealSlot}-${item.entry.id}`}
-            entry={item}
-          />
-        );
+        return <MealSlotEntry key={item.entry.id} entry={item} />;
       })}
 
       <TouchableOpacity

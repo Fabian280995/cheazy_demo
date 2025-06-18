@@ -17,13 +17,16 @@ import { FoodModel } from "@/types";
 
 const FoodDetail = () => {
   const router = useRouter();
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: food, isLoading } = useGetFoodById(id);
   const { colors } = useTheme();
   const headerOptions = useHeaderOptions({
     title: "",
     largeTitle: false,
   });
+  const { id, mealEntryId } = useLocalSearchParams<{
+    id: string;
+    mealEntryId?: string;
+  }>();
+  const { data: food, isLoading } = useGetFoodById(id as string);
 
   return (
     <>
@@ -72,6 +75,7 @@ const FoodDetail = () => {
             console.log("Add food:", food);
           }}
           addLabel="Zu Mahlzeit hinzufügen"
+          initialEntryData={}
         />
       )}
     </>

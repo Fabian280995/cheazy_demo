@@ -35,7 +35,7 @@ export async function getMealEntriesByDiaryRecordId(
 
   const mealSlotEntries: MealSlotEntry[] = data.map((entry) => {
     return {
-      date: new Date().toDateString(), // Assuming today's date for simplicity, adjust as needed
+      id: entry.id, // Assuming today's date for simplicity, adjust as needed
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()

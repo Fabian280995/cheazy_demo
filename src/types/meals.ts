@@ -22,7 +22,7 @@ export type Recipe = {
 };
 
 export type MealSlotEntry = {
-  date: string;
+  id: string;
   mealSlot: MealSlotId;
   entry: FoodItem | Recipe;
 };

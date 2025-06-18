@@ -68,7 +68,7 @@ const MealSlotEntry = ({
       )}
       <View style={{ flex: 1 }}>
         {isFoodItem(entry.entry) ? (
-          <FoodItemCard item={entry.entry} />
+          <FoodItemCard item={entry.entry} mealEntryId={entry.id} />
         ) : (
           <RecipeCard item={entry.entry} />
         )}
