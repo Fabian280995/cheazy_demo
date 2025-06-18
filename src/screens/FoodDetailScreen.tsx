@@ -8,7 +8,7 @@ import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
-import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
+import { FoodCategoryId, FoodModel, MealSlot, MealSlotId } from "@/types";
 import React, { useEffect, useState } from "react";
 import { ScrollView, useWindowDimensions, View } from "react-native";
 import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
@@ -23,7 +23,7 @@ interface initialEntryData {
 
 interface Props {
   food: FoodModel;
-  onAddFood: (food: FoodModel) => void;
+  onAddFood: (datetime: Date, mealSlot: MealSlotId, quantity: number) => void;
   addLabel?: string;
   initialEntryData?: initialEntryData | undefined;
 }
@@ -142,7 +142,7 @@ const FoodDetailScreen = ({
         </ScrollView>
 
         <AddButton
-          onPress={() => onAddFood(food)}
+          onPress={() => onAddFood(datetime, mealSlot.id, quantity)}
           label={addLabel}
           insets={insets}
         />

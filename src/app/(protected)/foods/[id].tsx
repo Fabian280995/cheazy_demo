@@ -1,12 +1,14 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useGetFoodById } from "@/hooks/foods/useGetFoodById";
+import { useCreateFoodMealEntry } from "@/hooks/meal-entries/useCreateFoodMealEntry";
 import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
+import { useUpdateFoodMealEntry } from "@/hooks/meal-entries/useupdateFoodMealEntry";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
-import { FoodModel } from "@/types";
+import { FoodModel, MealSlotId } from "@/types";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
@@ -24,8 +26,35 @@ const FoodDetail = () => {
     mealEntryId?: string;
     mealSlotId?: string;
   }>();
+
   const { data: food, isLoading } = useGetFoodById(id as string);
   const { data: mealEntryData } = useMealEntryQuery(mealEntryId as string);
+  const { mutateAsync: createFoodMealEntry } = useCreateFoodMealEntry();
+  const { mutateAsync: updateFoodMealEntry } = useUpdateFoodMealEntry();
+
+  const handleAddFood = async (
+    date: Date,
+    mealSlotId: MealSlotId,
+    quantity: number
+  ) => {
+    if (mealEntryId) {
+      await updateFoodMealEntry({
+        id: mealEntryId,
+        foodId: id as string,
+        date,
+        slot: mealSlotId,
+        quantityG: quantity,
+      });
+    } else {
+      await createFoodMealEntry({
+        foodId: id as string,
+        date,
+        slot: mealSlotId,
+        quantityG: quantity,
+      });
+    }
+    router.back();
+  };
 
   return (
     <>
@@ -69,10 +98,7 @@ const FoodDetail = () => {
       ) : (
         <FoodDetailScreen
           food={food}
-          onAddFood={(food: FoodModel) => {
-            // Handle adding food to a meal or diary
-            console.log("Add food:", food);
-          }}
+          onAddFood={handleAddFood}
           addLabel="Zu Mahlzeit hinzufügen"
           initialEntryData={
             mealEntryData

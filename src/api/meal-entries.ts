@@ -1,6 +1,12 @@
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { supabase } from "@/lib/supabase";
-import { FoodItem, MeaLEntryModel, MealSlotEntry, Recipe } from "@/types";
+import {
+  FoodItem,
+  MeaLEntryModel,
+  MealSlotEntry,
+  MealSlotId,
+  Recipe,
+} from "@/types";
 import { format } from "date-fns";
 
 export async function getMealEntryById(id: string): Promise<MeaLEntryModel> {
@@ -13,6 +19,67 @@ export async function getMealEntryById(id: string): Promise<MeaLEntryModel> {
   if (error) throw error;
 
   if (!data) throw new Error(`Meal entry with ID ${id} not found`);
+
+  return data;
+}
+
+export async function createFoodMealEntry({
+  date,
+  slot,
+  foodId,
+  quantityG,
+}: {
+  date: Date;
+  slot: MealSlotId;
+  foodId: string;
+  quantityG: number;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .insert({
+      date: formattedDate,
+      slot,
+      entry_type: "food",
+      food_id: foodId,
+      quantity_g: quantityG,
+    })
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function updateFoodMealEntry({
+  id,
+  date,
+  slot,
+  foodId,
+  quantityG,
+}: {
+  id: string;
+  date: Date;
+  slot: MealSlotId;
+  foodId: string;
+  quantityG: number;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .update({
+      date: formattedDate,
+      slot,
+      entry_type: "food",
+      food_id: foodId,
+      quantity_g: quantityG,
+    })
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (error) throw error;
 
   return data;
 }
