@@ -86,11 +86,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
           borderBottomLeftRadius: 16,
           borderBottomRightRadius: 16,
         }}
-        onPress={() =>
-          router.push({
-            pathname: "/foods",
-          })
-        }
+        onPress={() => router.push(`/foods?mealSlotId=${id}`)}
       >
         <CardIcon
           name="add"

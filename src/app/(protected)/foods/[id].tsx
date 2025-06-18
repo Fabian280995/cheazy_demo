@@ -1,33 +1,28 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  ScrollViewBase,
-  ActivityIndicator,
-} from "react-native";
-import React from "react";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useGetFoodById } from "@/hooks/foods/useGetFoodById";
-import { useTheme } from "@/providers/theme";
-import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import { MEAL_SLOTS } from "@/constants/mealSlots";
+import { useGetFoodById } from "@/hooks/foods/useGetFoodById";
+import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
+import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useCalendar } from "@/providers/calendar";
+import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { FoodModel } from "@/types";
-import { useQueryClient } from "@tanstack/react-query";
-import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
-import { MEAL_SLOTS } from "@/constants/mealSlots";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import React from "react";
+import { ActivityIndicator, Text, View } from "react-native";
 
 const FoodDetail = () => {
   const router = useRouter();
   const { colors } = useTheme();
+  const { currentDate } = useCalendar();
   const headerOptions = useHeaderOptions({
     title: "",
     largeTitle: false,
   });
-  const { id, mealEntryId } = useLocalSearchParams<{
+  const { id, mealEntryId, mealSlotId } = useLocalSearchParams<{
     id: string;
     mealEntryId?: string;
+    mealSlotId?: string;
   }>();
   const { data: food, isLoading } = useGetFoodById(id as string);
   const { data: mealEntryData } = useMealEntryQuery(mealEntryId as string);
@@ -95,7 +90,15 @@ const FoodDetail = () => {
                   // null -> undefined
                   quantity: mealEntryData.quantity_g ?? undefined,
                 }
-              : undefined
+              : {
+                  datetime: currentDate,
+                  mealSlot:
+                    MEAL_SLOTS.find(
+                      (m) =>
+                        m.id.toLowerCase() ===
+                        (mealSlotId as string)?.toLowerCase()
+                    ) ?? MEAL_SLOTS[0],
+                }
           }
         />
       )}
