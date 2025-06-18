@@ -41,7 +41,6 @@ const Journal = () => {
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
-        {/* <CalendarDatePickerCard small /> */}
         <DiaryScreen />
       </Animated.View>
     </ScrollView>
