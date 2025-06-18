@@ -79,7 +79,7 @@ const FoodDetailScreen = ({
         )}
       </View>
       <Animated.View
-        entering={SlideInDown.delay(200).duration(700)}
+        entering={SlideInDown.duration(700)}
         exiting={SlideOutDown.duration(500)}
         style={{
           flex: 1,
