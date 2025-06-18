@@ -79,7 +79,7 @@ const NutritionBar = ({
             fontWeight: "700",
           }}
         >
-          {value.toFixed(2)} {showTargetLabel && "/ " + target.toFixed(0)} g
+          {value.toFixed(0)} {showTargetLabel && "/ " + target.toFixed(0)} g
         </Text>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
