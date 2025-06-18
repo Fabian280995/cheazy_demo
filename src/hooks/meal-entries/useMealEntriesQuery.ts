@@ -1,14 +1,10 @@
+import { getMealEntriesByDiaryRecordId } from "@/api/meal-entries";
 import { useQuery } from "@tanstack/react-query";
 
-export const useMealEntriesQuery = () => {
+export const useMealEntriesQuery = (diaryRecordId: string) => {
   return useQuery({
-    queryKey: ["mealEntries"],
-    queryFn: async () => {
-      const response = await fetch("/api/meal-entries");
-      if (!response.ok) {
-        throw new Error("Failed to fetch meal entries");
-      }
-      return response.json();
-    },
+    queryKey: ["mealEntries", diaryRecordId],
+    queryFn: () => getMealEntriesByDiaryRecordId(diaryRecordId),
+    enabled: !!diaryRecordId,
   });
 };

@@ -1,7 +1,4 @@
 import { MealSlot, MealSlotEntry } from "@/types";
-import {
-  FoodCategoryId as Cat, // Alias für kürzeres Mapping
-} from "@/constants/foodCategories";
 
 export const MEAL_SLOTS: MealSlot[] = [
   { id: "Breakfast", label: "Frühstück", sortOrder: 1 },
