@@ -1,4 +1,4 @@
-import { aiGenerateMealEntries } from "@/api/meal-entries";
+import { aiGenerateMealEntries } from "@/api/ai-meal-entries";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAiGenerateMealEntries = () => {
