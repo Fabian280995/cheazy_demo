@@ -1,5 +1,7 @@
 import FoodDetailHeader from "@/components/food/FoodDetailHeader";
+import { DateSelect } from "@/components/meal-slots/DateSelect";
 import MealSlotSelect from "@/components/meal-slots/MealSlotSelect";
+import { QuantitySelect } from "@/components/meal-slots/QuantitySelect";
 import NutritionBar from "@/components/nutrition/NutritionBar";
 import CardHeader from "@/components/shared/CardHeader";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
@@ -10,11 +12,9 @@ import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Pressable,
   ScrollView,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   useWindowDimensions,
   View,
@@ -133,141 +133,13 @@ const FoodDetailScreen = ({
         >
           <FoodDetailHeader food={food} />
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 8,
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 16,
-                borderWidth: 1,
-                borderColor: colors.border,
-                alignItems: "center",
-                justifyContent: "center",
-                height: 64,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  fontFamily: "Nunito",
-                }}
-              >
-                {datetime.toLocaleDateString("de-DE", {
-                  weekday: "long",
-                })}
-              </Text>
-              <Text style={{ fontSize: 12, color: colors.textLight }}>
-                {datetime.toLocaleDateString("de-DE", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                })}
-              </Text>
-            </View>
-
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <DateSelect date={datetime} onPress={() => null} />
             <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
-
-            <View
-              style={{
-                flex: 1,
-                borderRadius: 16,
-                borderWidth: 1,
-                borderColor: colors.border,
-                alignItems: "center",
-                height: 64,
-                flexDirection: "row",
-                overflow: "hidden",
-                backgroundColor: colors.foreground,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  const newQuantity = quantity - 10;
-                  if (newQuantity >= 0) {
-                    setQuantity(newQuantity);
-                  } else {
-                    setQuantity(0);
-                  }
-                }}
-                style={{
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-
-                  paddingLeft: 8,
-                  paddingRight: 4,
-                }}
-              >
-                <Feather name="minus" size={16} color={colors.textLight} />
-              </TouchableOpacity>
-              <Pressable
-                style={{
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flex: 1,
-                }}
-                onPress={() => {
-                  inputRef.current?.focus();
-                }}
-              >
-                <TextInput
-                  ref={inputRef}
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    fontFamily: "Nunito",
-                    height: "100%",
-                    width: "100%",
-                  }}
-                  keyboardType="numeric"
-                  value={quantity.toString()}
-                  onChangeText={(text) => {
-                    const num = parseInt(text);
-                    if (!isNaN(num) && num > 0) {
-                      setQuantity(num);
-                    } else {
-                      setQuantity(0);
-                    }
-                  }}
-                  textAlign="center"
-                  textAlignVertical="center"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  autoComplete="off"
-                  enablesReturnKeyAutomatically={true}
-                  maxLength={5}
-                  returnKeyType="done"
-                  returnKeyLabel="Fertig"
-                />
-              </Pressable>
-              <TouchableOpacity
-                onPress={() => {
-                  const newQuantity = quantity + 10;
-                  if (newQuantity <= 99999) {
-                    setQuantity(newQuantity);
-                  } else {
-                    setQuantity(99999);
-                  }
-                }}
-                style={{
-                  height: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingLeft: 4,
-                  paddingRight: 8,
-                }}
-              >
-                <Feather name="plus" size={16} color={colors.textLight} />
-              </TouchableOpacity>
-            </View>
+            <QuantitySelect
+              quantity={quantity}
+              onChangeQuantity={setQuantity}
+            />
           </View>
 
           <View style={{ gap: 8 }}>
