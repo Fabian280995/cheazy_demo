@@ -85,11 +85,13 @@ const FoodDetail = () => {
                   id: mealEntryData.id,
                   datetime: new Date(mealEntryData.date),
                   mealSlot:
-                    MEAL_SLOTS.find(
-                      (slot) =>
+                    MEAL_SLOTS.find((slot) => {
+                      return (
+                        console.log("Meal Slot:", slot.id, mealEntryData.slot),
                         slot.id.toLowerCase() ===
-                        mealEntryData.slot.toLowerCase()
-                    ) ?? MEAL_SLOTS[0],
+                          mealEntryData.slot.toLowerCase()
+                      );
+                    }) ?? MEAL_SLOTS[0],
                   // null -> undefined
                   quantity: mealEntryData.quantity_g ?? undefined,
                 }

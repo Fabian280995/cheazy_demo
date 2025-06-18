@@ -1,12 +1,7 @@
 import { FoodItem } from "./food";
+import { Database } from "./supabase";
 
-export type MealSlotId =
-  | "Breakfast"
-  | "MorningSnack"
-  | "Lunch"
-  | "AfternoonSnack"
-  | "Dinner"
-  | "EveningSnack";
+export type MealSlotId = Database["public"]["Enums"]["meal_slot"];
 
 export type MealSlot = {
   id: MealSlotId;

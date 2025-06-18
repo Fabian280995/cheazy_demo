@@ -1,10 +1,10 @@
 import { MealSlot } from "@/types";
 
 export const MEAL_SLOTS: MealSlot[] = [
-  { id: "Breakfast", label: "Frühstück", sortOrder: 1 },
-  { id: "MorningSnack", label: "Zwischenmahlzeit Vormittag", sortOrder: 2 },
-  { id: "Lunch", label: "Mittagessen", sortOrder: 3 },
-  { id: "AfternoonSnack", label: "Zwischenmahlzeit Nachmittag", sortOrder: 4 },
-  { id: "Dinner", label: "Abendessen", sortOrder: 5 },
-  { id: "EveningSnack", label: "Zwischenmahlzeit Abend", sortOrder: 6 },
+  { id: "breakfast", label: "Frühstück", sortOrder: 1 },
+  { id: "morning_snack", label: "Vormittags Snack", sortOrder: 2 },
+  { id: "lunch", label: "Mittagessen", sortOrder: 3 },
+  { id: "afternoon_snack", label: "Nachmittags Snack", sortOrder: 4 },
+  { id: "dinner", label: "Abendessen", sortOrder: 5 },
+  { id: "night_snack", label: "Abend Snack", sortOrder: 6 },
 ];

@@ -41,7 +41,7 @@ export async function getMealSlotEntriesByDate(
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()
-        )?.id || "Breakfast",
+        )?.id || "breakfast", // Default to breakfast if not found
       entry:
         entry.entry_type === "food" && entry.food
           ? ({
