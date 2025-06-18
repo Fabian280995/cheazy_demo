@@ -1,4 +1,4 @@
-import MealSlot from "@/components/meals/MealSlot";
+import MealSlot from "@/components/meal-slots/MealSlot";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useMealSlotEntriesQuery } from "@/hooks/meal-entries/useMealSlotEntriesQuery";
 import { useCalendar } from "@/providers/calendar";

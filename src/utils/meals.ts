@@ -1,4 +1,4 @@
-import { isFoodItem } from "@/components/meals/MealSlotEntry";
+import { isFoodItem } from "@/components/meal-slots/MealSlotEntry";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import {
   FoodItem,

@@ -65,7 +65,6 @@ const FoodDetailScreen = ({
   const totalProtein = food.protein_g_per_100 * (quantity / 100);
 
   useEffect(() => {
-    console.log("Initial entry data:", initialEntryData);
     if (initialEntryData) {
       setDatetime(initialEntryData.datetime);
       setMealSlot(initialEntryData.mealSlot);

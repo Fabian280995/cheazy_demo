@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { MealSlot } from "@/types";
 import { mockEntries } from "@/constants/mealSlots";
-import MealSlotEntry from "@/components/meals/MealSlotEntry";
+import MealSlotEntry from "@/components/meal-slots/MealSlotEntry";
 
 interface Props {
   mealSlot: MealSlot;

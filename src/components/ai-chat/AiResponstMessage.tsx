@@ -10,7 +10,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import MealSlotEntry from "../meals/MealSlotEntry";
+import MealSlotEntry from "../meal-slots/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
 import { MealSlotEntry as MealSlotEntryType } from "@/types";
 import { LinearGradient } from "expo-linear-gradient";
