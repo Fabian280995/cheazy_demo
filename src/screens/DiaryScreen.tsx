@@ -1,6 +1,7 @@
 import MealSlot from "@/components/meals/MealSlot";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
-import { useMealEntriesQuery } from "@/hooks/meal-entries/useMealEntriesQuery";
+import { useMealSlotEntriesQuery } from "@/hooks/meal-entries/useMealSlotEntriesQuery";
+import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
@@ -13,14 +14,13 @@ interface Section {
   data: METype[];
 }
 
-interface Props {
-  id?: string;
-}
+interface Props {}
 
-export default function DiaryScreen({ id }: Props) {
+export default function DiaryScreen({}: Props) {
   const { colors } = useTheme();
+  const { currentDate } = useCalendar();
   const [sections, setSections] = React.useState<Section[]>([]);
-  const { data: mealEntries, isLoading } = useMealEntriesQuery(id);
+  const { data: mealEntries, isLoading } = useMealSlotEntriesQuery(currentDate);
 
   React.useEffect(() => {
     const grouped = groupEntriesBySlot(mealEntries ?? []);

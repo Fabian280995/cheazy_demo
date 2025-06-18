@@ -14,6 +14,9 @@ import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { FoodModel } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
+import { MEAL_SLOTS } from "@/constants/mealSlots";
 
 const FoodDetail = () => {
   const router = useRouter();
@@ -27,6 +30,7 @@ const FoodDetail = () => {
     mealEntryId?: string;
   }>();
   const { data: food, isLoading } = useGetFoodById(id as string);
+  const { data: mealEntryData } = useMealEntryQuery(mealEntryId as string);
 
   return (
     <>
@@ -75,7 +79,22 @@ const FoodDetail = () => {
             console.log("Add food:", food);
           }}
           addLabel="Zu Mahlzeit hinzufügen"
-          initialEntryData={}
+          initialEntryData={
+            mealEntryData
+              ? {
+                  id: mealEntryData.id,
+                  datetime: new Date(mealEntryData.date),
+                  mealSlot:
+                    MEAL_SLOTS.find(
+                      (slot) =>
+                        slot.id.toLowerCase() ===
+                        mealEntryData.slot.toLowerCase()
+                    ) ?? MEAL_SLOTS[0],
+                  // null -> undefined
+                  quantity: mealEntryData.quantity_g ?? undefined,
+                }
+              : undefined
+          }
         />
       )}
     </>

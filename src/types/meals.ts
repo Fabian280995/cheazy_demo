@@ -23,6 +23,7 @@ export type Recipe = {
 
 export type MealSlotEntry = {
   id: string;
+  date: Date;
   mealSlot: MealSlotId;
   entry: FoodItem | Recipe;
 };

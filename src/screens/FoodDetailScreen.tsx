@@ -7,7 +7,7 @@ import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Pressable,
   ScrollView,
@@ -32,7 +32,7 @@ interface Props {
   food: FoodModel;
   onAddFood: (food: FoodModel) => void;
   addLabel?: string;
-  initialEntryData?: initialEntryData;
+  initialEntryData?: initialEntryData | undefined;
 }
 
 const FoodDetailScreen = ({
@@ -63,6 +63,14 @@ const FoodDetailScreen = ({
   const totalCarbs = food.carbs_g_per_100 * (quantity / 100);
   const totalFat = food.fat_g_per_100 * (quantity / 100);
   const totalProtein = food.protein_g_per_100 * (quantity / 100);
+
+  useEffect(() => {
+    if (initialEntryData) {
+      setDatetime(initialEntryData.datetime);
+      setMealSlot(initialEntryData.mealSlot);
+      setQuantity(initialEntryData.quantity || 100);
+    }
+  }, [initialEntryData]);
 
   return (
     <View

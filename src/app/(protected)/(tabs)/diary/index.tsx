@@ -1,6 +1,5 @@
 import MonthOverview from "@/components/calendar/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
-import { useDiaryRecordQuery } from "@/hooks/diary-records/useDiaryRecordQuery";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import DiaryScreen from "@/screens/DiaryScreen";
@@ -16,7 +15,6 @@ const Diary = () => {
     title: "Tagebuch",
     largeTitle: false,
   });
-  const { data: diaryRecord } = useDiaryRecordQuery();
 
   return (
     <ScrollView
@@ -44,7 +42,7 @@ const Diary = () => {
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
-        <DiaryScreen id={diaryRecord?.id} />
+        <DiaryScreen />
       </Animated.View>
     </ScrollView>
   );

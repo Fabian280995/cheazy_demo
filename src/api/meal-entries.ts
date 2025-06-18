@@ -1,8 +1,8 @@
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { supabase } from "@/lib/supabase";
-import { FoodItem, MealSlotEntry, Recipe } from "@/types";
+import { FoodItem, MeaLEntryModel, MealSlotEntry, Recipe } from "@/types";
 
-export async function getMealEntryById(id: string) {
+export async function getMealEntryById(id: string): Promise<MeaLEntryModel> {
   const { data, error } = await supabase
     .from("meal_entries")
     .select("*")
@@ -16,15 +16,16 @@ export async function getMealEntryById(id: string) {
   return data;
 }
 
-export async function getMealEntriesByDiaryRecordId(
-  diaryRecordId: string
+export async function getMealSlotEntriesByDate(
+  date: Date
 ): Promise<MealSlotEntry[]> {
+  const formattedDate = date.toISOString().split("T")[0]; // Format date to YYYY-MM-DD
   const { data, error } = await supabase
     .from("meal_entries")
     .select(
       "*, food: food_id(*), recipe: recipe_id(*, recipe_components: recipe_components(*, food: food_id(*)))"
     )
-    .eq("diary_record_id", diaryRecordId);
+    .eq("date", formattedDate);
 
   if (error) {
     console.error("Error fetching meal entries:", error);
@@ -35,7 +36,8 @@ export async function getMealEntriesByDiaryRecordId(
 
   const mealSlotEntries: MealSlotEntry[] = data.map((entry) => {
     return {
-      id: entry.id, // Assuming today's date for simplicity, adjust as needed
+      id: entry.id,
+      date: new Date(entry.date),
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()
