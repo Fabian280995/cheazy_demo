@@ -5,9 +5,15 @@ import { Text, View } from "react-native";
 interface Props {
   Icon?: () => ReactNode;
   title: string;
+  size?: number;
 }
 
-const CardHeader = ({ Icon, title, children }: PropsWithChildren<Props>) => {
+const CardHeader = ({
+  Icon,
+  title,
+  children,
+  size = 16,
+}: PropsWithChildren<Props>) => {
   const { colors } = useTheme();
   return (
     <View
@@ -24,7 +30,7 @@ const CardHeader = ({ Icon, title, children }: PropsWithChildren<Props>) => {
             fontFamily: "Nunito",
             color: colors.text,
             fontWeight: "800",
-            fontSize: 16,
+            fontSize: size,
           }}
         >
           {title}
