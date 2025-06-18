@@ -170,7 +170,7 @@ const FoodDetailScreen = ({
                 justifyContent: "center",
                 height: 64,
                 position: "relative",
-                padding: 12,
+                padding: 16,
               }}
             >
               <Text
@@ -199,12 +199,12 @@ const FoodDetailScreen = ({
                 style={{
                   position: "absolute",
                   left: 0,
-                  top: 0,
+                  top: -4,
                   right: 0,
                   alignItems: "center",
                   justifyContent: "flex-start",
-                  height: 32,
-                  padding: 2,
+                  height: 35,
+                  padding: 4,
                 }}
               >
                 <Feather name="chevron-up" size={16} color={colors.textLight} />
@@ -220,12 +220,12 @@ const FoodDetailScreen = ({
                 style={{
                   position: "absolute",
                   left: 0,
-                  bottom: 0,
+                  bottom: -4,
                   right: 0,
                   alignItems: "center",
                   justifyContent: "flex-end",
-                  height: 32,
-                  padding: 2,
+                  height: 35,
+                  padding: 4,
                 }}
               >
                 <Feather
