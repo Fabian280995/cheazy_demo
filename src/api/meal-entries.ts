@@ -1,6 +1,7 @@
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { supabase } from "@/lib/supabase";
 import { FoodItem, MeaLEntryModel, MealSlotEntry, Recipe } from "@/types";
+import { format } from "date-fns";
 
 export async function getMealEntryById(id: string): Promise<MeaLEntryModel> {
   const { data, error } = await supabase
@@ -19,7 +20,7 @@ export async function getMealEntryById(id: string): Promise<MeaLEntryModel> {
 export async function getMealSlotEntriesByDate(
   date: Date
 ): Promise<MealSlotEntry[]> {
-  const formattedDate = date.toISOString().split("T")[0]; // Format date to YYYY-MM-DD
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
   const { data, error } = await supabase
     .from("meal_entries")
     .select(
