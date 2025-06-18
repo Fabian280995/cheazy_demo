@@ -4,10 +4,12 @@ import { DairyRecordModel } from "@/types";
 export async function getDiaryRecordByDate(
   date: Date
 ): Promise<DairyRecordModel> {
+  const formattedDate = date.toISOString().split("T")[0];
+
   const { data, error } = await supabase
     .from("diary_records")
     .select("*")
-    .eq("day", date.toISOString().split("T")[0])
+    .eq("day", formattedDate)
     .single();
 
   if (error) throw error;

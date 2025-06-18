@@ -6,19 +6,21 @@ import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 interface Props {
+  id: string;
   title: string;
   entries: METype[];
 }
 
-const MealSlot = ({ title, entries }: Props) => {
+const MealSlot = ({ id, title, entries }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const totals = React.useMemo(() => calcTotals(entries), [entries]);
   const totalCalories = totals.calories.toFixed(0);
   return (
-    <View>
+    <Animated.View layout={LinearTransition} key={id}>
       <View
         style={{
           backgroundColor: colors.foreground,
@@ -113,7 +115,7 @@ const MealSlot = ({ title, entries }: Props) => {
           Eintrag hinzufügen
         </Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 

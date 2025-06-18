@@ -23,11 +23,8 @@ export default function DiaryScreen({ id }: Props) {
   const { data: mealEntries, isLoading } = useMealEntriesQuery(id);
 
   React.useEffect(() => {
-    if (!mealEntries || mealEntries.length === 0) {
-      setSections([]);
-      return;
-    }
-    const grouped = groupEntriesBySlot(mealEntries);
+    const grouped = groupEntriesBySlot(mealEntries ?? []);
+
     const newSections: Section[] = MEAL_SLOTS.map((slot) => ({
       id: slot.id,
       title: slot.label,
@@ -46,6 +43,7 @@ export default function DiaryScreen({ id }: Props) {
       {sections.map((section) => (
         <MealSlot
           key={section.id}
+          id={section.id}
           title={section.title}
           entries={section.data}
         />
