@@ -11,5 +11,8 @@ export const useCreateFoodMealEntry = () => {
         queryKey: ["mealEntries", data.date],
       });
     },
+    onError: (error) => {
+      console.error("Error creating food meal entry:", error);
+    },
   });
 };

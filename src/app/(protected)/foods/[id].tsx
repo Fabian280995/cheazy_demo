@@ -37,6 +37,12 @@ const FoodDetail = () => {
     mealSlotId: MealSlotId,
     quantity: number
   ) => {
+    console.log("Adding food:", {
+      id,
+      date,
+      mealSlotId,
+      quantity,
+    });
     if (mealEntryId) {
       await updateFoodMealEntry({
         id: mealEntryId,
