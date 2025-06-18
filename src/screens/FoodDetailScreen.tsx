@@ -1,5 +1,6 @@
 import FoodDetailHeader from "@/components/food/FoodDetailHeader";
 import NutritionBar from "@/components/nutrition/NutritionBar";
+import CardHeader from "@/components/shared/CardHeader";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
@@ -16,6 +17,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface Props {
@@ -76,7 +78,9 @@ const FoodDetailScreen = ({
           </View>
         )}
       </View>
-      <View
+      <Animated.View
+        entering={SlideInDown.delay(200).duration(700)}
+        exiting={SlideOutDown.duration(500)}
         style={{
           flex: 1,
           backgroundColor: colors.foreground,
@@ -95,7 +99,7 @@ const FoodDetailScreen = ({
           contentContainerStyle={{
             paddingTop: 20,
             paddingHorizontal: 24,
-            gap: 16,
+            gap: 24,
           }}
         >
           <FoodDetailHeader food={food} />
@@ -255,41 +259,45 @@ const FoodDetailScreen = ({
             </View>
           </View>
 
-          <View style={{ gap: 12 }}>
-            <Text
-              style={{
-                fontFamily: "Nunito",
-                color: colors.text,
-                fontSize: 24,
-                fontWeight: "900",
-              }}
-            >
-              {totalCalories.toFixed(0)} kcal
-            </Text>
-            <NutritionBar
-              name="Kohlenhydrate"
-              value={totalCarbs}
-              target={quantity}
-              categoryColorProfile="carbs"
-              showTargetLabel={false}
-              showTargetRange={false}
-            />
-            <NutritionBar
-              name="Fette"
-              value={totalFat}
-              target={quantity}
-              categoryColorProfile="fat"
-              showTargetLabel={false}
-              showTargetRange={false}
-            />
-            <NutritionBar
-              name="Proteine"
-              value={totalProtein}
-              target={quantity}
-              categoryColorProfile="protein"
-              showTargetLabel={false}
-              showTargetRange={false}
-            />
+          <View style={{ gap: 8 }}>
+            <CardHeader title="Nährwerte" size={20}>
+              <Text
+                style={{
+                  fontFamily: "Nunito",
+                  color: colors.text,
+                  fontSize: 20,
+                  fontWeight: "800",
+                }}
+              >
+                {totalCalories.toFixed(0)} kcal
+              </Text>
+            </CardHeader>
+            <View style={{ gap: 12 }}>
+              <NutritionBar
+                name="Kohlenhydrate"
+                value={totalCarbs}
+                target={quantity}
+                categoryColorProfile="carbs"
+                showTargetLabel={false}
+                showTargetRange={false}
+              />
+              <NutritionBar
+                name="Fette"
+                value={totalFat}
+                target={quantity}
+                categoryColorProfile="fat"
+                showTargetLabel={false}
+                showTargetRange={false}
+              />
+              <NutritionBar
+                name="Proteine"
+                value={totalProtein}
+                target={quantity}
+                categoryColorProfile="protein"
+                showTargetLabel={false}
+                showTargetRange={false}
+              />
+            </View>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -321,7 +329,7 @@ const FoodDetailScreen = ({
             {addLabel}
           </Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     </View>
   );
 };

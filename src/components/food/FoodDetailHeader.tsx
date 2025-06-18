@@ -16,8 +16,8 @@ const FoodDetailHeader = ({ food }: { food: FoodModel }) => {
       >
         <Text
           style={{
-            fontWeight: "700",
-            fontSize: 32,
+            fontWeight: "800",
+            fontSize: 24,
             fontFamily: "Nunito",
             maxWidth: "80%",
           }}
@@ -31,7 +31,7 @@ const FoodDetailHeader = ({ food }: { food: FoodModel }) => {
       <View style={{ gap: 4 }}>
         <Text
           style={{
-            fontFamily: "Inter",
+            fontFamily: "Nunito",
             fontSize: 16,
             fontWeight: "500",
             color: colors.textLight,
