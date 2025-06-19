@@ -1,11 +1,10 @@
-import { View, Text, ActivityIndicator, ScrollView } from "react-native";
-import React from "react";
-import { useLocalSearchParams } from "expo-router";
 import RecipesList from "@/components/recipes/RecipesList";
-import { useRecipesQuery } from "@/hooks/recipes/useRecipesQuery";
-import { useTheme } from "@/providers/theme";
 import LoadingIndicator from "@/components/shared/LoadingIndicator";
+import { useRecipesQuery } from "@/hooks/recipes/useRecipesQuery";
 import { Recipe } from "@/types";
+import { useLocalSearchParams } from "expo-router";
+import React from "react";
+import { ScrollView } from "react-native";
 
 const RecipesScreen = () => {
   const { data: recipes, isLoading, error } = useRecipesQuery();
