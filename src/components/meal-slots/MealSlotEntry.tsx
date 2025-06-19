@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { FoodItemCard } from "../food/FoodItemCard";
 import MealSlotEntryContainer from "./MealSlotEntryContainer";
-import { RecipeCard } from "./RecipeCard";
+import { RecipeCard } from "../recipes/RecipeCard";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
