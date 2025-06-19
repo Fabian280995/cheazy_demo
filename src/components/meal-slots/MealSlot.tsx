@@ -10,6 +10,7 @@ import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
 import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
+import MealSlotEntryContainer from "./MealSlotEntryContainer";
 
 interface Props {
   id: string;
@@ -112,36 +113,38 @@ const MealSlot = ({ id, title, entries }: Props) => {
           );
         })}
 
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: colors.foreground,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            borderBottomLeftRadius: 16,
-            borderBottomRightRadius: 16,
-          }}
-          onPress={handleAddEntryPress}
-        >
-          <CardIcon
-            name="add"
-            size={36}
-            color={colors.textForeground}
-            bgColor={colors.primary}
-          />
-          <Text
+        <MealSlotEntryContainer key={`add-entry-${id}`}>
+          <TouchableOpacity
             style={{
-              fontFamily: "Nunito",
-              color: colors.text,
-              fontWeight: "700",
-              fontSize: 14,
-              marginLeft: 8,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: colors.foreground,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
             }}
+            onPress={handleAddEntryPress}
           >
-            Eintrag hinzufügen
-          </Text>
-        </TouchableOpacity>
+            <CardIcon
+              name="add"
+              size={36}
+              color={colors.textForeground}
+              bgColor={colors.primary}
+            />
+            <Text
+              style={{
+                fontFamily: "Nunito",
+                color: colors.text,
+                fontWeight: "700",
+                fontSize: 14,
+                marginLeft: 8,
+              }}
+            >
+              Eintrag hinzufügen
+            </Text>
+          </TouchableOpacity>
+        </MealSlotEntryContainer>
       </Animated.View>
 
       <BottomSheetModal

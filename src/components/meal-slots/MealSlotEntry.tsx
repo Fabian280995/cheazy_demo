@@ -14,6 +14,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { FoodItemCard } from "../food/FoodItemCard";
 import { RecipeCard } from "./RecipeCard";
+import MealSlotEntryContainer from "./MealSlotEntryContainer";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
@@ -91,7 +92,7 @@ const MealSlotEntry: React.FC<Props> = ({
   }));
 
   return (
-    <Animated.View layout={LinearTransition} style={styles.wrapper}>
+    <MealSlotEntryContainer key={entry.id}>
       <View style={[styles.deleteBg, { backgroundColor: colors.destructive }]}>
         <Feather name="trash-2" size={24} color={colors.textForeground} />
       </View>
@@ -126,15 +127,11 @@ const MealSlotEntry: React.FC<Props> = ({
           </View>
         </Animated.View>
       </GestureDetector>
-    </Animated.View>
+    </MealSlotEntryContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    width: "100%",
-    overflow: "hidden",
-  },
   deleteBg: {
     position: "absolute",
     right: 0,
