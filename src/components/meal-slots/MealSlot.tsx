@@ -1,22 +1,14 @@
-import { ButtonSetting } from "@/lib/settings/ButtonSetting";
 import { useTheme } from "@/providers/theme";
-import { ISetting, MealSlotEntry as METype } from "@/types";
+import { MealSlotEntry as METype } from "@/types";
 import { calcTotals } from "@/utils/meals";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Platform, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import SettingsBlock from "../settings/SettingsBlock";
+import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
-import CardHeader from "../shared/CardHeader";
-import SettingsBlockWrapper from "../settings/SettingsBlockWrapper";
-import SettingsListWrapper from "../settings/SettingsListWrapper";
-import CategoryIcon from "../shared/icons/CategoryIcon";
-import { Feather } from "@expo/vector-icons";
-import { ca } from "zod/v4/locales";
 
 interface Props {
   id: string;

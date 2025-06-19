@@ -1,9 +1,8 @@
+import { useTheme } from "@/providers/theme";
 import { FoodItem } from "@/types";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import CategoryIcon from "../shared/icons/CategoryIcon";
-import { useTheme } from "@/providers/theme";
-import { useRouter } from "expo-router";
 
 interface Props {
   item: FoodItem;
