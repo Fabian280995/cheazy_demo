@@ -109,6 +109,7 @@ export async function getMealSlotEntriesByDate(
     return {
       id: entry.id,
       date: new Date(entry.date),
+      type: entry.entry_type,
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()

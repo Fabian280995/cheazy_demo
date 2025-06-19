@@ -2,7 +2,7 @@ import { useTheme } from "@/providers/theme";
 import { FoodItem, MealSlotEntry as MealSlotEntryType, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import { FoodItemCard } from "./FoodItemCard";
 import { RecipeCard } from "./RecipeCard";
 
@@ -17,6 +17,7 @@ interface Props {
   isSelected?: boolean;
   showSelectedState?: boolean;
   onPress?: (entry: MealSlotEntryType) => void;
+  onLongPress?: (entry: MealSlotEntryType) => void;
 }
 
 const MealSlotEntry = ({
@@ -26,12 +27,14 @@ const MealSlotEntry = ({
   isSelected,
   showSelectedState = false,
   onPress,
+  onLongPress,
 }: Props) => {
   const { colors } = useTheme();
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={() => onPress?.(entry)}
+      onLongPress={() => onLongPress?.(entry)}
       disabled={!onPress}
       style={[
         {
@@ -68,12 +71,12 @@ const MealSlotEntry = ({
       )}
       <View style={{ flex: 1 }}>
         {isFoodItem(entry.entry) ? (
-          <FoodItemCard item={entry.entry} mealEntryId={entry.id} />
+          <FoodItemCard item={entry.entry} />
         ) : (
           <RecipeCard item={entry.entry} />
         )}
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
