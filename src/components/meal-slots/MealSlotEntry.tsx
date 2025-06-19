@@ -143,8 +143,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    padding: 12,
     borderBottomWidth: 1,
   },
   iconWrap: {
