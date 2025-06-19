@@ -1,8 +1,16 @@
+// src/components/meals/MealSlotEntry.tsx
 import { useTheme } from "@/providers/theme";
-import { FoodItem, MealSlotEntry as MealSlotEntryType, Recipe } from "@/types";
+import { FoodItem, MealSlotEntry as METype, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React from "react";
-import { Pressable, TouchableOpacity, View } from "react-native";
+import React, { useCallback } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { FoodItemCard } from "./FoodItemCard";
 import { RecipeCard } from "./RecipeCard";
 
@@ -11,73 +19,143 @@ export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
 }
 
 interface Props {
-  entry: MealSlotEntryType;
-  isLast?: boolean;
-  isFirst?: boolean;
-  isSelected?: boolean;
+  entry: METype;
   showSelectedState?: boolean;
-  onPress?: (entry: MealSlotEntryType) => void;
-  onLongPress?: (entry: MealSlotEntryType) => void;
+  isSelected?: boolean;
+  onPress?: (entry: METype) => void;
+  onDelete?: (entry: METype) => void;
 }
 
-const MealSlotEntry = ({
+const DELETE_WIDTH = 64;
+const SWIPE_THRESHOLD = -DELETE_WIDTH * 0.6; // 60 % des Buttons wischen → Alert
+
+const MealSlotEntry: React.FC<Props> = ({
   entry,
-  isLast = false,
-  isFirst = false,
-  isSelected,
   showSelectedState = false,
+  isSelected = false,
   onPress,
-  onLongPress,
-}: Props) => {
+  onDelete,
+}) => {
   const { colors } = useTheme();
+  const translateX = useSharedValue(0);
+
+  const reset = () => {
+    translateX.value = withTiming(0);
+  };
+
+  const confirmDelete = useCallback(() => {
+    Alert.alert(
+      "Eintrag löschen?",
+      "Möchtest du diesen Eintrag wirklich löschen?",
+      [
+        { text: "Abbrechen", style: "cancel", onPress: reset },
+        {
+          text: "Löschen",
+          style: "destructive",
+          onPress: () => {
+            if (onDelete) onDelete(entry);
+            reset();
+          },
+        },
+      ]
+    );
+  }, [entry, onDelete]);
+
+  const pan = Gesture.Pan()
+    .onUpdate((e) => {
+      translateX.value = Math.min(0, e.translationX);
+    })
+    .onEnd(() => {
+      if (translateX.value < SWIPE_THRESHOLD) {
+        translateX.value = withTiming(-DELETE_WIDTH, {}, () => {
+          runOnJS(confirmDelete)();
+        });
+      } else {
+        reset();
+      }
+    });
+
+  const tap = Gesture.Tap()
+    .maxDuration(220)
+    .onStart(() => {
+      if (onPress) {
+        runOnJS(onPress)(entry);
+      }
+    });
+
+  const gesture = Gesture.Exclusive(pan, tap);
+
+  const rStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
 
   return (
-    <TouchableOpacity
-      onPress={() => onPress?.(entry)}
-      onLongPress={() => onLongPress?.(entry)}
-      disabled={!onPress}
-      style={[
-        {
-          paddingVertical: 12,
-          paddingHorizontal: 12,
-          backgroundColor: colors.foreground,
-          flexDirection: "row",
-          alignItems: "center",
-        },
-        isLast
-          ? {
-              borderBottomLeftRadius: 16,
-              borderBottomRightRadius: 16,
-            }
-          : {
-              borderBottomWidth: 1,
+    <View style={styles.wrapper}>
+      <View style={[styles.deleteBg, { backgroundColor: colors.destructive }]}>
+        <Feather name="trash-2" size={24} color={colors.textForeground} />
+      </View>
+
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          style={[
+            styles.container,
+            rStyle,
+            {
+              backgroundColor: colors.foreground,
               borderBottomColor: colors.background,
             },
-        isFirst && {
-          borderTopLeftRadius: 16,
-          borderTopRightRadius: 16,
-        },
-      ]}
-    >
-      {showSelectedState && (
-        <View>
-          <Feather
-            name={isSelected ? "check-circle" : "circle"}
-            size={24}
-            color={isSelected ? colors.success : colors.textLight}
-            style={{ marginRight: 8 }}
-          />
-        </View>
-      )}
-      <View style={{ flex: 1 }}>
-        {isFoodItem(entry.entry) ? (
-          <FoodItemCard item={entry.entry} />
-        ) : (
-          <RecipeCard item={entry.entry} />
-        )}
-      </View>
-    </TouchableOpacity>
+          ]}
+        >
+          {showSelectedState && (
+            <View style={styles.iconWrap}>
+              <Feather
+                name={isSelected ? "check-circle" : "circle"}
+                size={24}
+                color={isSelected ? colors.success : colors.textLight}
+              />
+            </View>
+          )}
+
+          <View style={styles.contentWrap}>
+            {isFoodItem(entry.entry) ? (
+              <FoodItemCard item={entry.entry} />
+            ) : (
+              <RecipeCard item={entry.entry} />
+            )}
+          </View>
+        </Animated.View>
+      </GestureDetector>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: "100%",
+    overflow: "hidden",
+  },
+  deleteBg: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    width: DELETE_WIDTH,
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+  },
+  iconWrap: {
+    marginRight: 8,
+  },
+  contentWrap: {
+    flex: 1,
+  },
+});
 
 export default MealSlotEntry;
