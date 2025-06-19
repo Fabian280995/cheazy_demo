@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Recipe } from "@/types";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 interface Props {
   recipes: Recipe[];
@@ -15,7 +16,7 @@ const RecipesList = ({ recipes }: Props) => {
     );
   }
   return (
-    <View style={{ padding: 16 }}>
+    <Animated.View layout={LinearTransition} style={{ padding: 16 }}>
       {recipes.map((recipe) => (
         <View
           key={recipe.id}
@@ -42,7 +43,7 @@ const RecipesList = ({ recipes }: Props) => {
           </Text>
         </View>
       ))}
-    </View>
+    </Animated.View>
   );
 };
 

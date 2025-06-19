@@ -1,17 +1,13 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useTheme } from "@/providers/theme";
-import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useTheme } from "@/providers/theme";
+import { Stack, useRouter } from "expo-router";
+import React from "react";
+import { ScrollView } from "react-native";
 
 const Recipes = () => {
   const router = useRouter();
   const { colors } = useTheme();
-  const { mealSlotId } = useLocalSearchParams<{
-    mealSlotId?: string;
-  }>();
   const headerOptions = useHeaderOptions({
     title: "Deine Rezepte",
     largeTitle: false,
