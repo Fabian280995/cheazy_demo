@@ -13,7 +13,7 @@ const Recipes = () => {
     mealSlotId?: string;
   }>();
   const headerOptions = useHeaderOptions({
-    title: "Lebensmittel",
+    title: "Deine Rezepte",
     largeTitle: false,
   });
   return (
