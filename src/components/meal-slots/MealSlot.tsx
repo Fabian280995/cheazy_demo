@@ -1,12 +1,17 @@
+import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype } from "@/types";
 import { calcTotals } from "@/utils/meals";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import CardIcon from "../shared/CardIcon";
-import MealSlotEntry from "./MealSlotEntry";
+import { Text, TouchableOpacity } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import CardHeader from "../shared/CardHeader";
+import CardIcon from "../shared/CardIcon";
+import AddEntryButton from "./AddEntryButton";
+import MealSlotEntry from "./MealSlotEntry";
+import MealSlotHeader from "./MealSlotHeader";
 
 interface Props {
   id: string;
@@ -15,98 +20,134 @@ interface Props {
 }
 
 const MealSlot = ({ id, title, entries }: Props) => {
-  const { colors } = useTheme();
+  const bottomSheetRef = React.useRef<BottomSheetModal>(null);
+  const { colors, categoryColors } = useTheme();
+  const { mutateAsync: deleteMealEntry } = useDeleteMealEntry();
   const router = useRouter();
+
   const totals = React.useMemo(() => calcTotals(entries), [entries]);
-  const totalCalories = totals.calories.toFixed(0);
+
+  const handleAddEntryPress = () => {
+    bottomSheetRef.current?.present();
+  };
+
+  const handleEntryPress = (entry: METype) => {
+    if (entry.type === "food") {
+      router.push(`/foods/${entry.entry.id}?mealEntryId=${entry.id}`);
+    } else {
+      // router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
+      console.log("Recipe entries are not supported yet in MealSlotEntry");
+    }
+  };
+
+  const handleEntryDelete = async (entryId: string) => {
+    await deleteMealEntry(entryId);
+  };
+
   return (
-    <Animated.View layout={LinearTransition} key={id}>
-      <View
-        style={{
+    <>
+      <Animated.View layout={LinearTransition} key={id}>
+        <MealSlotHeader title={title} totals={totals} />
+        {entries.map((item) => {
+          return (
+            <MealSlotEntry
+              key={item.entry.id}
+              entry={item}
+              onPress={handleEntryPress}
+              onDelete={handleEntryDelete}
+            />
+          );
+        })}
+
+        <AddEntryButton id={id} onPress={handleAddEntryPress} />
+      </Animated.View>
+
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={["30%"]}
+        enablePanDownToClose
+        backgroundStyle={{
           backgroundColor: colors.foreground,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
+        }}
+        handleIndicatorStyle={{ backgroundColor: colors.textLight }}
+        style={{
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.background,
+          shadowColor: colors.shadow,
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 4,
+          elevation: 5,
         }}
+        stackBehavior="replace"
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "Nunito",
-              color: colors.text,
-              fontWeight: "900",
-              fontSize: 16,
+        <BottomSheetView style={{ paddingHorizontal: 16 }}>
+          <CardHeader title="Eintrag hinzufügen" />
+          <TouchableOpacity
+            onPress={() => {
+              bottomSheetRef.current?.close();
+              setTimeout(() => {
+                router.push(`/foods?mealSlotId=${id}`);
+              }, 150);
             }}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {title}
-          </Text>
-          <Text
             style={{
-              fontFamily: "Inter",
-              color: colors.primary,
-              fontWeight: "700",
-              fontSize: 16,
+              paddingVertical: 4,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 8,
+              marginTop: 8,
             }}
           >
-            {totalCalories} kcal
-          </Text>
-        </View>
-        <Text
-          style={{ fontSize: 12, color: "gray", textAlign: "right" }}
-          ellipsizeMode="tail"
-        >
-          {totals.fat.toFixed(0)}g Fett, {totals.carbs.toFixed(0)}g
-          Kohlenhydrate, {totals.protein.toFixed(0)}g Eiweiß
-        </Text>
-      </View>
-
-      {/* Section-Items */}
-      {entries.map((item) => {
-        return <MealSlotEntry key={item.entry.id} entry={item} />;
-      })}
-
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: colors.foreground,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
-        }}
-        onPress={() => router.push(`/foods?mealSlotId=${id}`)}
-      >
-        <CardIcon
-          name="add"
-          size={36}
-          color={colors.textForeground}
-          bgColor={colors.primary}
-        />
-        <Text
-          style={{
-            fontFamily: "Nunito",
-            color: colors.text,
-            fontWeight: "700",
-            fontSize: 14,
-            marginLeft: 8,
-          }}
-        >
-          Eintrag hinzufügen
-        </Text>
-      </TouchableOpacity>
-    </Animated.View>
+            <CardIcon
+              name="restaurant-outline"
+              size={36}
+              color={categoryColors.fastfood.foreground}
+              bgColor={categoryColors.fastfood.background}
+            />
+            <Text
+              style={{
+                fontFamily: "Nunito",
+                color: colors.text,
+                fontWeight: "700",
+                fontSize: 16,
+              }}
+            >
+              Lebensmittel hinzufügen
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              bottomSheetRef.current?.dismiss();
+              // router.push(`/recipes?mealSlotId=${id}`);
+            }}
+            style={{
+              paddingVertical: 4,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <CardIcon
+              name="book-outline"
+              size={36}
+              color={categoryColors.dairy.foreground}
+              bgColor={categoryColors.dairy.background}
+            />
+            <Text
+              style={{
+                fontFamily: "Nunito",
+                color: colors.text,
+                fontWeight: "700",
+                fontSize: 16,
+              }}
+            >
+              Rezept hinzufügen
+            </Text>
+          </TouchableOpacity>
+        </BottomSheetView>
+      </BottomSheetModal>
+    </>
   );
 };
 

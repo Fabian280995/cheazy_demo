@@ -87,6 +87,11 @@ export async function updateFoodMealEntry({
   return data;
 }
 
+export async function deleteMealEntry(id: string): Promise<void> {
+  const { error } = await supabase.from("meal_entries").delete().eq("id", id);
+  if (error) throw error;
+}
+
 export async function getMealSlotEntriesByDate(
   date: Date
 ): Promise<MealSlotEntry[]> {
@@ -109,6 +114,7 @@ export async function getMealSlotEntriesByDate(
     return {
       id: entry.id,
       date: new Date(entry.date),
+      type: entry.entry_type,
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()

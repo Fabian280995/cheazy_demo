@@ -1,18 +1,15 @@
+import { useTheme } from "@/providers/theme";
 import { FoodItem } from "@/types";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import CategoryIcon from "../shared/icons/CategoryIcon";
-import { useTheme } from "@/providers/theme";
-import { useRouter } from "expo-router";
 
 interface Props {
   item: FoodItem;
-  mealEntryId: string;
 }
 
-export const FoodItemCard = ({ item, mealEntryId }: Props) => {
+export const FoodItemCard = ({ item }: Props) => {
   const { colors } = useTheme();
-  const router = useRouter();
   const {
     name,
     calories_per_100,
@@ -29,12 +26,7 @@ export const FoodItemCard = ({ item, mealEntryId }: Props) => {
   const protein = Math.round((protein_per_100 * quantity) / 100);
 
   return (
-    <TouchableOpacity
-      style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-      onPress={() =>
-        router.push(`/(protected)/foods/${item.id}?mealEntryId=${mealEntryId}`)
-      }
-    >
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
       <CategoryIcon id={category} size={36} colorfull />
       <View style={{ flex: 1 }}>
         <View
@@ -68,6 +60,6 @@ export const FoodItemCard = ({ item, mealEntryId }: Props) => {
           {fat}g Fett, {carbohydrates}g Kohlenhydrate, {protein}g Eiweiß
         </Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };

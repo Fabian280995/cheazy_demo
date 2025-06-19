@@ -60,10 +60,10 @@ function RootLayoutNav() {
   useAppState(onAppStateChange);
 
   return (
-    <GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <SafeAreaProvider>
-          <ThemeProvider>
+    <ThemeProvider>
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <SafeAreaProvider>
             <QueryClientProvider client={queryClient}>
               <AuthProvider>
                 <Stack screenOptions={{ headerShown: false }}>
@@ -72,9 +72,9 @@ function RootLayoutNav() {
                 </Stack>
               </AuthProvider>
             </QueryClientProvider>
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+          </SafeAreaProvider>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
