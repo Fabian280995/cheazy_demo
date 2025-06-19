@@ -41,12 +41,6 @@ const FoodDetail = () => {
     mealSlotId: MealSlotId,
     quantity: number
   ) => {
-    console.log("Adding food:", {
-      id,
-      date,
-      mealSlotId,
-      quantity,
-    });
     if (!user) {
       console.error("User not authenticated");
       return;

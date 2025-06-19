@@ -1,6 +1,7 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
+import RecipeDetailScreen from "@/screens/RecipeDetailScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 
@@ -26,6 +27,7 @@ const RecipeDetail = () => {
           ),
         }}
       />
+      <RecipeDetailScreen />
     </>
   );
 };
