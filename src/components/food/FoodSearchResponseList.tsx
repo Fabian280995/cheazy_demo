@@ -12,6 +12,7 @@ import { useTheme } from "@/providers/theme";
 import { useFoodsInfiniteQuery } from "@/hooks/foods/useFoodsInfiniteQuery";
 import { FoodModel, FoodSearchResponse } from "@/types";
 import { FoodCard } from "./FoodCard";
+import ListItem from "../shared/list/ListItem";
 
 interface Props {
   searchResponses: FoodSearchResponse[];
@@ -52,12 +53,9 @@ const FoodSearchResponseList: React.FC<Props> = ({
             }
           }}
         >
-          <FoodCard
-            food={item}
-            key={item.id}
-            isLast={isLast}
-            isFirst={isFirst}
-          />
+          <ListItem isFirst={isFirst} isLast={isLast}>
+            <FoodCard food={item} key={item.id} />
+          </ListItem>
         </TouchableOpacity>
       );
     },
