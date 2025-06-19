@@ -1,17 +1,16 @@
+import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype } from "@/types";
 import { calcTotals } from "@/utils/meals";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
-import MealSlotEntry from "./MealSlotEntry";
-import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
-import MealSlotEntryContainer from "./MealSlotEntryContainer";
 import AddEntryButton from "./AddEntryButton";
+import MealSlotEntry from "./MealSlotEntry";
 import MealSlotHeader from "./MealSlotHeader";
 
 interface Props {

@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
-import React from "react";
 import { useTheme } from "@/providers/theme";
 import { NutritionTotals } from "@/types";
+import React from "react";
+import { Text, View } from "react-native";
 
 interface Props {
   title: string;

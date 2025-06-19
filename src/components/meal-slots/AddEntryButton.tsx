@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
-import MealSlotEntryContainer from "./MealSlotEntryContainer";
 import { useTheme } from "@/providers/theme";
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
 import CardIcon from "../shared/CardIcon";
+import MealSlotEntryContainer from "./MealSlotEntryContainer";
 
 interface Props {
   id: string;

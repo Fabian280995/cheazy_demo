@@ -6,15 +6,14 @@ import React, { useCallback } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  LinearTransition,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { FoodItemCard } from "../food/FoodItemCard";
-import { RecipeCard } from "./RecipeCard";
 import MealSlotEntryContainer from "./MealSlotEntryContainer";
+import { RecipeCard } from "./RecipeCard";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
