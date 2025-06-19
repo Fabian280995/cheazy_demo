@@ -118,7 +118,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
           <TouchableOpacity
             onPress={() => {
               bottomSheetRef.current?.dismiss();
-              // router.push(`/recipes?mealSlotId=${id}`);
+              router.push(`/recipes?mealSlotId=${id}`);
             }}
             style={{
               paddingVertical: 4,
