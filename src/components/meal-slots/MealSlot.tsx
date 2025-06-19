@@ -35,8 +35,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
     if (entry.type === "food") {
       router.push(`/foods/${entry.entry.id}?mealEntryId=${entry.id}`);
     } else {
-      // router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
-      console.log("Recipe entries are not supported yet in MealSlotEntry");
+      router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
     }
   };
 

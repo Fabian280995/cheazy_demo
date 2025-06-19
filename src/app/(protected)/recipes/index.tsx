@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -17,7 +17,7 @@ const Recipes = () => {
     largeTitle: false,
   });
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: 42 }}>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 12 }}>
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -31,7 +31,7 @@ const Recipes = () => {
           ),
         }}
       />
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
