@@ -4,6 +4,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import ListItem from "../shared/list/ListItem";
+import { RecipeCard } from "./RecipeCard";
 
 interface Props {
   recipes: Recipe[];
@@ -25,16 +26,17 @@ const RecipesList = ({ recipes }: Props) => {
   }
   return (
     <Animated.View layout={LinearTransition}>
-      {recipes.map((recipe) => (
-        <ListItem key={recipe.id}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            {recipe.name}
-          </Text>
-          <Text style={{ color: "gray", marginTop: 4 }}>
-            {recipe.description}
-          </Text>
-        </ListItem>
-      ))}
+      {recipes.map((recipe) => {
+        return (
+          <ListItem
+            key={recipe.id}
+            isFirst={recipe === recipes[0]}
+            isLast={recipe === recipes[recipes.length - 1]}
+          >
+            <RecipeCard item={recipe} />
+          </ListItem>
+        );
+      })}
     </Animated.View>
   );
 };
