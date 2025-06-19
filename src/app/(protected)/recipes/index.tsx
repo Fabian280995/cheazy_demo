@@ -1,9 +1,9 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
+import RecipesScreen from "@/screens/RecipesScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView } from "react-native";
 
 const Recipes = () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ const Recipes = () => {
     largeTitle: false,
   });
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 12 }}>
+    <>
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -27,7 +27,8 @@ const Recipes = () => {
           ),
         }}
       />
-    </ScrollView>
+      <RecipesScreen />
+    </>
   );
 };
 

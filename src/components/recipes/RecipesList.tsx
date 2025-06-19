@@ -2,16 +2,23 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Recipe } from "@/types";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { useTheme } from "@/providers/theme";
 
 interface Props {
   recipes: Recipe[];
+  onSelect?: (recipe: Recipe) => void;
 }
 
 const RecipesList = ({ recipes }: Props) => {
+  const { colors } = useTheme();
   if (recipes.length === 0) {
     return (
       <View style={{ padding: 16 }}>
-        <Text style={{ fontSize: 16, color: "gray" }}>No recipes found.</Text>
+        <Text
+          style={{ fontSize: 16, color: colors.textLight, textAlign: "center" }}
+        >
+          No recipes found.
+        </Text>
       </View>
     );
   }
