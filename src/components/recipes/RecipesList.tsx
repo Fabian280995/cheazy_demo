@@ -3,6 +3,7 @@ import React from "react";
 import { Recipe } from "@/types";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { useTheme } from "@/providers/theme";
+import MealSlotEntryContainer from "../meal-slots/MealSlotEntryContainer";
 
 interface Props {
   recipes: Recipe[];
@@ -23,32 +24,16 @@ const RecipesList = ({ recipes }: Props) => {
     );
   }
   return (
-    <Animated.View layout={LinearTransition} style={{ padding: 16 }}>
+    <Animated.View layout={LinearTransition}>
       {recipes.map((recipe) => (
-        <View
-          key={recipe.id}
-          style={{
-            marginBottom: 16,
-            padding: 16,
-            backgroundColor: "#f9f9f9",
-            borderRadius: 8,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-            elevation: 2,
-          }}
-        >
+        <MealSlotEntryContainer key={recipe.id}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>
             {recipe.name}
           </Text>
           <Text style={{ color: "gray", marginTop: 4 }}>
             {recipe.description}
           </Text>
-        </View>
+        </MealSlotEntryContainer>
       ))}
     </Animated.View>
   );
