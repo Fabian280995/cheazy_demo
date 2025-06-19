@@ -100,9 +100,7 @@ const FoodDetailScreen = ({
           </View>
         )}
       </View>
-      <Animated.View
-        entering={SlideInDown.duration(700)}
-        exiting={SlideOutDown.duration(500)}
+      <View
         style={{
           flex: 1,
           backgroundColor: colors.foreground,
@@ -151,7 +149,7 @@ const FoodDetailScreen = ({
           loading={isLoading}
           disabled={isLoading || quantity <= 0 || !datetime || !mealSlot.id}
         />
-      </Animated.View>
+      </View>
     </View>
   );
 };

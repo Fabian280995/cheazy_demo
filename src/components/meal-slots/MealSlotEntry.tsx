@@ -11,7 +11,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { FoodItemCard } from "./FoodItemCard";
+import { FoodItemCard } from "../food/FoodItemCard";
 import { RecipeCard } from "./RecipeCard";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
