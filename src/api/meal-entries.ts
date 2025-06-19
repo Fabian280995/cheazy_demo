@@ -87,6 +87,11 @@ export async function updateFoodMealEntry({
   return data;
 }
 
+export async function deleteMealEntry(id: string): Promise<void> {
+  const { error } = await supabase.from("meal_entries").delete().eq("id", id);
+  if (error) throw error;
+}
+
 export async function getMealSlotEntriesByDate(
   date: Date
 ): Promise<MealSlotEntry[]> {

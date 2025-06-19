@@ -6,6 +6,7 @@ import React, { useCallback } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
+  LinearTransition,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -23,7 +24,7 @@ interface Props {
   showSelectedState?: boolean;
   isSelected?: boolean;
   onPress?: (entry: METype) => void;
-  onDelete?: (entry: METype) => void;
+  onDelete?: (id: string) => void;
 }
 
 const DELETE_WIDTH = 64;
@@ -53,7 +54,7 @@ const MealSlotEntry: React.FC<Props> = ({
           text: "Löschen",
           style: "destructive",
           onPress: () => {
-            if (onDelete) onDelete(entry);
+            if (onDelete) onDelete(entry.id);
             reset();
           },
         },
@@ -71,7 +72,7 @@ const MealSlotEntry: React.FC<Props> = ({
           runOnJS(confirmDelete)();
         });
       } else {
-        reset();
+        runOnJS(reset)();
       }
     });
 
@@ -90,7 +91,7 @@ const MealSlotEntry: React.FC<Props> = ({
   }));
 
   return (
-    <View style={styles.wrapper}>
+    <Animated.View layout={LinearTransition} style={styles.wrapper}>
       <View style={[styles.deleteBg, { backgroundColor: colors.destructive }]}>
         <Feather name="trash-2" size={24} color={colors.textForeground} />
       </View>
@@ -125,7 +126,7 @@ const MealSlotEntry: React.FC<Props> = ({
           </View>
         </Animated.View>
       </GestureDetector>
-    </View>
+    </Animated.View>
   );
 };
 

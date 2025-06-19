@@ -9,6 +9,7 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
+import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
 
 interface Props {
   id: string;
@@ -19,6 +20,7 @@ interface Props {
 const MealSlot = ({ id, title, entries }: Props) => {
   const bottomSheetRef = React.useRef<BottomSheetModal>(null);
   const { colors, categoryColors } = useTheme();
+  const { mutateAsync: deleteMealEntry } = useDeleteMealEntry();
   const router = useRouter();
 
   const totals = React.useMemo(() => calcTotals(entries), [entries]);
@@ -26,6 +28,10 @@ const MealSlot = ({ id, title, entries }: Props) => {
 
   const handleAddEntryPress = () => {
     bottomSheetRef.current?.present();
+  };
+
+  const handleEntryDelete = async (entryId: string) => {
+    await deleteMealEntry(entryId);
   };
 
   return (
@@ -101,6 +107,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
                   );
                 }
               }}
+              onDelete={handleEntryDelete}
             />
           );
         })}
