@@ -6,7 +6,7 @@ export const getAllRecipes = async (userId: string): Promise<Recipe[]> => {
     .from("recipes")
     .select("*, recipe_components: recipe_components(*, food: food_id(*))")
     .eq("user_id", userId)
-    .order("created_at", { ascending: false });
+    .order("name", { ascending: false });
 
   if (error) throw error;
 

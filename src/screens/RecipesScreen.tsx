@@ -17,6 +17,11 @@ const RecipesScreen = () => {
     console.log("Selected recipe ID:", recipe);
     // Navigate to recipe detail screen or perform any action with the selected recipe
   };
+
+  if (error) {
+    console.error("Error loading recipes:", error);
+  }
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
