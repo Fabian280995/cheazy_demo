@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
-import React, { PropsWithChildren } from "react";
 import { useTheme } from "@/providers/theme";
+import React, { PropsWithChildren } from "react";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
 interface Props {

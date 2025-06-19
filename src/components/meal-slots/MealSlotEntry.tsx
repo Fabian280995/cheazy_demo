@@ -3,7 +3,7 @@ import { useTheme } from "@/providers/theme";
 import { FoodItem, MealSlotEntry as METype, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import React, { useCallback } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,

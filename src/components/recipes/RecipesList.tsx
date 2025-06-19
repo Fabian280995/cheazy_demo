@@ -11,8 +11,15 @@ interface Props {
   onSelect?: (recipe: Recipe) => void;
 }
 
-const RecipesList = ({ recipes }: Props) => {
+const RecipesList = ({ recipes, onSelect }: Props) => {
   const { colors } = useTheme();
+
+  const handleRecipeSelect = (recipe: Recipe) => {
+    if (onSelect) {
+      onSelect(recipe);
+    }
+  };
+
   if (recipes.length === 0) {
     return (
       <View style={{ padding: 16 }}>
