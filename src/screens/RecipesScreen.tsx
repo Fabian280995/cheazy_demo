@@ -2,19 +2,23 @@ import RecipesList from "@/components/recipes/RecipesList";
 import LoadingIndicator from "@/components/shared/LoadingIndicator";
 import { useRecipesQuery } from "@/hooks/recipes/useRecipesQuery";
 import { Recipe } from "@/types";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView } from "react-native";
 
 const RecipesScreen = () => {
+  const router = useRouter();
   const { data: recipes, isLoading, error } = useRecipesQuery();
   const { mealSlotId } = useLocalSearchParams<{
     mealSlotId?: string;
   }>();
 
   const handleRecipeSelect = (recipe: Recipe) => {
-    console.log("Selected recipe ID:", recipe);
-    // Navigate to recipe detail screen or perform any action with the selected recipe
+    if (mealSlotId) {
+      router.push(`/recipes/${recipe.id}?mealSlotId=${mealSlotId}`);
+    } else {
+      router.push(`/recipes/${recipe.id}`);
+    }
   };
 
   if (error) {
