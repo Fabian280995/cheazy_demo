@@ -2,7 +2,7 @@ import { useTheme } from "@/providers/theme";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import CardIcon from "../shared/CardIcon";
-import MealSlotEntryContainer from "./MealSlotEntryContainer";
+import ListItem from "../shared/list/ListItem";
 
 interface Props {
   id: string;
@@ -12,16 +12,11 @@ interface Props {
 const AddEntryButton = ({ id, onPress: handleAddEntryPress }: Props) => {
   const { colors } = useTheme();
   return (
-    <MealSlotEntryContainer key={`add-entry-${id}`}>
+    <ListItem isLast>
       <TouchableOpacity
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: colors.foreground,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
         }}
         onPress={handleAddEntryPress}
       >
@@ -43,7 +38,7 @@ const AddEntryButton = ({ id, onPress: handleAddEntryPress }: Props) => {
           Eintrag hinzufügen
         </Text>
       </TouchableOpacity>
-    </MealSlotEntryContainer>
+    </ListItem>
   );
 };
 

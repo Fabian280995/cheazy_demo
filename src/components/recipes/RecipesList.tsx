@@ -1,9 +1,9 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { Recipe } from "@/types";
-import Animated, { LinearTransition } from "react-native-reanimated";
 import { useTheme } from "@/providers/theme";
-import MealSlotEntryContainer from "../meal-slots/MealSlotEntryContainer";
+import { Recipe } from "@/types";
+import React from "react";
+import { Text, View } from "react-native";
+import Animated, { LinearTransition } from "react-native-reanimated";
+import ListItem from "../shared/list/ListItem";
 
 interface Props {
   recipes: Recipe[];
@@ -26,14 +26,14 @@ const RecipesList = ({ recipes }: Props) => {
   return (
     <Animated.View layout={LinearTransition}>
       {recipes.map((recipe) => (
-        <MealSlotEntryContainer key={recipe.id}>
+        <ListItem key={recipe.id}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>
             {recipe.name}
           </Text>
           <Text style={{ color: "gray", marginTop: 4 }}>
             {recipe.description}
           </Text>
-        </MealSlotEntryContainer>
+        </ListItem>
       ))}
     </Animated.View>
   );

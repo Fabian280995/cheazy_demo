@@ -2,6 +2,7 @@ import { useTheme } from "@/providers/theme";
 import { NutritionTotals } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
+import ListItem from "../shared/list/ListItem";
 
 interface Props {
   title: string;
@@ -13,17 +14,7 @@ const MealSlotHeader = ({ title, totals }: Props) => {
   const totalCalories = totals.calories.toFixed(0);
 
   return (
-    <View
-      style={{
-        backgroundColor: colors.foreground,
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.background,
-      }}
-    >
+    <ListItem isFirst>
       <View
         style={{
           flexDirection: "row",
@@ -61,7 +52,7 @@ const MealSlotHeader = ({ title, totals }: Props) => {
         {totals.fat.toFixed(0)}g Fett, {totals.carbs.toFixed(0)}g Kohlenhydrate,{" "}
         {totals.protein.toFixed(0)}g Eiweiß
       </Text>
-    </View>
+    </ListItem>
   );
 };
 

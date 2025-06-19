@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import React, { PropsWithChildren } from "react";
 import { useTheme } from "@/providers/theme";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 interface Props {
   isFirst?: boolean;
@@ -14,7 +15,8 @@ const ListItem = ({
 }: PropsWithChildren<Props>) => {
   const { colors } = useTheme();
   return (
-    <View
+    <Animated.View
+      layout={LinearTransition}
       style={[
         {
           paddingVertical: 12,
@@ -32,7 +34,7 @@ const ListItem = ({
       ]}
     >
       {children}
-    </View>
+    </Animated.View>
   );
 };
 
