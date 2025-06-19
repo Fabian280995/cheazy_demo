@@ -11,6 +11,8 @@ import CardIcon from "../shared/CardIcon";
 import MealSlotEntry from "./MealSlotEntry";
 import { useDeleteMealEntry } from "@/hooks/meal-entries/useDeleteMealEntry";
 import MealSlotEntryContainer from "./MealSlotEntryContainer";
+import AddEntryButton from "./AddEntryButton";
+import MealSlotHeader from "./MealSlotHeader";
 
 interface Props {
   id: string;
@@ -25,10 +27,18 @@ const MealSlot = ({ id, title, entries }: Props) => {
   const router = useRouter();
 
   const totals = React.useMemo(() => calcTotals(entries), [entries]);
-  const totalCalories = totals.calories.toFixed(0);
 
   const handleAddEntryPress = () => {
     bottomSheetRef.current?.present();
+  };
+
+  const handleEntryPress = (entry: METype) => {
+    if (entry.type === "food") {
+      router.push(`/foods/${entry.entry.id}?mealEntryId=${entry.id}`);
+    } else {
+      // router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
+      console.log("Recipe entries are not supported yet in MealSlotEntry");
+    }
   };
 
   const handleEntryDelete = async (entryId: string) => {
@@ -38,113 +48,19 @@ const MealSlot = ({ id, title, entries }: Props) => {
   return (
     <>
       <Animated.View layout={LinearTransition} key={id}>
-        <View
-          style={{
-            backgroundColor: colors.foreground,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.background,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Nunito",
-                color: colors.text,
-                fontWeight: "900",
-                fontSize: 16,
-              }}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {title}
-            </Text>
-            <Text
-              style={{
-                fontFamily: "Inter",
-                color: colors.primary,
-                fontWeight: "700",
-                fontSize: 16,
-              }}
-            >
-              {totalCalories} kcal
-            </Text>
-          </View>
-          <Text
-            style={{ fontSize: 12, color: "gray", textAlign: "right" }}
-            ellipsizeMode="tail"
-          >
-            {totals.fat.toFixed(0)}g Fett, {totals.carbs.toFixed(0)}g
-            Kohlenhydrate, {totals.protein.toFixed(0)}g Eiweiß
-          </Text>
-        </View>
-
-        {/* Section-Items */}
+        <MealSlotHeader title={title} totals={totals} />
         {entries.map((item) => {
           return (
             <MealSlotEntry
               key={item.entry.id}
               entry={item}
-              onPress={(entry) => {
-                if (entry.type === "food") {
-                  router.push(
-                    `/foods/${entry.entry.id}?mealEntryId=${item.id}`
-                  );
-                } else {
-                  // router.push(
-                  //   `/recipes/${entry.entry.id}?mealEntryId=${item.id}`
-                  // );
-                  console.log(
-                    "Recipe entries are not supported yet in MealSlotEntry"
-                  );
-                }
-              }}
+              onPress={handleEntryPress}
               onDelete={handleEntryDelete}
             />
           );
         })}
 
-        <MealSlotEntryContainer key={`add-entry-${id}`}>
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              backgroundColor: colors.foreground,
-              paddingHorizontal: 12,
-              paddingVertical: 8,
-              borderBottomLeftRadius: 16,
-              borderBottomRightRadius: 16,
-            }}
-            onPress={handleAddEntryPress}
-          >
-            <CardIcon
-              name="add"
-              size={36}
-              color={colors.textForeground}
-              bgColor={colors.primary}
-            />
-            <Text
-              style={{
-                fontFamily: "Nunito",
-                color: colors.text,
-                fontWeight: "700",
-                fontSize: 14,
-                marginLeft: 8,
-              }}
-            >
-              Eintrag hinzufügen
-            </Text>
-          </TouchableOpacity>
-        </MealSlotEntryContainer>
+        <AddEntryButton id={id} onPress={handleAddEntryPress} />
       </Animated.View>
 
       <BottomSheetModal
