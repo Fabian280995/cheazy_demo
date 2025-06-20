@@ -3,6 +3,8 @@ import React from "react";
 import { useTheme } from "@/providers/theme";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import DetailScreenHeader from "../screens/DetailScreenHeader";
+import DetailScreenScroll from "../screens/DetailScreenScroll";
 
 const RecipeDetails = () => {
   const { colors } = useTheme();
@@ -35,22 +37,9 @@ const RecipeDetails = () => {
           </View>
         )}
       </View>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.foreground,
-          borderTopLeftRadius: 32,
-          borderTopRightRadius: 32,
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          paddingBottom: insets.bottom + 16,
-          height: (height / 3) * 2,
-        }}
-      >
-        <Text>Recipe</Text>
-      </View>
+      <DetailScreenScroll>
+        <DetailScreenHeader title={"Recipe Name"} />
+      </DetailScreenScroll>
     </View>
   );
 };
