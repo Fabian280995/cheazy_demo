@@ -67,13 +67,14 @@ const RecipeDetails = ({
         style={{
           flex: 1,
           backgroundColor: colors.background,
+          paddingTop: 16,
         }}
       >
         {true && (
           <View
             style={{
               width: "100%",
-              height: height / 3 + 32,
+              height: height / 4 + 32,
               alignItems: "center",
               justifyContent: "center",
             }}

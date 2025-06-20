@@ -25,7 +25,14 @@ const DetailScreenScroll = ({
         left: 0,
         right: 0,
         paddingBottom: insets.bottom + 16,
-        height: (height / 3) * 2,
+        height: (height / 4) * 3,
+        shadowColor: colors.shadow,
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        zIndex: 1,
+        overflow: "hidden",
       }}
     >
       <ScrollView

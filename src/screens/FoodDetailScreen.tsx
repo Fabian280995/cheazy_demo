@@ -86,15 +86,16 @@ const FoodDetailScreen = ({
           <View
             style={{
               width: "100%",
-              height: height / 3 + 32,
+              height: height / 4 + 32,
               backgroundColor: category.backgroundColor,
               alignItems: "center",
               justifyContent: "center",
+              paddingTop: 16,
             }}
           >
             <CategoryIcon
               id={food.category_id as FoodCategoryId}
-              size={120}
+              size={96}
               colorfull
             />
           </View>
