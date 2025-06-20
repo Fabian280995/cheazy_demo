@@ -14,7 +14,7 @@ import { NutritionOverview } from "../nutrition/NutritionOverview";
 import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import { AddButton } from "../shared/AddButton";
-import ListItem from "../shared/list/ListItem";
+import { PressableListItem } from "../shared/list/ListItem";
 
 interface Props {
   recipe: Recipe;
@@ -119,9 +119,13 @@ const RecipeDetails = ({
         <Animated.View layout={LinearTransition} key="ingredients">
           {ingredients.map((item) => {
             return (
-              <ListItem isFirst={item === ingredients[0]} key={item.id}>
+              <PressableListItem
+                isFirst={item === ingredients[0]}
+                key={item.id}
+                onPress={() => console.log("Ingredient pressed", item.name)}
+              >
                 <FoodItemCard item={item} />
-              </ListItem>
+              </PressableListItem>
             );
           })}
         </Animated.View>

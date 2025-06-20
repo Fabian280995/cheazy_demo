@@ -1,17 +1,20 @@
 import { useTheme } from "@/providers/theme";
 import React, { PropsWithChildren } from "react";
+import { TouchableOpacity, ViewStyle } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
-interface Props {
+interface BaseProps {
   isFirst?: boolean;
   isLast?: boolean;
+  style?: ViewStyle;
 }
 
-const ListItem = ({
+export const ListItem = ({
   children,
   isFirst = false,
   isLast = false,
-}: PropsWithChildren<Props>) => {
+  style,
+}: PropsWithChildren<BaseProps>) => {
   const { colors } = useTheme();
   return (
     <Animated.View
@@ -30,6 +33,7 @@ const ListItem = ({
               borderBottomRightRadius: 16,
             },
         isFirst ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 } : {},
+        style,
       ]}
     >
       {children}
@@ -37,4 +41,18 @@ const ListItem = ({
   );
 };
 
-export default ListItem;
+interface PressableListItemProps extends BaseProps {
+  onPress: () => void;
+}
+
+export const PressableListItem: React.FC<
+  PropsWithChildren<PressableListItemProps>
+> = ({ children, onPress, isFirst, isLast, style }) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <ListItem isFirst={isFirst} isLast={isLast} style={style}>
+        {children}
+      </ListItem>
+    </TouchableOpacity>
+  );
+};

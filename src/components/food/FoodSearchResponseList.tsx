@@ -12,7 +12,7 @@ import { useTheme } from "@/providers/theme";
 import { useFoodsInfiniteQuery } from "@/hooks/foods/useFoodsInfiniteQuery";
 import { FoodModel, FoodSearchResponse } from "@/types";
 import { FoodCard } from "./FoodCard";
-import ListItem from "../shared/list/ListItem";
+import { ListItem } from "../shared/list/ListItem";
 
 interface Props {
   searchResponses: FoodSearchResponse[];

@@ -1,8 +1,8 @@
 import { useTheme } from "@/providers/theme";
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text } from "react-native";
 import CardIcon from "../shared/CardIcon";
-import ListItem from "../shared/list/ListItem";
+import { PressableListItem } from "../shared/list/ListItem";
 
 interface Props {
   id: string;
@@ -17,33 +17,32 @@ const AddEntryButton = ({
 }: Props) => {
   const { colors } = useTheme();
   return (
-    <ListItem isLast>
-      <TouchableOpacity
+    <PressableListItem
+      isLast
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+      onPress={handleAddEntryPress}
+    >
+      <CardIcon
+        name="add"
+        size={36}
+        color={colors.textForeground}
+        bgColor={colors.primary}
+      />
+      <Text
         style={{
-          flexDirection: "row",
-          alignItems: "center",
+          fontFamily: "Nunito",
+          color: colors.text,
+          fontWeight: "700",
+          fontSize: 14,
+          marginLeft: 8,
         }}
-        onPress={handleAddEntryPress}
       >
-        <CardIcon
-          name="add"
-          size={36}
-          color={colors.textForeground}
-          bgColor={colors.primary}
-        />
-        <Text
-          style={{
-            fontFamily: "Nunito",
-            color: colors.text,
-            fontWeight: "700",
-            fontSize: 14,
-            marginLeft: 8,
-          }}
-        >
-          {label}
-        </Text>
-      </TouchableOpacity>
-    </ListItem>
+        {label}
+      </Text>
+    </PressableListItem>
   );
 };
 

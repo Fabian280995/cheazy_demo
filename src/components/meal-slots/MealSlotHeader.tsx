@@ -2,7 +2,7 @@ import { useTheme } from "@/providers/theme";
 import { NutritionTotals } from "@/types";
 import React from "react";
 import { Text, View } from "react-native";
-import ListItem from "../shared/list/ListItem";
+import { ListItem } from "../shared/list/ListItem";
 
 interface Props {
   title: string;
