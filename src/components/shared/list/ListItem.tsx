@@ -91,12 +91,12 @@ export const SwipeableListItem: React.FC<
 
   const handleDelete = useCallback(() => {
     Alert.alert(
-      "Eintrag löschen?",
-      "Möchtest du diesen Eintrag wirklich löschen?",
+      "Eintrag entfernen?",
+      "Möchtest du diesen Eintrag wirklich entfernen?",
       [
         { text: "Abbrechen", style: "cancel", onPress: () => reset() },
         {
-          text: "Löschen",
+          text: "Entfernen",
           style: "destructive",
           onPress: () => {
             if (onDelete) onDelete();

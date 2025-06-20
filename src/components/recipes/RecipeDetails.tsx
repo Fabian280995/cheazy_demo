@@ -126,6 +126,7 @@ const RecipeDetails = ({
                 key={item.id}
                 onPress={() => console.log("Ingredient pressed", item.name)}
                 onDelete={() => console.log("Delete ingredient", item.name)}
+                style={{ paddingHorizontal: 0 }}
               >
                 <FoodItemCard item={item} />
               </SwipeableListItem>
