@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { createContext, useContext } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "./theme";
+import EntryNotFoundScreen from "@/components/shared/EntryNotFoundScreen";
 
 type RecipeContextType = {
   recipe: Recipe;
@@ -21,8 +22,6 @@ interface RecipeProviderProps {
 export const RecipeProvider: React.FC<
   React.PropsWithChildren<RecipeProviderProps>
 > = ({ children, id }) => {
-  const router = useRouter();
-  const { colors } = useTheme();
   const {
     data: recipe,
     isLoading,
@@ -36,33 +35,7 @@ export const RecipeProvider: React.FC<
 
   if (isError || !recipe) {
     console.error("Error fetching recipe:", error);
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            color: colors.text,
-            fontSize: 16,
-            textAlign: "center",
-          }}
-        >
-          Rezept nicht gefunden.
-        </Text>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={{
-            marginTop: 16,
-          }}
-        >
-          <Text style={{ color: colors.secondary }}>Zurück</Text>
-        </TouchableOpacity>
-      </View>
-    );
+    return <EntryNotFoundScreen title="Rezept nicht gefunden." />;
   }
 
   return (

@@ -1,8 +1,7 @@
-import { useTheme } from "@/providers/theme";
 import { Recipe } from "@/types";
 import React from "react";
-import { Text, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import EntryNotFoundScreen from "../shared/EntryNotFoundScreen";
 import { PressableListItem } from "../shared/list/ListItem";
 import { RecipeCard } from "./RecipeCard";
 
@@ -12,8 +11,6 @@ interface Props {
 }
 
 const RecipesList = ({ recipes, onSelect }: Props) => {
-  const { colors } = useTheme();
-
   const handleRecipeSelect = (recipe: Recipe) => {
     if (onSelect) {
       onSelect(recipe);
@@ -21,15 +18,7 @@ const RecipesList = ({ recipes, onSelect }: Props) => {
   };
 
   if (recipes.length === 0) {
-    return (
-      <View style={{ padding: 16 }}>
-        <Text
-          style={{ fontSize: 16, color: colors.textLight, textAlign: "center" }}
-        >
-          No recipes found.
-        </Text>
-      </View>
-    );
+    return <EntryNotFoundScreen title="Keine Rezepte gefunden." />;
   }
   return (
     <Animated.View layout={LinearTransition}>
