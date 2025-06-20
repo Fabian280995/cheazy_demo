@@ -98,7 +98,7 @@ const RecipeDetails = ({
         />
 
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <DateSelect date={datetime} onPress={() => null} />
+          <DateSelect date={datetime} onPress={setDatetime} />
           <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
           <QuantitySelect
             quantity={portions}
