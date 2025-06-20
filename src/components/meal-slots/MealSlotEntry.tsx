@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { FoodItemCard } from "../food/FoodItemCard";
 import { RecipeCard } from "../recipes/RecipeCard";
+import { SwipeableListItem } from "../shared/list/ListItem";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
@@ -37,95 +38,31 @@ const MealSlotEntry: React.FC<Props> = ({
   onDelete,
 }) => {
   const { colors } = useTheme();
-  const translateX = useSharedValue(0);
-
-  const reset = () => {
-    translateX.value = withTiming(0);
-  };
-
-  const confirmDelete = useCallback(() => {
-    Alert.alert(
-      "Eintrag löschen?",
-      "Möchtest du diesen Eintrag wirklich löschen?",
-      [
-        { text: "Abbrechen", style: "cancel", onPress: reset },
-        {
-          text: "Löschen",
-          style: "destructive",
-          onPress: () => {
-            if (onDelete) onDelete(entry.id);
-            reset();
-          },
-        },
-      ]
-    );
-  }, [entry, onDelete]);
-
-  const pan = Gesture.Pan()
-    .onUpdate((e) => {
-      translateX.value = Math.min(0, e.translationX);
-    })
-    .onEnd(() => {
-      if (translateX.value < SWIPE_THRESHOLD) {
-        translateX.value = withTiming(-DELETE_WIDTH, {}, () => {
-          runOnJS(confirmDelete)();
-        });
-      } else {
-        runOnJS(reset)();
-      }
-    });
-
-  const tap = Gesture.Tap()
-    .maxDuration(220)
-    .onStart(() => {
-      if (onPress) {
-        runOnJS(onPress)(entry);
-      }
-    });
-
-  const gesture = Gesture.Exclusive(pan, tap);
-
-  const rStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
 
   return (
-    <View key={entry.id}>
-      <View style={[styles.deleteBg, { backgroundColor: colors.destructive }]}>
-        <Feather name="trash-2" size={24} color={colors.textForeground} />
-      </View>
+    <>
+      {showSelectedState && (
+        <View style={styles.iconWrap}>
+          <Feather
+            name={isSelected ? "check-circle" : "circle"}
+            size={24}
+            color={isSelected ? colors.success : colors.textLight}
+          />
+        </View>
+      )}
 
-      <GestureDetector gesture={gesture}>
-        <Animated.View
-          style={[
-            styles.container,
-            rStyle,
-            {
-              backgroundColor: colors.foreground,
-              borderBottomColor: colors.background,
-            },
-          ]}
-        >
-          {showSelectedState && (
-            <View style={styles.iconWrap}>
-              <Feather
-                name={isSelected ? "check-circle" : "circle"}
-                size={24}
-                color={isSelected ? colors.success : colors.textLight}
-              />
-            </View>
-          )}
-
-          <View style={styles.contentWrap}>
-            {isFoodItem(entry.entry) ? (
-              <FoodItemCard item={entry.entry} />
-            ) : (
-              <RecipeCard item={entry.entry} />
-            )}
-          </View>
-        </Animated.View>
-      </GestureDetector>
-    </View>
+      <SwipeableListItem
+        style={styles.contentWrap}
+        onDelete={() => onDelete && onDelete(entry.id)}
+        onPress={onPress ? () => onPress(entry) : undefined}
+      >
+        {isFoodItem(entry.entry) ? (
+          <FoodItemCard item={entry.entry} />
+        ) : (
+          <RecipeCard item={entry.entry} />
+        )}
+      </SwipeableListItem>
+    </>
   );
 };
 
