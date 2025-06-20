@@ -40,3 +40,41 @@ export const getAllRecipes = async (userId: string): Promise<Recipe[]> => {
 
   return recipes;
 };
+
+export const getRecipeById = async (
+  userId: string,
+  recipeId: string
+): Promise<Recipe | null> => {
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("*, recipe_components: recipe_components(*, food: food_id(*))")
+    .eq("user_id", userId)
+    .eq("id", recipeId)
+    .single();
+
+  if (error) throw error;
+
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    name: data.name,
+    description: data.description || "",
+    ingredients: data.recipe_components
+      ? data.recipe_components.map(
+          (rc) =>
+            ({
+              id: rc.food_id,
+              name: rc.food.name,
+              description: rc.food.description || "",
+              category: rc.food.category_id,
+              calories_per_100: rc.food.kcal_per_100,
+              protein_per_100: rc.food.protein_g_per_100,
+              carbohydrates_per_100: rc.food.carbs_g_per_100,
+              fat_per_100: rc.food.fat_g_per_100,
+              quantity: rc.quantity_g,
+            } as FoodItem)
+        )
+      : [],
+  };
+};

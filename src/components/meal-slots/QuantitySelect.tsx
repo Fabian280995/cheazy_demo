@@ -8,11 +8,18 @@ interface QuantitySelectProps {
   quantity: number;
   /** Callback, wenn sich die Menge ändert */
   onChangeQuantity: (qty: number) => void;
+
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export const QuantitySelect: React.FC<QuantitySelectProps> = ({
   quantity,
   onChangeQuantity,
+  min = 0,
+  max = 99999,
+  step = 10,
 }) => {
   const { colors } = useTheme();
   const inputRef = useRef<TextInput>(null);
@@ -32,7 +39,7 @@ export const QuantitySelect: React.FC<QuantitySelectProps> = ({
       }}
     >
       <TouchableOpacity
-        onPress={() => onChangeQuantity(Math.max(quantity - 10, 0))}
+        onPress={() => onChangeQuantity(Math.max(quantity - step, min))}
         style={{
           height: "100%",
           alignItems: "center",
@@ -69,7 +76,7 @@ export const QuantitySelect: React.FC<QuantitySelectProps> = ({
         />
       </Pressable>
       <TouchableOpacity
-        onPress={() => onChangeQuantity(Math.min(quantity + 10, 99999))}
+        onPress={() => onChangeQuantity(Math.min(quantity + step, max))}
         style={{
           height: "100%",
           alignItems: "center",
