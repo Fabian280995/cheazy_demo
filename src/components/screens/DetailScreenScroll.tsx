@@ -3,7 +3,13 @@ import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/providers/theme";
 
-const DetailScreenScroll = ({ children }: { children: React.ReactNode }) => {
+const DetailScreenScroll = ({
+  children,
+  bottomButton,
+}: {
+  bottomButton?: React.ReactNode;
+  children: React.ReactNode;
+}) => {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -32,6 +38,7 @@ const DetailScreenScroll = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </ScrollView>
+      {bottomButton && bottomButton}
     </View>
   );
 };

@@ -3,6 +3,7 @@ import { DateSelect } from "@/components/meal-slots/DateSelect";
 import MealSlotSelect from "@/components/meal-slots/MealSlotSelect";
 import { QuantitySelect } from "@/components/meal-slots/QuantitySelect";
 import { NutritionOverview } from "@/components/nutrition/NutritionOverview";
+import DetailScreenScroll from "@/components/screens/DetailScreenScroll";
 import { AddButton } from "@/components/shared/AddButton";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
@@ -100,56 +101,33 @@ const FoodDetailScreen = ({
           </View>
         )}
       </View>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.foreground,
-          borderTopLeftRadius: 32,
-          borderTopRightRadius: 32,
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          paddingBottom: insets.bottom + 16,
-          height: (height / 3) * 2,
-        }}
-      >
-        <ScrollView
-          keyboardDismissMode="on-drag"
-          contentContainerStyle={{
-            paddingTop: 20,
-            paddingHorizontal: 24,
-            gap: 24,
-          }}
-        >
-          <FoodDetailHeader food={food} />
-
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <DateSelect date={datetime} onPress={() => null} />
-            <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
-            <QuantitySelect
-              quantity={quantity}
-              onChangeQuantity={setQuantity}
-            />
-          </View>
-
-          <NutritionOverview
-            calories={totalCalories}
-            carbs={totalCarbs}
-            fat={totalFat}
-            protein={totalProtein}
-            target={quantity}
+      <DetailScreenScroll
+        bottomButton={
+          <AddButton
+            onPress={() => onAddFood(datetime, mealSlot.id, quantity)}
+            label={addLabel}
+            insets={insets}
+            loading={isLoading}
+            disabled={isLoading || quantity <= 0 || !datetime || !mealSlot.id}
           />
-        </ScrollView>
+        }
+      >
+        <FoodDetailHeader food={food} />
 
-        <AddButton
-          onPress={() => onAddFood(datetime, mealSlot.id, quantity)}
-          label={addLabel}
-          insets={insets}
-          loading={isLoading}
-          disabled={isLoading || quantity <= 0 || !datetime || !mealSlot.id}
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <DateSelect date={datetime} onPress={() => null} />
+          <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
+          <QuantitySelect quantity={quantity} onChangeQuantity={setQuantity} />
+        </View>
+
+        <NutritionOverview
+          calories={totalCalories}
+          carbs={totalCarbs}
+          fat={totalFat}
+          protein={totalProtein}
+          target={quantity}
         />
-      </View>
+      </DetailScreenScroll>
     </View>
   );
 };
