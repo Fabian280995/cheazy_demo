@@ -33,6 +33,7 @@ const DetailScreenScroll = ({
         contentContainerStyle={{
           paddingTop: 20,
           paddingHorizontal: 24,
+          paddingBottom: height / 3,
           gap: 24,
         }}
       >

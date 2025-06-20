@@ -7,9 +7,14 @@ import ListItem from "../shared/list/ListItem";
 interface Props {
   id: string;
   onPress: () => void;
+  label?: string;
 }
 
-const AddEntryButton = ({ id, onPress: handleAddEntryPress }: Props) => {
+const AddEntryButton = ({
+  id,
+  onPress: handleAddEntryPress,
+  label = "Eintrag hinzufügen",
+}: Props) => {
   const { colors } = useTheme();
   return (
     <ListItem isLast>
@@ -35,7 +40,7 @@ const AddEntryButton = ({ id, onPress: handleAddEntryPress }: Props) => {
             marginLeft: 8,
           }}
         >
-          Eintrag hinzufügen
+          {label}
         </Text>
       </TouchableOpacity>
     </ListItem>
