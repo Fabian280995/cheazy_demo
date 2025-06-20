@@ -1,7 +1,7 @@
-import { View, Text, ScrollView, useWindowDimensions } from "react-native";
-import React from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/providers/theme";
+import React from "react";
+import { ScrollView, useWindowDimensions, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DetailScreenScroll = ({
   children,
