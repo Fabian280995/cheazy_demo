@@ -14,6 +14,7 @@ function RecipeDetail() {
         screenOptions={{
           headerTransparent: true,
           contentStyle: { backgroundColor: "transparent" },
+          headerShown: false,
         }}
       />
     </RecipeProvider>
