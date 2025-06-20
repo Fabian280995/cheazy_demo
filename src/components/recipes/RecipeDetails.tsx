@@ -7,6 +7,7 @@ import { useWindowDimensions, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FoodItemCard } from "../food/FoodItemCard";
+import AddEntryButton from "../meal-slots/AddEntryButton";
 import { DateSelect } from "../meal-slots/DateSelect";
 import MealSlotSelect from "../meal-slots/MealSlotSelect";
 import { QuantitySelect } from "../meal-slots/QuantitySelect";
@@ -14,21 +15,18 @@ import { NutritionOverview } from "../nutrition/NutritionOverview";
 import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import { AddButton } from "../shared/AddButton";
-import { PressableListItem, SwipeableListItem } from "../shared/list/ListItem";
-import AddEntryButton from "../meal-slots/AddEntryButton";
+import { SwipeableListItem } from "../shared/list/ListItem";
 
 interface Props {
   recipe: Recipe;
   onAddRecipe: (datetime: Date, mealSlot: MealSlotId, portions: number) => void;
   addLabel?: string;
-  isLoading?: boolean;
 }
 
 const RecipeDetails = ({
   recipe,
   onAddRecipe,
   addLabel = "Hinzufügen",
-  isLoading = false,
 }: Props) => {
   const { colors } = useTheme();
   const height = useWindowDimensions().height;
@@ -90,8 +88,7 @@ const RecipeDetails = ({
             onPress={() => onAddRecipe(datetime, mealSlot.id, portions)}
             label={addLabel}
             insets={insets}
-            loading={isLoading}
-            disabled={isLoading || portions <= 0 || !datetime || !mealSlot.id}
+            disabled={portions <= 0 || !datetime || !mealSlot.id}
           />
         }
       >
