@@ -1,11 +1,8 @@
+import EntryNotFoundScreen from "@/components/shared/EntryNotFoundScreen";
 import LoadingIndicator from "@/components/shared/LoadingIndicator";
 import { useRecipeByIdQuery } from "@/hooks/recipes/useRecipeByIdQuery";
 import { Recipe } from "@/types";
-import { useRouter } from "expo-router";
 import { createContext, useContext } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { useTheme } from "./theme";
-import EntryNotFoundScreen from "@/components/shared/EntryNotFoundScreen";
 
 type RecipeContextType = {
   recipe: Recipe;
