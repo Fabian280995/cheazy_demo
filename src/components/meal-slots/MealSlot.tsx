@@ -59,7 +59,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
           );
         })}
 
-        <AddEntryButton id={id} onPress={handleAddEntryPress} />
+        <AddEntryButton id={id} onPress={handleAddEntryPress} isLast />
       </Animated.View>
 
       <BottomSheetModal
