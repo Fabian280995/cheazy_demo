@@ -3,13 +3,11 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import React from "react";
 
 function RecipeDetail() {
-  const { id, mealEntryId } = useLocalSearchParams<{
-    id: string;
-    mealEntryId?: string;
-    mealSlotId?: string;
+  const { recipeId } = useLocalSearchParams<{
+    recipeId: string;
   }>();
   return (
-    <RecipeProvider id={id as string}>
+    <RecipeProvider id={recipeId as string}>
       <Stack
         screenOptions={{
           headerTransparent: true,

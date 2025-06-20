@@ -1,6 +1,7 @@
 import FoodSearch from "@/components/food/FoodSearch";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useRecipe } from "@/providers/recipe";
 import { useTheme } from "@/providers/theme";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
@@ -8,25 +9,22 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const RecipeFoods = () => {
   const router = useRouter();
+  const { recipe } = useRecipe();
   const { colors } = useTheme();
-  const { mealSlotId } = useLocalSearchParams<{
-    mealSlotId?: string;
-  }>();
   const headerOptions = useHeaderOptions({
-    title: "Lebensmittel",
+    title: recipe.name,
     largeTitle: false,
   });
 
   const handleSelect = (id: string) => {
-    if (mealSlotId) {
-      router.push(`/recipes/foods/${id}?mealSlotId=${mealSlotId}`);
-      return;
-    }
-    router.push(`/foods/${id}`);
+    router.push(`/recipes/${recipe.id}/foods/${id}`);
+    return;
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: 42 }}>
+    <SafeAreaView
+      style={{ flex: 1, marginTop: 42, backgroundColor: colors.background }}
+    >
       <Stack.Screen
         options={{
           ...headerOptions,

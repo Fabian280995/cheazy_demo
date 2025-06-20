@@ -16,6 +16,7 @@ import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import { AddButton } from "../shared/AddButton";
 import { SwipeableListItem } from "../shared/list/ListItem";
+import { useRouter } from "expo-router";
 
 interface Props {
   recipe: Recipe;
@@ -29,6 +30,7 @@ const RecipeDetails = ({
   addLabel = "Hinzufügen",
 }: Props) => {
   const { colors } = useTheme();
+  const router = useRouter();
   const height = useWindowDimensions().height;
   const insets = useSafeAreaInsets();
   const { ingredients } = recipe;
@@ -53,6 +55,10 @@ const RecipeDetails = ({
       { calories: 0, carbs: 0, fat: 0, protein: 0 }
     );
   }, [ingredients, quantity, portions]);
+
+  const handleAddEntryButtonPress = () => {
+    router.push(`/recipes/${recipe.id}/foods`);
+  };
 
   return (
     <View
@@ -118,7 +124,7 @@ const RecipeDetails = ({
         <Animated.View layout={LinearTransition} key="ingredients">
           <AddEntryButton
             id={"add-button"}
-            onPress={() => console.log("Add ingredient")}
+            onPress={handleAddEntryButtonPress}
             style={{
               paddingHorizontal: 0,
               borderBottomWidth: 0,
