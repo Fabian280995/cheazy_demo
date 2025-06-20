@@ -11,8 +11,7 @@ import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { FoodCategoryId, FoodModel, MealSlot, MealSlotId } from "@/types";
 import React, { useEffect, useState } from "react";
-import { ScrollView, useWindowDimensions, View } from "react-native";
-import Animated, { SlideInDown, SlideOutDown } from "react-native-reanimated";
+import { useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface initialEntryData {
