@@ -134,7 +134,16 @@ export const SwipeableListItem: React.FC<
   }));
   return (
     <View>
-      <View style={[styles.deleteBg, { backgroundColor: colors.destructive }]}>
+      <View
+        style={[
+          styles.deleteBg,
+          {
+            backgroundColor: colors.destructive,
+            borderTopRightRadius: isFirst ? 16 : 0,
+            borderBottomRightRadius: isLast ? 16 : 0,
+          },
+        ]}
+      >
         <Feather name="trash-2" size={24} color={colors.textForeground} />
       </View>
 

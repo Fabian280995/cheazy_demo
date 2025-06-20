@@ -14,7 +14,7 @@ import { NutritionOverview } from "../nutrition/NutritionOverview";
 import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import { AddButton } from "../shared/AddButton";
-import { PressableListItem } from "../shared/list/ListItem";
+import { PressableListItem, SwipeableListItem } from "../shared/list/ListItem";
 
 interface Props {
   recipe: Recipe;
@@ -120,13 +120,15 @@ const RecipeDetails = ({
         <Animated.View layout={LinearTransition} key="ingredients">
           {ingredients.map((item) => {
             return (
-              <PressableListItem
+              <SwipeableListItem
                 isFirst={item === ingredients[0]}
+                isLast={item === ingredients[ingredients.length - 1]}
                 key={item.id}
                 onPress={() => console.log("Ingredient pressed", item.name)}
+                onDelete={() => console.log("Delete ingredient", item.name)}
               >
                 <FoodItemCard item={item} />
-              </PressableListItem>
+              </SwipeableListItem>
             );
           })}
         </Animated.View>
