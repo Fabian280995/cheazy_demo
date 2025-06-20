@@ -30,12 +30,16 @@ export const RecipeProvider: React.FC<
   } = useRecipeByIdQuery(id as string);
 
   if (isLoading) {
-    <LoadingIndicator />;
+    return <LoadingIndicator />;
   }
 
-  if (isError || !recipe) {
+  if (isError) {
     console.error("Error fetching recipe:", error);
     return <EntryNotFoundScreen title="Rezept nicht gefunden." />;
+  }
+
+  if (!recipe) {
+    return <LoadingIndicator />;
   }
 
   return (
