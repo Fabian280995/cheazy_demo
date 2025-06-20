@@ -15,6 +15,7 @@ import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import { AddButton } from "../shared/AddButton";
 import { PressableListItem, SwipeableListItem } from "../shared/list/ListItem";
+import AddEntryButton from "../meal-slots/AddEntryButton";
 
 interface Props {
   recipe: Recipe;
@@ -118,6 +119,15 @@ const RecipeDetails = ({
         />
 
         <Animated.View layout={LinearTransition} key="ingredients">
+          <AddEntryButton
+            id={"add-button"}
+            onPress={() => console.log("Add ingredient")}
+            style={{
+              paddingHorizontal: 0,
+              borderBottomWidth: 0,
+            }}
+            isFirst
+          />
           {ingredients.map((item) => {
             return (
               <SwipeableListItem
