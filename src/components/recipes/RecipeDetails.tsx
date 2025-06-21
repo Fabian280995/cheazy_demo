@@ -28,15 +28,15 @@ const RecipeDetails = ({ recipe }: Props) => {
   const quantity = React.useMemo(() => {
     return ingredients.reduce((acc, item) => acc + item.quantity, 0);
   }, [ingredients]);
-  const totalQuantity = quantity * portions;
+  const totalQuantity = quantity / portions;
 
   const totals: NutritionTotals = React.useMemo(() => {
     return ingredients.reduce(
       (acc, item) => {
-        acc.calories += ((item.calories_per_100 * quantity) / 100) * portions;
-        acc.carbs += ((item.carbohydrates_per_100 * quantity) / 100) * portions;
-        acc.fat += ((item.fat_per_100 * quantity) / 100) * portions;
-        acc.protein += ((item.protein_per_100 * quantity) / 100) * portions;
+        acc.calories += (item.calories_per_100 * quantity) / 100 / portions;
+        acc.carbs += (item.carbohydrates_per_100 * quantity) / 100 / portions;
+        acc.fat += (item.fat_per_100 * quantity) / 100 / portions;
+        acc.protein += (item.protein_per_100 * quantity) / 100 / portions;
         return acc;
       },
       { calories: 0, carbs: 0, fat: 0, protein: 0 }
@@ -91,6 +91,7 @@ const RecipeDetails = ({ recipe }: Props) => {
         </View>
 
         <NutritionOverview
+          title={"Nährwerte pro Portion"}
           calories={totals.calories}
           carbs={totals.carbs}
           fat={totals.fat}
