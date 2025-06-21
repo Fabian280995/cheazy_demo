@@ -51,8 +51,8 @@ const RecipeDetails = ({ recipe }: Props) => {
     router.push(`/recipes/${recipe.id}/foods`);
   };
 
-  const handleDeleteIngredient = (foodId: string) => {
-    removeIngredient({
+  const handleDeleteIngredient = async (foodId: string) => {
+    await removeIngredient({
       recipeId: recipe.id,
       foodId,
     });

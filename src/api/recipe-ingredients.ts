@@ -37,14 +37,20 @@ export const deleteRecipeIngredient = async ({
   return data;
 };
 
-export const updateRecipeIngredient = async (
-  id: string,
-  ingredient: Partial<RecipeIngredientForCreate>
-) => {
+export const updateRecipeIngredient = async ({
+  recipeId,
+  foodId,
+  ingredient,
+}: {
+  recipeId: string;
+  foodId: string;
+  ingredient: Partial<RecipeIngredientForCreate>;
+}) => {
   const { data, error } = await supabase
     .from("recipe_ingredients")
     .update(ingredient)
-    .eq("id", id)
+    .eq("recipe_id", recipeId)
+    .eq("food_id", foodId)
     .select("*")
     .single();
   if (error) {

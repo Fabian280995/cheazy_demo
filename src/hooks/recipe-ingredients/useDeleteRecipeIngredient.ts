@@ -1,12 +1,15 @@
 import { deleteRecipeIngredient } from "@/api/recipe-ingredients";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useDeleteRecipeIngredient = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["deleteRecipeIngredient"],
     mutationFn: deleteRecipeIngredient,
     onSuccess: (data) => {
-      // Optionally, you can invalidate queries or perform other actions on success
+      queryClient.invalidateQueries({
+        queryKey: ["recipes", data.recipe_id],
+      });
       console.log("Recipe ingredient deleted successfully:", data);
     },
     onError: (error) => {

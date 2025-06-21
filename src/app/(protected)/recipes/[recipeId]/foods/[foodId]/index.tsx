@@ -5,6 +5,7 @@ import { AddButton } from "@/components/shared/AddButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useCreateRecipeIngredient } from "@/hooks/recipe-ingredients/useCreateRecipeIngredient";
 import { useGetRecipeIngredientByCompId } from "@/hooks/recipe-ingredients/useGetRecipeIngredientByCompId";
+import { useUpdateRecipeIngredient } from "@/hooks/recipe-ingredients/useUpdateRecipeIngredient";
 import { useFood } from "@/providers/food";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
@@ -30,6 +31,8 @@ const FoodDetail = () => {
   );
   const { mutateAsync: create, isPending: creating } =
     useCreateRecipeIngredient();
+  const { mutateAsync: update, isPending: updating } =
+    useUpdateRecipeIngredient();
 
   const [quantity, setQuantity] = React.useState<number>(
     ingredient?.quantity_g || 100
@@ -38,10 +41,15 @@ const FoodDetail = () => {
   const handleAddToRecipe = async () => {
     if (!recipeId) return;
     if (ingredient) {
-      // Update existing ingredient
-      console.log("Updating existing ingredient");
+      await update({
+        recipeId: recipeId,
+        foodId: food.id,
+        ingredient: {
+          quantity_g: quantity,
+        },
+      });
     } else {
-      create({
+      await create({
         recipe_id: recipeId,
         food_id: food.id,
         quantity_g: quantity,
