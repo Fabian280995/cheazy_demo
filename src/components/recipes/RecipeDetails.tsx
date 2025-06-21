@@ -88,16 +88,7 @@ const RecipeDetails = ({
           </View>
         )}
       </View>
-      <DetailScreenScroll
-        bottomButton={
-          <AddButton
-            onPress={() => onAddRecipe(datetime, mealSlot.id, portions)}
-            label={addLabel}
-            insets={insets}
-            disabled={portions <= 0 || !datetime || !mealSlot.id}
-          />
-        }
-      >
+      <DetailScreenScroll>
         <DetailScreenHeader
           title={recipe.name}
           description={recipe.description}

@@ -7,6 +7,7 @@ function FoodsLayout() {
       screenOptions={{
         headerTransparent: true,
         contentStyle: { backgroundColor: "transparent" },
+        headerShown: false,
       }}
     />
   );

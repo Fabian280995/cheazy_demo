@@ -44,6 +44,8 @@ export const AddButton: React.FC<AddButtonProps> = ({
           fontWeight: "700",
           color: colors.textForeground,
         }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
       >
         {label}
       </Text>

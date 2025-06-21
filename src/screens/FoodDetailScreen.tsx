@@ -4,67 +4,29 @@ import MealSlotSelect from "@/components/meal-slots/MealSlotSelect";
 import { QuantitySelect } from "@/components/meal-slots/QuantitySelect";
 import { NutritionOverview } from "@/components/nutrition/NutritionOverview";
 import DetailScreenScroll from "@/components/screens/DetailScreenScroll";
-import { AddButton } from "@/components/shared/AddButton";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
-import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
-import { FoodCategoryId, FoodModel, MealSlot, MealSlotId } from "@/types";
-import React, { useEffect, useState } from "react";
+import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
+import React from "react";
 import { useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-interface initialEntryData {
-  id?: string;
-  datetime: Date;
-  mealSlot: MealSlot;
+interface Props {
+  food: FoodModel;
   quantity?: number;
 }
 
-interface Props {
-  food: FoodModel;
-  onAddFood: (datetime: Date, mealSlot: MealSlotId, quantity: number) => void;
-  addLabel?: string;
-  initialEntryData?: initialEntryData | undefined;
-  isLoading?: boolean;
-}
-
-const FoodDetailScreen = ({
-  food,
-  onAddFood,
-  addLabel = "Hinzufügen",
-  isLoading = false,
-  initialEntryData = {
-    id: undefined,
-    datetime: new Date(),
-    mealSlot: MEAL_SLOTS[0],
-    quantity: 100,
-  },
-}: Props) => {
+const FoodDetailScreen = ({ food, quantity = 100 }: Props) => {
   const { colors } = useTheme();
   const height = useWindowDimensions().height;
   const insets = useSafeAreaInsets();
-
-  const [datetime, setDatetime] = useState(initialEntryData.datetime);
-  const [mealSlot, setMealSlot] = useState(initialEntryData.mealSlot);
-  const [quantity, setQuantity] = React.useState<number>(
-    initialEntryData.quantity || 100
-  );
 
   const category = foodCategories.find((cat) => cat.id === food.category_id);
   const totalCalories = (food.kcal_per_100 * quantity) / 100;
   const totalCarbs = food.carbs_g_per_100 * (quantity / 100);
   const totalFat = food.fat_g_per_100 * (quantity / 100);
   const totalProtein = food.protein_g_per_100 * (quantity / 100);
-
-  useEffect(() => {
-    if (isLoading) return;
-    if (initialEntryData) {
-      setDatetime(initialEntryData.datetime);
-      setMealSlot(initialEntryData.mealSlot);
-      setQuantity(initialEntryData.quantity || 100);
-    }
-  }, [initialEntryData]);
 
   return (
     <View
@@ -101,24 +63,8 @@ const FoodDetailScreen = ({
           </View>
         )}
       </View>
-      <DetailScreenScroll
-        bottomButton={
-          <AddButton
-            onPress={() => onAddFood(datetime, mealSlot.id, quantity)}
-            label={addLabel}
-            insets={insets}
-            loading={isLoading}
-            disabled={isLoading || quantity <= 0 || !datetime || !mealSlot.id}
-          />
-        }
-      >
+      <DetailScreenScroll>
         <FoodDetailHeader food={food} />
-
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <DateSelect date={datetime} onPress={() => null} />
-          <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
-          <QuantitySelect quantity={quantity} onChangeQuantity={setQuantity} />
-        </View>
 
         <NutritionOverview
           calories={totalCalories}
