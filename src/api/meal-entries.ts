@@ -99,7 +99,7 @@ export async function getMealSlotEntriesByDate(
   const { data, error } = await supabase
     .from("meal_entries")
     .select(
-      "*, food: food_id(*), recipe: recipe_id(*, recipe_components: recipe_components(*, food: food_id(*)))"
+      "*, food: food_id(*), recipe: recipe_id(*, recipe_ingredients: recipe_ingredients(*, food: food_id(*)))"
     )
     .eq("date", formattedDate);
 
@@ -138,8 +138,8 @@ export async function getMealSlotEntriesByDate(
               id: entry.recipe.id,
               name: entry.recipe.name,
               description: entry.recipe.description,
-              ingredients: entry.recipe.recipe_components
-                ? entry.recipe.recipe_components.map(
+              ingredients: entry.recipe.recipe_ingredients
+                ? entry.recipe.recipe_ingredients.map(
                     (rc) =>
                       ({
                         id: rc.food_id,

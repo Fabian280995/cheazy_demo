@@ -124,7 +124,7 @@ export type Database = {
         }
         Relationships: []
       }
-      recipe_components: {
+      recipe_ingredients: {
         Row: {
           food_id: string
           quantity_g: number

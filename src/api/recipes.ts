@@ -4,7 +4,7 @@ import { FoodItem, Recipe } from "@/types";
 export const getAllRecipes = async (userId: string): Promise<Recipe[]> => {
   const { data, error } = await supabase
     .from("recipes")
-    .select("*, recipe_components: recipe_components(*, food: food_id(*))")
+    .select("*, recipe_ingredients: recipe_ingredients(*, food: food_id(*))")
     .eq("user_id", userId)
     .order("name", { ascending: false });
 
@@ -18,8 +18,8 @@ export const getAllRecipes = async (userId: string): Promise<Recipe[]> => {
               id: d.id,
               name: d.name,
               description: d.description || "",
-              ingredients: d.recipe_components
-                ? d.recipe_components.map(
+              ingredients: d.recipe_ingredients
+                ? d.recipe_ingredients.map(
                     (rc) =>
                       ({
                         id: rc.food_id,
@@ -47,7 +47,7 @@ export const getRecipeById = async (
 ): Promise<Recipe | null> => {
   const { data, error } = await supabase
     .from("recipes")
-    .select("*, recipe_components: recipe_components(*, food: food_id(*))")
+    .select("*, recipe_ingredients: recipe_ingredients(*, food: food_id(*))")
     .eq("user_id", userId)
     .eq("id", recipeId)
     .single();
@@ -60,8 +60,8 @@ export const getRecipeById = async (
     id: data.id,
     name: data.name,
     description: data.description || "",
-    ingredients: data.recipe_components
-      ? data.recipe_components.map(
+    ingredients: data.recipe_ingredients
+      ? data.recipe_ingredients.map(
           (rc) =>
             ({
               id: rc.food_id,
