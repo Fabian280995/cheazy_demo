@@ -74,12 +74,6 @@ export const getNutritionForRecipe = (
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
 
-  console.debug(
-    `Recipe ${recipe.name} totals: ${JSON.stringify(totals)} for ${
-      recipe.servings
-    } servings`
-  );
-
   return {
     calories: (totals.calories / recipe.servings) * portions,
     protein: (totals.protein / recipe.servings) * portions,
