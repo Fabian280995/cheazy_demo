@@ -19,6 +19,7 @@ interface Props {
   mealSlot: MealSlot;
   setMealSlot: (slot: MealSlot) => void;
   isLoading?: boolean;
+  type?: "food" | "recipe";
 }
 
 const AddMealEntryBottomSheet = ({
@@ -32,6 +33,7 @@ const AddMealEntryBottomSheet = ({
   mealSlot,
   setMealSlot,
   isLoading = false,
+  type = "food",
 }: Props) => {
   const { colors } = useTheme();
   const bottomSheetRef = React.useRef<BottomSheetModal>(null);
@@ -83,7 +85,11 @@ const AddMealEntryBottomSheet = ({
           {mealSlot && (
             <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
           )}
-          <QuantitySelect quantity={quantity} onChangeQuantity={setQuantity} />
+          <QuantitySelect
+            quantity={quantity}
+            onChangeQuantity={setQuantity}
+            step={type === "food" ? 10 : 0.1}
+          />
         </View>
         <AddButton
           onPress={onAdd}

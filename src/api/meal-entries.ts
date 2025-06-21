@@ -87,6 +87,64 @@ export async function updateFoodMealEntry({
   return data;
 }
 
+export async function createRecipeMealEntry({
+  date,
+  slot,
+  recipeId,
+  userId,
+}: {
+  date: Date;
+  slot: MealSlotId;
+  recipeId: string;
+  userId: string;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .insert({
+      date: formattedDate,
+      slot,
+      entry_type: "recipe",
+      recipe_id: recipeId,
+      user_id: userId,
+    })
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function updateRecipeMealEntry({
+  id,
+  date,
+  slot,
+  recipeId,
+}: {
+  id: string;
+  date: Date;
+  slot: MealSlotId;
+  recipeId: string;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .update({
+      date: formattedDate,
+      slot,
+      entry_type: "recipe",
+      recipe_id: recipeId,
+    })
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
 export async function deleteMealEntry(id: string): Promise<void> {
   const { error } = await supabase.from("meal_entries").delete().eq("id", id);
   if (error) throw error;

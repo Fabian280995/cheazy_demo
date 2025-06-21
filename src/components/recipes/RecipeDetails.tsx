@@ -1,5 +1,5 @@
 import { useTheme } from "@/providers/theme";
-import { MealSlotId, NutritionTotals, Recipe } from "@/types";
+import { NutritionTotals, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -100,6 +100,7 @@ const RecipeDetails = ({ recipe }: Props) => {
         />
 
         <Animated.View layout={LinearTransition} key="ingredients">
+          <CardHeader title="Zutaten" size={20} />
           <AddEntryButton
             id={"add-button"}
             onPress={handleAddEntryButtonPress}
@@ -112,7 +113,6 @@ const RecipeDetails = ({ recipe }: Props) => {
           {ingredients.map((item) => {
             return (
               <SwipeableListItem
-                isFirst={item === ingredients[0]}
                 isLast={item === ingredients[ingredients.length - 1]}
                 key={item.id}
                 onPress={() => console.log("Ingredient pressed", item.name)}
