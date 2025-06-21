@@ -31,7 +31,7 @@ const RecipesList = ({ recipes, onSelect }: Props) => {
             onPress={() => handleRecipeSelect(recipe)}
             style={{ flex: 1 }}
           >
-            <RecipeCard item={recipe} />
+            <RecipeCard item={recipe} portions={1} />
           </PressableListItem>
         );
       })}

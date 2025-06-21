@@ -59,7 +59,7 @@ const MealSlotEntry: React.FC<Props> = ({
         {isFoodItem(entry.entry) ? (
           <FoodItemCard item={entry.entry} />
         ) : (
-          <RecipeCard item={entry.entry} />
+          <RecipeCard item={entry.entry} portions={entry.portions} />
         )}
       </SwipeableListItem>
     </>

@@ -4,7 +4,13 @@ import { Text, View } from "react-native";
 import CardIcon from "../shared/CardIcon";
 import { useTheme } from "@/providers/theme";
 
-export const RecipeCard = ({ item }: { item: Recipe }) => {
+export const RecipeCard = ({
+  item,
+  portions,
+}: {
+  item: Recipe;
+  portions: number;
+}) => {
   const { categoryColors, colors } = useTheme();
   const ingredients = item.ingredients ?? [];
   const totalCalories = ingredients.reduce(
