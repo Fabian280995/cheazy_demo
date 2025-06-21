@@ -162,21 +162,21 @@ export type Database = {
           description: string | null
           id: string
           name: string
-          portions: number
+          servings: number
           user_id: string | null
         }
         Insert: {
           description?: string | null
           id?: string
           name: string
-          portions?: number
+          servings?: number
           user_id?: string | null
         }
         Update: {
           description?: string | null
           id?: string
           name?: string
-          portions?: number
+          servings?: number
           user_id?: string | null
         }
         Relationships: []

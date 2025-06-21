@@ -28,7 +28,7 @@ const RecipeDetails = ({ recipe }: Props) => {
   const { mutateAsync: removeIngredient, isPending: isRemoving } =
     useDeleteRecipeIngredient();
 
-  const [portions, setPortions] = React.useState<number>(1);
+  const [portions, setPortions] = React.useState<number>(recipe.servings);
   const quantity = React.useMemo(() => {
     return ingredients.reduce((acc, item) => acc + item.quantity, 0);
   }, [ingredients]);

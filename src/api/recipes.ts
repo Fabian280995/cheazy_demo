@@ -18,6 +18,7 @@ export const getAllRecipes = async (userId: string): Promise<Recipe[]> => {
               id: d.id,
               name: d.name,
               description: d.description || "",
+              servings: d.servings,
               ingredients: d.recipe_ingredients
                 ? d.recipe_ingredients.map(
                     (rc) =>
@@ -60,6 +61,7 @@ export const getRecipeById = async (
     id: data.id,
     name: data.name,
     description: data.description || "",
+    servings: data.servings,
     ingredients: data.recipe_ingredients
       ? data.recipe_ingredients.map(
           (rc) =>
