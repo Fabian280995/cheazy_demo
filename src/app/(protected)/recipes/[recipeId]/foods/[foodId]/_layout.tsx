@@ -2,7 +2,7 @@ import { FoodProvider } from "@/providers/food";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React from "react";
 
-function RecipeFoodsLayout() {
+function RecipeFoodLayout() {
   const { foodId } = useLocalSearchParams<{
     foodId: string;
   }>();
@@ -18,4 +18,4 @@ function RecipeFoodsLayout() {
   );
 }
 
-export default RecipeFoodsLayout;
+export default RecipeFoodLayout;

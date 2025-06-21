@@ -1,14 +1,18 @@
+import AddEntryButton from "@/components/meal-slots/AddEntryButton";
+import { QuantitySelect } from "@/components/meal-slots/QuantitySelect";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import { AddButton } from "@/components/shared/AddButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useCreateRecipeIngredient } from "@/hooks/recipe-ingredients/useCreateRecipeIngredient";
+import { useGetRecipeIngredientByCompId } from "@/hooks/recipe-ingredients/useGetRecipeIngredientByCompId";
 import { useFood } from "@/providers/food";
-import { useRecipe } from "@/providers/recipe";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
-import { Stack, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 
 const FoodDetail = () => {
-  const { recipe } = useRecipe();
   const { food } = useFood();
   const router = useRouter();
   const { colors } = useTheme();
@@ -16,11 +20,35 @@ const FoodDetail = () => {
     title: "",
     largeTitle: false,
   });
+  const { recipeId } = useLocalSearchParams<{
+    recipeId: string;
+  }>();
 
-  const [quantity, setQuantity] = React.useState<number>(100);
+  const { data: ingredient } = useGetRecipeIngredientByCompId(
+    recipeId,
+    food.id
+  );
+  const { mutateAsync: create, isPending: creating } =
+    useCreateRecipeIngredient();
+
+  const [quantity, setQuantity] = React.useState<number>(
+    ingredient?.quantity_g || 100
+  );
 
   const handleAddToRecipe = async () => {
-    router.back();
+    if (!recipeId) return;
+    if (ingredient) {
+      // Update existing ingredient
+      console.log("Updating existing ingredient");
+    } else {
+      create({
+        recipe_id: recipeId,
+        food_id: food.id,
+        quantity_g: quantity,
+      });
+    }
+
+    router.dismissTo(`/recipes/${recipeId}`);
   };
 
   return (
@@ -39,6 +67,27 @@ const FoodDetail = () => {
         }}
       />
       <FoodDetailScreen food={food} quantity={quantity} />
+
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          position: "absolute",
+          bottom: 64,
+          left: 12,
+          right: 12,
+          zIndex: 10,
+          gap: 8,
+        }}
+      >
+        <QuantitySelect quantity={quantity} onChangeQuantity={setQuantity} />
+        <AddButton
+          onPress={handleAddToRecipe}
+          label="Hinzufügen"
+          loading={creating}
+        />
+      </View>
     </>
   );
 };

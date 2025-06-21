@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useRecipeByIdQuery = (id: string) => {
   const { user } = useAuth();
   return useQuery({
-    queryKey: ["recipe", id],
+    queryKey: ["recipes", id],
     queryFn: async () => {
       if (!user) throw new Error("User not authenticated");
       return getRecipeById(user.id, id);
