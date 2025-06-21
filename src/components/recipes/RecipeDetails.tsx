@@ -1,42 +1,29 @@
-import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useTheme } from "@/providers/theme";
 import { MealSlotId, NutritionTotals, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { useRouter } from "expo-router";
+import React from "react";
 import { useWindowDimensions, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FoodItemCard } from "../food/FoodItemCard";
 import AddEntryButton from "../meal-slots/AddEntryButton";
-import { DateSelect } from "../meal-slots/DateSelect";
-import MealSlotSelect from "../meal-slots/MealSlotSelect";
 import { QuantitySelect } from "../meal-slots/QuantitySelect";
 import { NutritionOverview } from "../nutrition/NutritionOverview";
 import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
-import { AddButton } from "../shared/AddButton";
+import CardHeader from "../shared/CardHeader";
 import { SwipeableListItem } from "../shared/list/ListItem";
-import { useRouter } from "expo-router";
 
 interface Props {
   recipe: Recipe;
-  onAddRecipe: (datetime: Date, mealSlot: MealSlotId, portions: number) => void;
-  addLabel?: string;
 }
 
-const RecipeDetails = ({
-  recipe,
-  onAddRecipe,
-  addLabel = "Hinzufügen",
-}: Props) => {
+const RecipeDetails = ({ recipe }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const height = useWindowDimensions().height;
-  const insets = useSafeAreaInsets();
   const { ingredients } = recipe;
 
-  const [datetime, setDatetime] = useState(new Date());
-  const [mealSlot, setMealSlot] = useState(MEAL_SLOTS[0]);
   const [portions, setPortions] = React.useState<number>(1);
   const quantity = React.useMemo(() => {
     return ingredients.reduce((acc, item) => acc + item.quantity, 0);
@@ -94,9 +81,8 @@ const RecipeDetails = ({
           description={recipe.description}
         />
 
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <DateSelect date={datetime} onPress={setDatetime} />
-          <MealSlotSelect mealSlot={mealSlot} onChangeSlot={setMealSlot} />
+        <View style={{}}>
+          <CardHeader title="Portionen" size={20} />
           <QuantitySelect
             quantity={portions}
             onChangeQuantity={setPortions}

@@ -5,17 +5,7 @@ import React from "react";
 
 const RecipeDetailScreen = () => {
   const { recipe } = useRecipe();
-  const { mealEntryId } = useLocalSearchParams<{
-    mealEntryId?: string;
-    mealSlotId?: string;
-  }>();
-  return (
-    <RecipeDetails
-      recipe={recipe}
-      onAddRecipe={() => {}}
-      addLabel={mealEntryId ? "Eintrag aktualisieren" : "Rezept hinzufügen"}
-    />
-  );
+  return <RecipeDetails recipe={recipe} />;
 };
 
 export default RecipeDetailScreen;
