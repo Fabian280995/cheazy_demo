@@ -13,6 +13,7 @@ import DetailScreenHeader from "../screens/DetailScreenHeader";
 import DetailScreenScroll from "../screens/DetailScreenScroll";
 import CardHeader from "../shared/CardHeader";
 import { SwipeableListItem } from "../shared/list/ListItem";
+import { useDeleteRecipeIngredient } from "@/hooks/recipe-ingredients/useDeleteRecipeIngredient";
 
 interface Props {
   recipe: Recipe;
@@ -23,6 +24,9 @@ const RecipeDetails = ({ recipe }: Props) => {
   const router = useRouter();
   const height = useWindowDimensions().height;
   const { ingredients } = recipe;
+
+  const { mutateAsync: removeIngredient, isPending: isRemoving } =
+    useDeleteRecipeIngredient();
 
   const [portions, setPortions] = React.useState<number>(1);
   const quantity = React.useMemo(() => {
@@ -43,8 +47,19 @@ const RecipeDetails = ({ recipe }: Props) => {
     );
   }, [ingredients, quantity, portions]);
 
-  const handleAddEntryButtonPress = () => {
+  const handleAddIngredient = () => {
     router.push(`/recipes/${recipe.id}/foods`);
+  };
+
+  const handleDeleteIngredient = (foodId: string) => {
+    removeIngredient({
+      recipeId: recipe.id,
+      foodId,
+    });
+  };
+
+  const handleIngredientPress = (foodId: string) => {
+    router.push(`/recipes/${recipe.id}/foods/${foodId}`);
   };
 
   return (
@@ -103,7 +118,7 @@ const RecipeDetails = ({ recipe }: Props) => {
           <CardHeader title="Zutaten" size={20} />
           <AddEntryButton
             id={"add-button"}
-            onPress={handleAddEntryButtonPress}
+            onPress={handleAddIngredient}
             style={{
               paddingHorizontal: 0,
               borderBottomWidth: 0,
@@ -115,8 +130,8 @@ const RecipeDetails = ({ recipe }: Props) => {
               <SwipeableListItem
                 isLast={item === ingredients[ingredients.length - 1]}
                 key={item.id}
-                onPress={() => console.log("Ingredient pressed", item.name)}
-                onDelete={() => console.log("Delete ingredient", item.name)}
+                onPress={() => handleIngredientPress(item.id)}
+                onDelete={() => handleDeleteIngredient(item.id)}
                 style={{ paddingHorizontal: 0 }}
               >
                 <FoodItemCard item={item} />
