@@ -203,6 +203,7 @@ export async function getMealSlotEntriesByDate(
               id: entry.recipe.id,
               name: entry.recipe.name,
               description: entry.recipe.description,
+              servings: entry.recipe.servings,
               ingredients: entry.recipe.recipe_ingredients
                 ? entry.recipe.recipe_ingredients.map(
                     (rc) =>
