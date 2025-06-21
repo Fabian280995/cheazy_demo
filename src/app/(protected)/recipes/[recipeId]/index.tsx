@@ -11,7 +11,7 @@ import { useTheme } from "@/providers/theme";
 import RecipeDetailScreen from "@/screens/RecipeDetailScreen";
 import { MealSlot } from "@/types";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 
 const RecipeDetail = () => {
   const router = useRouter();
@@ -34,8 +34,8 @@ const RecipeDetail = () => {
   const { mutateAsync: udpate, isPending: updating } =
     useCreateRecipeMealEntry();
 
-  const [quantity, setQuantity] = React.useState<number>(
-    mealEntryData?.quantity_g || 100
+  const [portions, setPortions] = React.useState<number>(
+    mealEntryData?.portions || 1
   );
   const [datetime, setDatetime] = React.useState<Date>(
     mealEntryData?.date ? new Date(mealEntryData.date) : currentDate
@@ -47,7 +47,6 @@ const RecipeDetail = () => {
   const handleAddToMeal = async () => {
     if (!user) {
       console.error("User not found");
-
       return;
     }
 
@@ -58,6 +57,7 @@ const RecipeDetail = () => {
         recipeId: recipe.id,
         date: datetime,
         slot: mealSlot.id,
+        portions,
       });
     } else {
       // Create new meal entry
@@ -66,11 +66,23 @@ const RecipeDetail = () => {
         recipeId: recipe.id,
         date: datetime,
         slot: mealSlot.id,
+        portions,
       });
     }
     setBottomSheetOpen(false);
     router.back();
   };
+
+  useEffect(() => {
+    if (mealEntryData) {
+      setPortions(mealEntryData.portions || 1);
+      setDatetime(new Date(mealEntryData.date));
+      setMealSlot(
+        MEAL_SLOTS.find((m) => m.id === mealEntryData.slot) || MEAL_SLOTS[0]
+      );
+      setBottomSheetOpen(true);
+    }
+  }, [mealEntryData]);
 
   return (
     <>
@@ -105,8 +117,8 @@ const RecipeDetail = () => {
           setBottomSheetOpen(false);
         }}
         onAdd={handleAddToMeal}
-        quantity={quantity}
-        setQuantity={setQuantity}
+        quantity={portions}
+        setQuantity={setPortions}
         datetime={datetime}
         setDatetime={setDatetime}
         mealSlot={mealSlot}

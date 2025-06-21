@@ -92,11 +92,13 @@ export async function createRecipeMealEntry({
   slot,
   recipeId,
   userId,
+  portions,
 }: {
   date: Date;
   slot: MealSlotId;
   recipeId: string;
   userId: string;
+  portions: number;
 }): Promise<MeaLEntryModel> {
   const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
   const { data, error } = await supabase
@@ -107,6 +109,7 @@ export async function createRecipeMealEntry({
       entry_type: "recipe",
       recipe_id: recipeId,
       user_id: userId,
+      portions,
     })
     .select("*")
     .single();
@@ -121,11 +124,13 @@ export async function updateRecipeMealEntry({
   date,
   slot,
   recipeId,
+  portions,
 }: {
   id: string;
   date: Date;
   slot: MealSlotId;
   recipeId: string;
+  portions: number;
 }): Promise<MeaLEntryModel> {
   const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
   const { data, error } = await supabase
@@ -135,6 +140,7 @@ export async function updateRecipeMealEntry({
       slot,
       entry_type: "recipe",
       recipe_id: recipeId,
+      portions,
     })
     .eq("id", id)
     .select("*")
