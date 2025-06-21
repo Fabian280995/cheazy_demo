@@ -12,7 +12,7 @@ import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { MealSlot } from "@/types";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 
 const FoodDetail = () => {
   const { food } = useFood();
@@ -69,6 +69,12 @@ const FoodDetail = () => {
     }
     router.back();
   };
+
+  useEffect(() => {
+    if (mealEntryData) {
+      setBottomSheetOpen(true);
+    }
+  }, [mealEntryData]);
 
   return (
     <>
