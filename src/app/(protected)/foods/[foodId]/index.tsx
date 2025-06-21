@@ -117,6 +117,7 @@ const FoodDetail = () => {
         mealSlot={mealSlot}
         setMealSlot={setMealSlot}
         isLoading={creating || updating}
+        update={!!mealEntryId}
       />
     </>
   );
