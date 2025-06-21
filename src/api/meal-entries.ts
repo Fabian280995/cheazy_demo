@@ -179,6 +179,7 @@ export async function getMealSlotEntriesByDate(
       id: entry.id,
       date: new Date(entry.date),
       type: entry.entry_type,
+      portions: entry.portions || 1, // Default on food ist NULL, for this reason we set default to 1
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()

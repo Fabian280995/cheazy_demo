@@ -15,6 +15,7 @@ export type MealSlotEntry = {
   date: Date;
   mealSlot: MealSlotId;
   entry: FoodItem | Recipe;
+  portions: number;
   type: "food" | "recipe";
 };
 
