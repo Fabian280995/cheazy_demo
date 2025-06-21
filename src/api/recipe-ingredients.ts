@@ -16,11 +16,18 @@ export const addRecipeIngredientToRecipe = async (
   return data;
 };
 
-export const deleteRecipeIngredient = async (id: string) => {
+export const deleteRecipeIngredient = async ({
+  recipeId,
+  foodId,
+}: {
+  recipeId: string;
+  foodId: string;
+}) => {
   const { data, error } = await supabase
     .from("recipe_ingredients")
     .delete()
-    .eq("id", id)
+    .eq("recipe_id", recipeId)
+    .eq("food_id", foodId)
     .select("*")
     .single();
   if (error) {
