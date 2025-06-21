@@ -20,7 +20,6 @@ interface Props {
 const FoodDetailScreen = ({ food, quantity = 100 }: Props) => {
   const { colors } = useTheme();
   const height = useWindowDimensions().height;
-  const insets = useSafeAreaInsets();
 
   const category = foodCategories.find((cat) => cat.id === food.category_id);
   const totalCalories = (food.kcal_per_100 * quantity) / 100;

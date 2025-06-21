@@ -10,7 +10,7 @@ import { useFood } from "@/providers/food";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 
 const FoodDetail = () => {
@@ -58,6 +58,12 @@ const FoodDetail = () => {
 
     router.dismissTo(`/recipes/${recipeId}`);
   };
+
+  useEffect(() => {
+    if (ingredient) {
+      setQuantity(ingredient.quantity_g);
+    }
+  }, [ingredient]);
 
   return (
     <>
