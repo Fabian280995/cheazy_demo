@@ -66,7 +66,7 @@ export const QuantitySelect: React.FC<QuantitySelectProps> = ({
             textAlignVertical: "center",
           }}
           keyboardType="numeric"
-          value={quantity.toString()}
+          value={quantity.toFixed(1)}
           onChangeText={(text) => {
             const num = parseInt(text, 10);
             onChangeQuantity(!isNaN(num) && num > 0 ? num : 0);
