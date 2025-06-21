@@ -51,7 +51,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
         {entries.map((item) => {
           return (
             <MealSlotEntry
-              key={item.entry.id}
+              key={item.id}
               entry={item}
               onPress={handleEntryPress}
               onDelete={handleEntryDelete}

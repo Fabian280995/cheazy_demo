@@ -95,7 +95,7 @@ const AddMealEntryBottomSheet = ({
           <QuantitySelect
             quantity={quantity}
             onChangeQuantity={setQuantity}
-            step={type === "food" ? 10 : 0.1}
+            step={type === "food" ? 10 : 0.5}
           />
         </View>
         <AddButton
