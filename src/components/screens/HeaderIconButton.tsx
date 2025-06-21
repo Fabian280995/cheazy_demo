@@ -77,6 +77,8 @@ const HeaderIconButton = ({
               style={{
                 color: color ? color : colors.text,
                 marginLeft: 4,
+                fontFamily: "Nunito",
+                fontWeight: "700",
               }}
             >
               {text}
