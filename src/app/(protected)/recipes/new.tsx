@@ -4,8 +4,10 @@ import { Stack } from "expo-router";
 import LoadingIndicator from "@/components/shared/LoadingIndicator";
 import { useCreateRecipe } from "@/hooks/recipes/useCreateRecipe";
 import { useAuth } from "@/providers/auth";
+import { useTheme } from "@/providers/theme";
 
 const NewRecipe = () => {
+  const { colors } = useTheme();
   const { user } = useAuth();
   const { mutateAsync: createRecipe } = useCreateRecipe();
 
@@ -29,7 +31,14 @@ const NewRecipe = () => {
           headerShown: false,
         }}
       />
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: colors.background,
+        }}
+      >
         <LoadingIndicator />
       </View>
     </>

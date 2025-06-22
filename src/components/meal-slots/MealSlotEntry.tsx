@@ -20,8 +20,6 @@ interface Props {
   onDelete?: (id: string) => void;
 }
 
-const DELETE_WIDTH = 64;
-
 const MealSlotEntry: React.FC<Props> = ({
   entry,
   showSelectedState = false,

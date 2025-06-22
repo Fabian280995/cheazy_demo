@@ -25,6 +25,16 @@ const Recipes = () => {
               shadow
             />
           ),
+
+          headerRight: () => (
+            <HeaderIconButton
+              iconName="plus"
+              text="Rezept"
+              onPress={() => router.push("/recipes/new")}
+              color={colors.text}
+              shadow
+            />
+          ),
         }}
       />
       <RecipesScreen />
