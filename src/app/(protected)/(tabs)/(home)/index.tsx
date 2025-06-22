@@ -2,6 +2,7 @@ import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useMealEntries } from "@/providers/meal-slot-entries";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
@@ -11,6 +12,7 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 const Home = () => {
   const router = useRouter();
   const { colors } = useTheme();
+  const { dayTotals } = useMealEntries();
   const headerOptions = useHeaderOptions({
     title: "Übersicht",
     largeTitle: false,
@@ -41,8 +43,14 @@ const Home = () => {
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
-        <DailyCaloriesCard />
-        <DailyNutritionScoreCard />
+        <DailyCaloriesCard consumedCals={dayTotals.calories} />
+        <DailyNutritionScoreCard
+          consumedMacros={{
+            carbs: dayTotals.carbs,
+            protein: dayTotals.protein,
+            fat: dayTotals.fat,
+          }}
+        />
       </Animated.View>
     </ScrollView>
   );

@@ -1,8 +1,7 @@
 import MealSlot from "@/components/meal-slots/MealSlot";
+import MealSlotHeader from "@/components/meal-slots/MealSlotHeader";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
-import { useMealSlotEntriesQuery } from "@/hooks/meal-entries/useMealSlotEntriesQuery";
-import { useRefreshOnFocus } from "@/hooks/useRefreshOnFocus";
-import { useCalendar } from "@/providers/calendar";
+import { useMealEntries } from "@/providers/meal-slot-entries";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
 import { groupEntriesBySlot } from "@/utils/meals";
@@ -19,15 +18,8 @@ interface Props {}
 
 export default function DiaryScreen({}: Props) {
   const { colors } = useTheme();
-  const { currentDate } = useCalendar();
   const [sections, setSections] = React.useState<Section[]>([]);
-  const {
-    data: mealEntries,
-    isLoading,
-    refetch,
-  } = useMealSlotEntriesQuery(currentDate);
-
-  useRefreshOnFocus(refetch);
+  const { mealEntries, isLoading, dayTotals } = useMealEntries();
 
   React.useEffect(() => {
     const grouped = groupEntriesBySlot(mealEntries ?? []);
@@ -47,6 +39,12 @@ export default function DiaryScreen({}: Props) {
           <ActivityIndicator size="large" color={colors.secondary} />
         </View>
       )}
+      <MealSlotHeader
+        title="Tagesübersicht"
+        totals={dayTotals}
+        isFirst
+        isLast
+      />
       {sections.map((section) => (
         <MealSlot
           key={section.id}

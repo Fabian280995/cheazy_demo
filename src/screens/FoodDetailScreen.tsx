@@ -1,16 +1,12 @@
 import FoodDetailHeader from "@/components/food/FoodDetailHeader";
-import { DateSelect } from "@/components/meal-slots/DateSelect";
-import MealSlotSelect from "@/components/meal-slots/MealSlotSelect";
-import { QuantitySelect } from "@/components/meal-slots/QuantitySelect";
 import { NutritionOverview } from "@/components/nutrition/NutritionOverview";
 import DetailScreenScroll from "@/components/screens/DetailScreenScroll";
 import CategoryIcon from "@/components/shared/icons/CategoryIcon";
 import { foodCategories } from "@/constants/foodCategories";
 import { useTheme } from "@/providers/theme";
-import { FoodCategoryId, FoodModel, MealSlot } from "@/types";
+import { FoodCategoryId, FoodModel } from "@/types";
 import React from "react";
 import { useWindowDimensions, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface Props {
   food: FoodModel;

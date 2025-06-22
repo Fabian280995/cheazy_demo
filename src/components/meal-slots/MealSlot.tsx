@@ -46,7 +46,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
   return (
     <>
       <Animated.View layout={LinearTransition} key={id}>
-        <MealSlotHeader title={title} totals={totals} />
+        <MealSlotHeader title={title} totals={totals} isFirst />
 
         {entries.map((item) => {
           return (
