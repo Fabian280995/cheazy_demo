@@ -1,6 +1,5 @@
 import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
 import React, { useEffect, useMemo } from "react";
 import {
   Text,
@@ -11,7 +10,6 @@ import {
 import Animated, { LinearTransition } from "react-native-reanimated";
 import DayNutriIndicator from "./DayNutriIndicator";
 import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
-import { VerticalNutriBar } from "./VerticalNutritionBar";
 
 // constants
 const GAP = 12;
@@ -41,8 +39,7 @@ const getWeeksByMonth = (year: number, month: number) => {
   return weeks;
 };
 
-const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const MonthOverview = () => {
   const scrollRef = React.useRef<Animated.ScrollView>(null);
   const { width: screenWidth } = useWindowDimensions();
   const { colors } = useTheme();
@@ -80,10 +77,6 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
     }
   }, [currentWeekIndex, weekWidth]);
 
-  useEffect(() => {
-    if (!canOpen) setIsOpen(false);
-  }, [canOpen]);
-
   return (
     <View style={{ marginTop: 16, marginBottom: 16 }}>
       {/* header */}
@@ -96,32 +89,19 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
           justifyContent: "space-between",
         }}
       >
-        <TouchableOpacity
-          onPress={() => setIsOpen(!isOpen)}
-          style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-          disabled={!canOpen}
+        <Text
+          style={{
+            fontFamily: "Nunito",
+            fontSize: 24,
+            fontWeight: "800",
+            color: colors.text,
+          }}
         >
-          <Text
-            style={{
-              fontFamily: "Nunito",
-              fontSize: 24,
-              fontWeight: "800",
-              color: colors.text,
-            }}
-          >
-            {currentDate.toLocaleDateString("de-DE", {
-              month: "long",
-              year: "numeric",
-            })}
-          </Text>
-          {canOpen && (
-            <Feather
-              name={isOpen ? "chevron-up" : "chevron-down"}
-              size={24}
-              color={colors.text}
-            />
-          )}
-        </TouchableOpacity>
+          {currentDate.toLocaleDateString("de-DE", {
+            month: "long",
+            year: "numeric",
+          })}
+        </Text>
         <MonthSwitchHeaderBtns foreground />
       </View>
 
@@ -166,16 +146,10 @@ const MonthOverview = ({ canOpen = false }: { canOpen?: boolean }) => {
                     opacity: inMonth ? 1 : 0.3,
                   }}
                 >
-                  {isOpen && (
-                    <VerticalNutriBar
-                      progress={value / TARGET_CAL}
-                      isCurrentDay={isCurrentDay}
-                    />
-                  )}
                   <DayNutriIndicator
                     size={dayWidth * 0.9}
                     value={value}
-                    ringShown={!isOpen && inMonth}
+                    ringShown={inMonth}
                     target={TARGET_CAL}
                     date={day.getDate()}
                     isCurrentDay={isCurrentDay}
