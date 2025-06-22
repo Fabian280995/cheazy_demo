@@ -8,23 +8,17 @@ import {
 import { AddButton } from "@/components/shared/AddButton";
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
+import { useCreatePersonalGoal } from "@/hooks/personal-goals/useCreatePersonalGoal";
+import { useAuth } from "@/providers/auth";
 import { useTheme } from "@/providers/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import { z } from "zod";
 
-/**
- * ────────────────────────────────────────────────────────────────────────────────
- *  Validation Schema & Types
- * ────────────────────────────────────────────────────────────────────────────────
- *  – Alle Eingaben werden mit `z.coerce.number()` automatisch von String → Number
- *    gecastet. Dadurch bleibt `isValid` verlässlich TRUE, sobald die Werte
- *    innerhalb der Grenzwerte liegen.
- *  – Eine Super-Refine-Funktion stellt sicher, dass die Makro-Summe ≤ 100 % ist.
- */
 const schema = z
   .object({
     calories: z.coerce.number().int().min(0, "Kalorien müssen positiv sein"),
@@ -54,6 +48,8 @@ export type FormValues = z.infer<typeof schema>;
 const NutritionGoalsForm: React.FC = () => {
   const { colors } = useTheme();
   const router = useRouter();
+  const { user } = useAuth();
+  const { mutateAsync: create } = useCreatePersonalGoal();
 
   const {
     control,
@@ -72,6 +68,21 @@ const NutritionGoalsForm: React.FC = () => {
       fat: percentToGrams(30, "fat", 2500),
     },
   });
+
+  const onSubmit = async (data: FormValues) => {
+    if (!user) {
+      console.error("User is not authenticated");
+      return;
+    }
+    await create({
+      kcal: data.calories,
+      proteins_g: data.protein,
+      carbs_g: data.carbs,
+      fats_g: data.fat,
+      started_at: format(new Date(), "yyyy-MM-dd"),
+      user_id: user.id,
+    });
+  };
 
   const [macroPercents, setMacroPercents] = useState<Record<MacroType, number>>(
     () => {
@@ -174,11 +185,9 @@ const NutritionGoalsForm: React.FC = () => {
       <View style={{ marginTop: 16 }}>
         <AddButton
           label="Ziele speichern"
-          onPress={handleSubmit((data) => {
-            console.log("Gespeicherte Ziele:", data);
-          })}
+          onPress={handleSubmit(onSubmit)}
           loading={isSubmitting}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           showIcon={false}
         />
       </View>
