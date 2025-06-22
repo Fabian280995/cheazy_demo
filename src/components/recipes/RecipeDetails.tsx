@@ -1,3 +1,4 @@
+import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
 import { useTheme } from "@/providers/theme";
 import { NutritionTotals, Recipe } from "@/types";
 import React, { useMemo } from "react";
@@ -5,24 +6,22 @@ import {
   ActivityIndicator,
   Text,
   TextInput,
-  Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
 import { QuantitySelect } from "../meal-slots/QuantitySelect";
-import CardHeader from "../shared/CardHeader";
-import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
 import { NutritionOverview } from "../nutrition/NutritionOverview";
+import CardHeader from "../shared/CardHeader";
 
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Feather } from "@expo/vector-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import Animated, {
   FadeIn,
   FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
+import { z } from "zod";
 
 const schema = z.object({
   name: z.string().min(1, "Name erforderlich"),
