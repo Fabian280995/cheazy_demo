@@ -6,15 +6,12 @@ export const getDailyCalories = async ({
   start,
   end,
 }: {
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
 }): Promise<DailyCaloryEntry[]> => {
-  const p_start = format(start, "yyyy-MM-dd");
-  const p_end = format(end, "yyyy-MM-dd");
-
   const { data, error } = await supabase.rpc("daily_calories_inline", {
-    p_start,
-    p_end,
+    p_start: start,
+    p_end: end,
   });
 
   if (error) throw error;

@@ -1,18 +1,21 @@
-// hooks/useDailyCaloriesMutation.ts
+// hooks/useDailyCalories.ts
 import { getDailyCalories } from "@/api/daily-calories";
-import { useMutation } from "@tanstack/react-query";
-// vollständiges Array
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 
-// ---------- Custom Hook -------------------------------------------------
-export function useDailyCaloriesMutation(start: Date, end: Date) {
-  return useMutation({
-    mutationKey: ["daily-calories", start, end],
-    mutationFn: () => getDailyCalories({ start, end }),
-    onError: (error) => {
-      console.error("Error fetching daily calories:", error);
-    },
-    onSuccess: (data) => {
-      console.log("Daily calories fetched successfully:", data);
-    },
+type Params = { start: Date; end: Date };
+
+export function useDailyCalories({ start, end }: Params) {
+  /** Query-Key niemals rohe Date-Objekte geben – die sind referenziell verschieden.
+   *  Besser: in stabile ISO-Strings transformieren. */
+  const keyStart = format(start, "yyyy-MM-dd");
+  const keyEnd = format(end, "yyyy-MM-dd");
+
+  return useQuery({
+    queryKey: ["daily-calories", keyStart, keyEnd],
+    queryFn: () => getDailyCalories({ start: keyStart, end: keyEnd }),
+
+    staleTime: 1000 * 60 * 5,
+    enabled: !!start && !!end,
   });
 }
