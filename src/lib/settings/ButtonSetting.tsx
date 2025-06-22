@@ -14,7 +14,8 @@ export class ButtonSetting extends SettingBase {
     label: string,
     iconName: ComponentProps<typeof Feather>["name"],
     private onPress: () => void,
-    private colors: ThemeColors
+    private colors: ThemeColors,
+    private navigationIndicator?: boolean
   ) {
     super(SettingsType.TOGGLE, key, label, iconName);
   }
@@ -33,6 +34,14 @@ export class ButtonSetting extends SettingBase {
           </SettingIconWrapper>
           <SettingLabel label={this.label} />
         </View>
+
+        {this.navigationIndicator && (
+          <Feather
+            name={"chevron-right"}
+            size={24}
+            color={this.colors.textLight}
+          />
+        )}
       </Pressable>
     );
   }
