@@ -7,13 +7,19 @@ import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 
-const DailyCaloriesCard = () => {
+interface Props {
+  consumedCals?: number;
+  goalCals?: number;
+  deviationInPct?: number;
+}
+
+const DailyCaloriesCard = ({
+  consumedCals = 2600,
+  goalCals = 3000,
+  deviationInPct = 0.05,
+}: Props) => {
   const { colors } = useTheme();
 
-  const consumedCals = 2600;
-  const goalCals = 3000;
-
-  const deviationInPct = 0.05;
   const targetMin = goalCals * (1 - deviationInPct);
   const targetMax = goalCals * (1 + deviationInPct);
 
