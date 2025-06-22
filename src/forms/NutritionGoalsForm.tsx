@@ -1,3 +1,10 @@
+import { CaloriesInput } from "@/components/nutrition/CaloriesInput";
+import {
+  gramsToPercent,
+  MacroHandler,
+  MacroType,
+  percentToGrams,
+} from "@/components/nutrition/MacroHandler";
 import { AddButton } from "@/components/shared/AddButton";
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
@@ -6,12 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Pressable, Switch, Text, TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { Pressable, Switch, Text, View } from "react-native";
 import { z } from "zod";
 
 /**
@@ -19,60 +21,15 @@ import { z } from "zod";
  *  Validation Schema & Types
  * ────────────────────────────────────────────────────────────────────────────────
  */
-const schema = z
-  .object({
-    calories: z.number().int().min(0, "Kalorien müssen positiv sein"),
-    protein: z.number().int().min(0, "Protein muss positiv sein"),
-    carbs: z.number().int().min(0, "Kohlenhydrate müssen positiv sein"),
-    fat: z.number().int().min(0, "Fett muss positiv sein"),
-  })
-  .superRefine((data, ctx) => {
-    const kcalFromMacros = data.protein * 4 + data.carbs * 4 + data.fat * 9;
-    const percent = Math.round(
-      data.calories > 0 ? (kcalFromMacros / data.calories) * 100 : 0
-    );
+const schema = z.object({
+  calories: z.number().int().min(0, "Kalorien müssen positiv sein"),
+  protein: z.number().int().min(0, "Protein muss positiv sein"),
+  carbs: z.number().int().min(0, "Kohlenhydrate müssen positiv sein"),
+  fat: z.number().int().min(0, "Fett muss positiv sein"),
+});
 
-    console.log("Macro Validation", percent, data);
-
-    if (percent > 100 || percent < 100) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Summe der Makros ergibt nicht 100 % der Kalorien",
-      });
-    }
-  });
-
-type MacroType = "protein" | "carbs" | "fat";
 export type FormValues = z.infer<typeof schema>;
 
-const KCAL_PER_GRAM: Record<MacroType, number> = {
-  protein: 4,
-  carbs: 4,
-  fat: 9,
-};
-
-/**
- * Helper conversions
- */
-const gramsToPercent = (
-  grams: number,
-  macro: MacroType,
-  calories: number
-): number =>
-  calories > 0 ? ((grams * KCAL_PER_GRAM[macro]) / calories) * 100 : 0;
-
-const percentToGrams = (
-  percent: number,
-  macro: MacroType,
-  calories: number
-): number =>
-  calories > 0 ? ((percent / 100) * calories) / KCAL_PER_GRAM[macro] : 0;
-
-/**
- * ────────────────────────────────────────────────────────────────────────────────
- *  Main Component
- * ────────────────────────────────────────────────────────────────────────────────
- */
 const NutritionGoalsForm: React.FC = () => {
   const { colors } = useTheme();
   const router = useRouter();
@@ -81,21 +38,14 @@ const NutritionGoalsForm: React.FC = () => {
     useForm<FormValues>({
       resolver: zodResolver(schema),
       defaultValues: {
-        calories: 2000,
-        protein: 150,
-        carbs: 250,
-        fat: 70,
+        calories: 2500,
+        protein: percentToGrams(30, "protein", 2500),
+        carbs: percentToGrams(40, "carbs", 2500),
+        fat: percentToGrams(30, "fat", 2500),
       },
     });
 
-  /**
-   * ------------------------------------------------------
-   *  Local UI / State
-   * ------------------------------------------------------
-   */
   const [macroUnit, setMacroUnit] = React.useState<"g" | "percent">("percent");
-
-  // Persist the *target* percentages so grams can auto-update when calories change
   const [macroPercents, setMacroPercents] = React.useState<
     Record<MacroType, number>
   >({
@@ -104,72 +54,87 @@ const NutritionGoalsForm: React.FC = () => {
     fat: 0,
   });
 
-  // Initialise percentages from default gram values once
-  React.useEffect(() => {
-    const cals = getValues("calories");
+  /** set initial % from default grams */
+  useEffect(() => {
+    const c = getValues("calories");
     setMacroPercents({
-      protein: Math.round(
-        gramsToPercent(getValues("protein"), "protein", cals)
-      ),
-      carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", cals)),
-      fat: Math.round(gramsToPercent(getValues("fat"), "fat", cals)),
+      protein: Math.round(gramsToPercent(getValues("protein"), "protein", c)),
+      carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
+      fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint‑disable‑next‑line react-hooks/exhaustive-deps
   }, []);
 
   const calories = watch("calories");
 
   /**
-   * Re-calculate grams whenever calories or the stored percentages change while
-   * we are in *percent* mode. This keeps the absolute gram numbers in sync.
+   * Sync grams ↔ % whenever % or total calories change (in %‑Modus)
    */
-  React.useEffect(() => {
+  useEffect(() => {
     if (macroUnit === "percent") {
-      (Object.keys(macroPercents) as MacroType[]).forEach((macro) => {
-        const grams = Math.round(
-          percentToGrams(macroPercents[macro], macro, calories)
-        );
-        setValue(macro, grams, { shouldDirty: true, shouldValidate: false });
+      (Object.keys(macroPercents) as MacroType[]).forEach((m) => {
+        setValue(m, Math.round(percentToGrams(macroPercents[m], m, calories)), {
+          shouldDirty: true,
+          shouldValidate: false,
+        });
       });
     }
-  }, [calories, macroPercents, macroUnit, setValue]);
+  }, [macroPercents, calories, macroUnit, setValue]);
 
   /**
-   * Toggle g ↔ %
+   * Toggle Anzeigeeinheit
    */
   const toggleMacroUnit = () => {
     setMacroUnit((prev) => {
       const next = prev === "g" ? "percent" : "g";
-      // When entering percent mode, derive current percentages from stored grams
       if (next === "percent") {
-        const cals = getValues("calories");
+        const c = getValues("calories");
         setMacroPercents({
           protein: Math.round(
-            gramsToPercent(getValues("protein"), "protein", cals)
+            gramsToPercent(getValues("protein"), "protein", c)
           ),
-          carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", cals)),
-          fat: Math.round(gramsToPercent(getValues("fat"), "fat", cals)),
+          carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
+          fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
         });
       }
       return next;
     });
   };
 
-  const handlePercentChange = (macro: MacroType, next: number) =>
-    setMacroPercents(capPercent(macro, next));
+  /**
+   *  Haupt‑Handler für Prozentänderungen – kapselt die "Deckel"‑Logik
+   */
+  const handlePercentChange = (macro: MacroType, next: number) => {
+    setMacroPercents((prev) => {
+      const otherSum = prev.protein + prev.carbs + prev.fat - prev[macro];
+      const capped = Math.min(next, Math.max(0, 100 - otherSum));
+
+      // sofort die korrespondierenden Grammwerte im RHF‐State anpassen
+      setValue(macro, Math.round(percentToGrams(capped, macro, calories)), {
+        shouldDirty: true,
+        shouldValidate: false,
+      });
+
+      // haben wir gecappt? → falls ja, nichts weiter tun; der Input zeigt dann den alten Wert
+      return { ...prev, [macro]: capped };
+    });
+  };
 
   /**
-   * Render
+   * Summe für Warnungen
    */
+  const totalPercent =
+    macroPercents.protein + macroPercents.carbs + macroPercents.fat;
+  const isOver100 = totalPercent > 100;
+
   return (
     <View>
-      {/* ───────────── Calories ───────────── */}
+      {/* Kalorien */}
       <CaloriesInput control={control} />
 
-      {/* ───────────── Macros ───────────── */}
+      {/* Makros */}
       <Card style={{ marginTop: 16 }}>
         <CardHeader title="Makronährstoffe" />
-
         <View
           style={{
             flexDirection: "row",
@@ -178,66 +143,28 @@ const NutritionGoalsForm: React.FC = () => {
             justifyContent: "space-evenly",
           }}
         >
-          {/* Protein */}
-          <Controller
-            control={control}
-            name="protein"
-            render={({ field }) => (
-              <MacroHandler
-                macro="protein"
-                grams={field.value}
-                percent={macroPercents.protein}
-                setPercent={(p) => handlePercentChange("protein", p)}
-                onGramsChange={field.onChange}
-                calories={calories}
-                macroUnit={macroUnit}
-                hasError={
-                  formState.errors.protein !== undefined || !formState.isValid
-                }
-              />
-            )}
-          />
-          {/* Carbs */}
-          <Controller
-            control={control}
-            name="carbs"
-            render={({ field }) => (
-              <MacroHandler
-                macro="carbs"
-                grams={field.value}
-                percent={macroPercents.carbs}
-                setPercent={(p) => handlePercentChange("carbs", p)}
-                onGramsChange={field.onChange}
-                calories={calories}
-                macroUnit={macroUnit}
-                hasError={
-                  formState.errors.carbs !== undefined || !formState.isValid
-                }
-              />
-            )}
-          />
-          {/* Fat */}
-          <Controller
-            control={control}
-            name="fat"
-            render={({ field }) => (
-              <MacroHandler
-                macro="fat"
-                grams={field.value}
-                percent={macroPercents.fat}
-                setPercent={(v) => handlePercentChange("fat", v)}
-                onGramsChange={field.onChange}
-                calories={calories}
-                macroUnit={macroUnit}
-                hasError={
-                  formState.errors.fat !== undefined || !formState.isValid
-                }
-              />
-            )}
-          />
+          {(["protein", "carbs", "fat"] as MacroType[]).map((m) => (
+            <Controller
+              key={m}
+              control={control}
+              name={m}
+              render={({ field }) => (
+                <MacroHandler
+                  macro={m}
+                  grams={field.value}
+                  percent={macroPercents[m]}
+                  onPercentChange={(p) => handlePercentChange(m, p)}
+                  onGramsChange={field.onChange}
+                  calories={calories}
+                  macroUnit={macroUnit}
+                  isOver={isOver100}
+                />
+              )}
+            />
+          ))}
         </View>
 
-        {/* ───────────── Toggle Switch ───────────── */}
+        {/* Einheit‑Switch */}
         <Pressable
           onPress={toggleMacroUnit}
           style={{
@@ -264,6 +191,21 @@ const NutritionGoalsForm: React.FC = () => {
             thumbColor={colors.background}
           />
         </Pressable>
+
+        {isOver100 && (
+          <Text
+            style={{
+              marginTop: 12,
+              color: colors.destructive,
+              fontSize: 14,
+              textAlign: "center",
+              fontFamily: "Nunito",
+              fontWeight: "800",
+            }}
+          >
+            Die Summe aller Makros liegt über 100% der Kalorien!
+          </Text>
+        )}
       </Card>
 
       <View style={{ marginTop: 16 }}>
@@ -279,235 +221,5 @@ const NutritionGoalsForm: React.FC = () => {
     </View>
   );
 };
-
-/**
- * ────────────────────────────────────────────────────────────────────────────────
- *  Sub-Components
- * ────────────────────────────────────────────────────────────────────────────────
- */
-const CaloriesInput: React.FC<{ control: any }> = ({ control }) => {
-  const { colors } = useTheme();
-  const caloryInputRef = React.useRef<TextInput>(null);
-  return (
-    <Pressable onPress={() => caloryInputRef.current?.focus()}>
-      <Card>
-        <Controller
-          control={control}
-          name="calories"
-          render={({ field }) => (
-            <CardHeader title="Kalorien">
-              <TextInput
-                ref={caloryInputRef}
-                value={field.value.toString()}
-                onChangeText={(text) => {
-                  const numValue = Number(text);
-                  field.onChange(
-                    isNaN(numValue) || numValue < 0 ? 0 : numValue
-                  );
-                }}
-                keyboardType="numeric"
-                style={{
-                  flex: 1,
-                  color: colors.text,
-                  paddingRight: 8,
-                  minWidth: 100,
-                  textAlign: "right",
-                  fontSize: 16,
-                  fontWeight: "800",
-                  fontFamily: "Nunito",
-                }}
-              />
-              <Text
-                style={{
-                  color: colors.textLight,
-                  fontSize: 16,
-                  fontWeight: "800",
-                  fontFamily: "Nunito",
-                }}
-              >
-                kcal
-              </Text>
-            </CardHeader>
-          )}
-        />
-      </Card>
-    </Pressable>
-  );
-};
-
-interface MacroHandlerProps {
-  macro: MacroType;
-  grams: number;
-  percent: number;
-  setPercent: (p: number) => void;
-  onGramsChange: (g: number) => void;
-  calories: number;
-  macroUnit: "g" | "percent";
-  hasError?: boolean;
-}
-
-const MacroHandler: React.FC<MacroHandlerProps> = ({
-  macro,
-  grams,
-  percent,
-  setPercent,
-  onGramsChange,
-  calories,
-  macroUnit,
-  hasError = false,
-}) => {
-  const { colors } = useTheme();
-
-  /**
-   * Decide what the user *sees* in the TextInput
-   */
-  const displayValue =
-    macroUnit === "g" ? grams.toString() : percent.toString();
-
-  /**
-   * Handle user edits
-   */
-  const handleChange = (text: string) => {
-    const numeric = Number(text);
-    if (isNaN(numeric)) return;
-
-    if (macroUnit === "g") {
-      // Update grams directly, re-compute percent for internal state
-      onGramsChange(numeric < 0 ? 0 : numeric);
-      setPercent(Math.round(gramsToPercent(numeric, macro, calories)));
-    } else {
-      // Update percent, convert to grams for form state
-      setPercent(numeric < 0 ? 0 : numeric);
-      const g = percentToGrams(numeric, macro, calories);
-      onGramsChange(Math.round(g));
-    }
-  };
-
-  const fillPercent = Math.min(
-    macroUnit === "g" ? gramsToPercent(grams, macro, calories) : percent,
-    100
-  );
-
-  const fill = useSharedValue(fillPercent);
-
-  const numberColor = hasError ? colors.destructive : colors.text;
-  const unitColor = hasError ? colors.textLight : colors.text;
-
-  const barColor =
-    macro === "protein"
-      ? colors.protein
-      : macro === "carbs"
-      ? colors.carbs
-      : colors.fat;
-
-  useEffect(() => {
-    fill.value = withTiming(fillPercent, { duration: 400 });
-  }, [fillPercent]);
-
-  const rStyle = useAnimatedStyle(() => ({
-    height: `${fill.value}%`,
-  }));
-
-  return (
-    <View style={{ alignItems: "center" }}>
-      {/* ───────────── Actual grams over bar */}
-      <Text
-        style={{
-          color: unitColor,
-          fontSize: 14,
-          fontWeight: "800",
-          fontFamily: "Nunito",
-          marginBottom: 4,
-        }}
-      >
-        {grams}g
-      </Text>
-
-      {/* ───────────── Bar */}
-      <View
-        style={{
-          width: 64,
-          height: 164,
-          backgroundColor: colors.background,
-          borderRadius: 16,
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <Animated.View
-          style={[
-            {
-              width: "100%",
-              position: "absolute",
-              bottom: 0,
-              backgroundColor: barColor,
-            },
-            rStyle,
-          ]}
-        />
-      </View>
-
-      {/* ───────────── Input & Unit */}
-      <View
-        style={{
-          marginTop: 8,
-          alignItems: "center",
-          flexDirection: "row",
-        }}
-      >
-        <TextInput
-          value={displayValue}
-          onChangeText={handleChange}
-          keyboardType="numeric"
-          style={{
-            color: numberColor,
-            width: 60,
-            textAlign: "center",
-            padding: 4,
-            borderRadius: 16,
-            fontSize: 16,
-            fontWeight: "800",
-            fontFamily: "Nunito",
-          }}
-        />
-        <Text
-          style={{
-            marginLeft: 4,
-            color: unitColor,
-            fontSize: 16,
-            fontWeight: "800",
-            fontFamily: "Nunito",
-          }}
-        >
-          {macroUnit === "g" ? "g" : "%"}
-        </Text>
-      </View>
-
-      {/* ───────────── Label */}
-      <Text
-        style={{
-          color: colors.textLight,
-          fontSize: 16,
-          fontWeight: "800",
-          fontFamily: "Nunito",
-          textAlign: "center",
-        }}
-      >
-        {macro === "protein"
-          ? "Protein"
-          : macro === "carbs"
-          ? "Kohlenhydrate"
-          : "Fett"}
-      </Text>
-    </View>
-  );
-};
-
-const capPercent =
-  (macro: MacroType, next: number) => (prev: Record<MacroType, number>) => {
-    const otherSum = prev.protein + prev.carbs + prev.fat - prev[macro];
-    const capped = Math.min(next, Math.max(0, 100 - otherSum)); // verhindert > 100 %
-    return { ...prev, [macro]: capped };
-  };
 
 export default NutritionGoalsForm;
