@@ -9,7 +9,7 @@ export const useDeleteRecipe = () => {
   return useMutation({
     mutationKey: ["deleteRecipe"],
     mutationFn: deleteRecipe,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
     },
     onError: (error) => {

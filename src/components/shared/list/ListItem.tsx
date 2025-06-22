@@ -23,7 +23,7 @@ interface BaseProps {
   style?: ViewStyle;
 }
 
-export const ListItem = ({
+export const ListItemBase = ({
   children,
   isFirst = false,
   isLast = false,
@@ -35,9 +35,8 @@ export const ListItem = ({
       layout={LinearTransition}
       style={[
         {
-          paddingVertical: 12,
-          paddingHorizontal: 12,
-          backgroundColor: colors.foreground,
+          backgroundColor: `${colors.foreground}cc`,
+          overflow: "hidden",
         },
         !isLast
           ? { borderBottomWidth: 1, borderBottomColor: colors.border }
@@ -55,6 +54,21 @@ export const ListItem = ({
   );
 };
 
+interface ListItemProps extends BaseProps {}
+
+export const ListItem: React.FC<PropsWithChildren<ListItemProps>> = ({
+  children,
+  isFirst,
+  isLast,
+  style,
+}) => {
+  return (
+    <ListItemBase isFirst={isFirst} isLast={isLast}>
+      <View style={[styles.innerContainer, style]}>{children}</View>
+    </ListItemBase>
+  );
+};
+
 interface PressableListItemProps extends BaseProps {
   onPress: () => void;
 }
@@ -63,11 +77,14 @@ export const PressableListItem: React.FC<
   PropsWithChildren<PressableListItemProps>
 > = ({ children, onPress, isFirst, isLast, style }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <ListItem isFirst={isFirst} isLast={isLast} style={style}>
+    <ListItemBase isFirst={isFirst} isLast={isLast}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.innerContainer, style]}
+      >
         {children}
-      </ListItem>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </ListItemBase>
   );
 };
 
@@ -133,7 +150,7 @@ export const SwipeableListItem: React.FC<
     transform: [{ translateX: translateX.value }],
   }));
   return (
-    <View>
+    <ListItemBase isFirst={isFirst} isLast={isLast}>
       <View
         style={[
           styles.deleteBg,
@@ -148,13 +165,20 @@ export const SwipeableListItem: React.FC<
       </View>
 
       <GestureDetector gesture={gesture}>
-        <Animated.View style={rStyle}>
-          <ListItem isFirst={isFirst} isLast={isLast} style={style}>
-            {children}
-          </ListItem>
+        <Animated.View
+          style={[
+            {
+              backgroundColor: colors.foreground,
+            },
+            styles.innerContainer,
+            style,
+            rStyle,
+          ]}
+        >
+          {children}
         </Animated.View>
       </GestureDetector>
-    </View>
+    </ListItemBase>
   );
 };
 
@@ -167,5 +191,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: DELETE_WIDTH,
+  },
+  innerContainer: {
+    flex: 1,
+    padding: 12,
   },
 });

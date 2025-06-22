@@ -4,6 +4,7 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import EntryNotFoundScreen from "../shared/EntryNotFoundScreen";
 import { PressableListItem, SwipeableListItem } from "../shared/list/ListItem";
 import { RecipeCard } from "./RecipeCard";
+import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
 
 interface Props {
   recipes: Recipe[];
@@ -11,10 +12,15 @@ interface Props {
 }
 
 const RecipesList = ({ recipes, onSelect }: Props) => {
+  const { mutateAsync: deleteRecipe } = useDeleteRecipe();
   const handleRecipeSelect = (recipe: Recipe) => {
     if (onSelect) {
       onSelect(recipe);
     }
+  };
+
+  const handleRecipeDelete = async (recipeId: string) => {
+    await deleteRecipe(recipeId);
   };
 
   if (recipes.length === 0) {
@@ -29,7 +35,7 @@ const RecipesList = ({ recipes, onSelect }: Props) => {
             isFirst={recipe === recipes[0]}
             isLast={recipe === recipes[recipes.length - 1]}
             onPress={() => handleRecipeSelect(recipe)}
-            onDelete={() => console.warn("Delete recipe not implemented")}
+            onDelete={() => handleRecipeDelete(recipe.id)}
             style={{ flex: 1 }}
           >
             <RecipeCard item={recipe} portions={1} />
