@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack } from "expo-router";
 import LoadingIndicator from "@/components/shared/LoadingIndicator";
 import { useCreateRecipe } from "@/hooks/recipes/useCreateRecipe";
@@ -23,6 +23,10 @@ const NewRecipe = () => {
       user_id: user.id,
     });
   };
+
+  useEffect(() => {
+    handleCreateRecipe();
+  }, []);
 
   return (
     <>
