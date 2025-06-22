@@ -29,6 +29,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
         justifyContent: "center",
         alignItems: "center",
         gap: 8,
+        opacity: disabled ? 0.5 : 1,
       }}
       disabled={loading || disabled}
     >

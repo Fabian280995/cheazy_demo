@@ -1,4 +1,5 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
+import NutritionGoalsForm from "@/forms/NutritionGoalsForm";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
@@ -12,6 +13,7 @@ const NutritionGoals = () => {
     title: "Nutrition Goals",
     largeTitle: false,
   });
+
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -19,6 +21,7 @@ const NutritionGoals = () => {
       contentContainerStyle={{
         padding: 16,
       }}
+      keyboardDismissMode="on-drag"
     >
       <Stack.Screen
         options={{
@@ -33,6 +36,8 @@ const NutritionGoals = () => {
           ),
         }}
       />
+
+      <NutritionGoalsForm />
     </ScrollView>
   );
 };
