@@ -41,10 +41,13 @@ export const createRecipe = async (
   };
 };
 
-export const updateRecipe = async (
-  recipeId: string,
-  updatedRecipe: RecipeModelForUpdate
-): Promise<Recipe> => {
+export const updateRecipe = async ({
+  recipeId,
+  updatedRecipe,
+}: {
+  recipeId: string;
+  updatedRecipe: RecipeModelForUpdate;
+}): Promise<Recipe> => {
   const { data, error } = await supabase
     .from("recipes")
     .update(updatedRecipe)
