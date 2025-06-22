@@ -49,6 +49,7 @@ const HeaderIconButton = ({
           borderRadius: 100,
           opacity: disabled ? 0.5 : 1,
           backgroundColor: colors.foreground,
+          paddingHorizontal: text ? 8 : 0,
         },
         shadow && {
           shadowColor: colors.shadow,
@@ -76,6 +77,8 @@ const HeaderIconButton = ({
               style={{
                 color: color ? color : colors.text,
                 marginLeft: 4,
+                fontFamily: "Nunito",
+                fontWeight: "700",
               }}
             >
               {text}

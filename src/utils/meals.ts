@@ -1,4 +1,3 @@
-import { isFoodItem } from "@/components/meal-slots/MealSlotEntry";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import {
   FoodItem,
@@ -7,6 +6,10 @@ import {
   NutritionTotals,
   Recipe,
 } from "@/types";
+
+export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
+  return (entry as FoodItem).calories_per_100 !== undefined;
+}
 
 // Hilfsmapping: MealSlotId → sortOrder
 const slotOrderMap: Record<MealSlotId, number> = MEAL_SLOTS.reduce(
@@ -47,7 +50,7 @@ export function groupEntriesBySlot(
  * Liefert die Nährwerte für ein einzelnes FoodItem
  * (Menge wird als Gramm interpretiert).
  */
-const getNutritionForFoodItem = (item: FoodItem): NutritionTotals => {
+export const getNutritionForFoodItem = (item: FoodItem): NutritionTotals => {
   const factor = item.quantity / 100; // Menge relativ zu 100 g
   return {
     calories: item.calories_per_100 * factor,
@@ -57,17 +60,11 @@ const getNutritionForFoodItem = (item: FoodItem): NutritionTotals => {
   };
 };
 
-/**
- * Liefert die Nährwerte für Recipe **oder** FoodItem.
- * Für ein Recipe werden die Zutaten rekursiv aufsummiert.
- */
-const getNutritionForEntry = (entry: FoodItem | Recipe): NutritionTotals => {
-  if (isFoodItem(entry)) {
-    return getNutritionForFoodItem(entry);
-  }
-
-  // Entry ist ein Recipe
-  return entry.ingredients.reduce<NutritionTotals>(
+export const getNutritionForRecipe = (
+  recipe: Recipe,
+  portions: number
+): NutritionTotals => {
+  const totals = recipe.ingredients.reduce<NutritionTotals>(
     (acc, ingredient) => {
       const n = getNutritionForFoodItem(ingredient);
       return {
@@ -79,6 +76,29 @@ const getNutritionForEntry = (entry: FoodItem | Recipe): NutritionTotals => {
     },
     { calories: 0, protein: 0, carbs: 0, fat: 0 }
   );
+
+  return {
+    calories: (totals.calories / recipe.servings) * portions,
+    protein: (totals.protein / recipe.servings) * portions,
+    carbs: (totals.carbs / recipe.servings) * portions,
+    fat: (totals.fat / recipe.servings) * portions,
+  };
+};
+
+/**
+ * Liefert die Nährwerte für Recipe **oder** FoodItem.
+ * Für ein Recipe werden die Zutaten rekursiv aufsummiert.
+ */
+const getNutritionForEntry = (
+  entry: FoodItem | Recipe,
+  portions: number
+): NutritionTotals => {
+  if (isFoodItem(entry)) {
+    return getNutritionForFoodItem(entry);
+  }
+
+  // Entry ist ein Recipe
+  return getNutritionForRecipe(entry, portions);
 };
 
 /**
@@ -86,8 +106,8 @@ const getNutritionForEntry = (entry: FoodItem | Recipe): NutritionTotals => {
  */
 export const calcTotals = (entries: MealSlotEntry[]): NutritionTotals =>
   entries.reduce<NutritionTotals>(
-    (acc, { entry }) => {
-      const n = getNutritionForEntry(entry);
+    (acc, { entry, portions }) => {
+      const n = getNutritionForEntry(entry, portions);
       return {
         calories: acc.calories + n.calories,
         protein: acc.protein + n.protein,

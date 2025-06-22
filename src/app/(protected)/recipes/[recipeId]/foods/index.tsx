@@ -1,19 +1,30 @@
+import FoodSearch from "@/components/food/FoodSearch";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useRecipe } from "@/providers/recipe";
 import { useTheme } from "@/providers/theme";
-import RecipesScreen from "@/screens/RecipesScreen";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const Recipes = () => {
+const RecipeFoods = () => {
   const router = useRouter();
+  const { recipe } = useRecipe();
   const { colors } = useTheme();
   const headerOptions = useHeaderOptions({
-    title: "Deine Rezepte",
+    title: recipe.name,
     largeTitle: false,
   });
+
+  const handleSelect = (id: string) => {
+    router.push(`/recipes/${recipe.id}/foods/${id}`);
+    return;
+  };
+
   return (
-    <>
+    <SafeAreaView
+      style={{ flex: 1, marginTop: 42, backgroundColor: colors.background }}
+    >
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -25,21 +36,11 @@ const Recipes = () => {
               shadow
             />
           ),
-
-          headerRight: () => (
-            <HeaderIconButton
-              iconName="plus"
-              text="Rezept"
-              onPress={() => router.push("/recipes/new")}
-              color={colors.text}
-              shadow
-            />
-          ),
         }}
       />
-      <RecipesScreen />
-    </>
+      <FoodSearch onSelect={handleSelect} />
+    </SafeAreaView>
   );
 };
 
-export default Recipes;
+export default RecipeFoods;

@@ -6,15 +6,14 @@ interface DateSelectProps {
   /** Aktuell ausgewähltes Datum */
   date: Date;
   /** Callback, z.B. zum Öffnen eines DatePickers */
-  onPress: () => void;
+  onPress: (date: Date) => void;
 }
 
 export const DateSelect: React.FC<DateSelectProps> = ({ date, onPress }) => {
   const { colors } = useTheme();
-
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => onPress(date)}
       style={{
         flex: 1,
         borderRadius: 16,

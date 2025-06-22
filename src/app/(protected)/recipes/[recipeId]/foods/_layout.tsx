@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import React from "react";
 
-function FoodsLayout() {
+function RecipeFoodsLayout() {
   return (
     <Stack
       screenOptions={{
@@ -13,4 +13,4 @@ function FoodsLayout() {
   );
 }
 
-export default FoodsLayout;
+export default RecipeFoodsLayout;

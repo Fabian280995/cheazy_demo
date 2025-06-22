@@ -52,7 +52,7 @@ export type Database = {
           food_id: string | null
           id: string
           portions: number | null
-          quantity_g: number | null
+          quantity_g: number
           recipe_id: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id: string
@@ -63,7 +63,7 @@ export type Database = {
           food_id?: string | null
           id?: string
           portions?: number | null
-          quantity_g?: number | null
+          quantity_g?: number
           recipe_id?: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id?: string
@@ -74,7 +74,7 @@ export type Database = {
           food_id?: string | null
           id?: string
           portions?: number | null
-          quantity_g?: number | null
+          quantity_g?: number
           recipe_id?: string | null
           slot?: Database["public"]["Enums"]["meal_slot"]
           user_id?: string

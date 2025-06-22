@@ -87,6 +87,70 @@ export async function updateFoodMealEntry({
   return data;
 }
 
+export async function createRecipeMealEntry({
+  date,
+  slot,
+  recipeId,
+  userId,
+  portions,
+}: {
+  date: Date;
+  slot: MealSlotId;
+  recipeId: string;
+  userId: string;
+  portions: number;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .insert({
+      date: formattedDate,
+      slot,
+      entry_type: "recipe",
+      recipe_id: recipeId,
+      user_id: userId,
+      portions,
+    })
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function updateRecipeMealEntry({
+  id,
+  date,
+  slot,
+  recipeId,
+  portions,
+}: {
+  id: string;
+  date: Date;
+  slot: MealSlotId;
+  recipeId: string;
+  portions: number;
+}): Promise<MeaLEntryModel> {
+  const formattedDate = format(date, "yyyy-MM-dd"); // z.B. mit date-fns // Format date to YYYY-MM-DD
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .update({
+      date: formattedDate,
+      slot,
+      entry_type: "recipe",
+      recipe_id: recipeId,
+      portions,
+    })
+    .eq("id", id)
+    .select("*")
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}
+
 export async function deleteMealEntry(id: string): Promise<void> {
   const { error } = await supabase.from("meal_entries").delete().eq("id", id);
   if (error) throw error;
@@ -99,7 +163,7 @@ export async function getMealSlotEntriesByDate(
   const { data, error } = await supabase
     .from("meal_entries")
     .select(
-      "*, food: food_id(*), recipe: recipe_id(*, recipe_components: recipe_components(*, food: food_id(*)))"
+      "*, food: food_id(*), recipe: recipe_id(*, recipe_ingredients: recipe_ingredients(*, food: food_id(*)))"
     )
     .eq("date", formattedDate);
 
@@ -115,6 +179,7 @@ export async function getMealSlotEntriesByDate(
       id: entry.id,
       date: new Date(entry.date),
       type: entry.entry_type,
+      portions: entry.portions || 1, // Default on food ist NULL, for this reason we set default to 1
       mealSlot:
         MEAL_SLOTS.find(
           (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()
@@ -138,8 +203,9 @@ export async function getMealSlotEntriesByDate(
               id: entry.recipe.id,
               name: entry.recipe.name,
               description: entry.recipe.description,
-              ingredients: entry.recipe.recipe_components
-                ? entry.recipe.recipe_components.map(
+              servings: entry.recipe.servings,
+              ingredients: entry.recipe.recipe_ingredients
+                ? entry.recipe.recipe_ingredients.map(
                     (rc) =>
                       ({
                         id: rc.food_id,

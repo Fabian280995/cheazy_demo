@@ -2,12 +2,10 @@ import { useTheme } from "@/providers/theme";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
-import { EdgeInsets } from "react-native-safe-area-context";
 
 interface AddButtonProps {
   onPress: () => void;
   label: string;
-  insets: EdgeInsets;
   loading?: boolean;
   disabled?: boolean;
 }
@@ -15,7 +13,6 @@ interface AddButtonProps {
 export const AddButton: React.FC<AddButtonProps> = ({
   onPress,
   label,
-  insets,
   loading = false,
   disabled = false,
 }) => {
@@ -24,10 +21,6 @@ export const AddButton: React.FC<AddButtonProps> = ({
     <TouchableOpacity
       onPress={onPress}
       style={{
-        position: "absolute",
-        bottom: insets.bottom + 16,
-        left: 24,
-        right: 24,
         paddingVertical: 12,
         paddingHorizontal: 24,
         backgroundColor: colors.primary,
@@ -51,6 +44,8 @@ export const AddButton: React.FC<AddButtonProps> = ({
           fontWeight: "700",
           color: colors.textForeground,
         }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
       >
         {label}
       </Text>
