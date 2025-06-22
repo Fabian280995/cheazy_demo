@@ -5,8 +5,15 @@ import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
 import NutritionBar from "../nutrition/NutritionBar";
+import { Macros } from "@/types/nutrition";
 
-const DailyNutritionScoreCard = () => {
+const DailyNutritionScoreCard = ({
+  consumedMacros,
+  targetMacros = { fat: 80, carbs: 300, protein: 180 },
+}: {
+  consumedMacros: Macros;
+  targetMacros?: Macros;
+}) => {
   const { colors, categoryColors } = useTheme();
   return (
     <Card>
@@ -24,20 +31,20 @@ const DailyNutritionScoreCard = () => {
       <View style={{ marginTop: 12, gap: 12 }}>
         <NutritionBar
           name="Carbohydrates"
-          value={320}
-          target={300}
+          value={consumedMacros.carbs}
+          target={targetMacros.carbs}
           categoryColorProfile="carbs"
         />
         <NutritionBar
           name="Fats"
-          value={70}
-          target={80}
+          value={consumedMacros.fat}
+          target={targetMacros.fat}
           categoryColorProfile="fat"
         />
         <NutritionBar
           name="Protein"
-          value={75}
-          target={180}
+          value={consumedMacros.protein}
+          target={targetMacros.protein}
           categoryColorProfile="protein"
         />
       </View>

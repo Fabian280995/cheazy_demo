@@ -44,7 +44,13 @@ const Home = () => {
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
         <DailyCaloriesCard consumedCals={dayTotals.calories} />
-        <DailyNutritionScoreCard />
+        <DailyNutritionScoreCard
+          consumedMacros={{
+            carbs: dayTotals.carbs,
+            protein: dayTotals.protein,
+            fat: dayTotals.fat,
+          }}
+        />
       </Animated.View>
     </ScrollView>
   );
