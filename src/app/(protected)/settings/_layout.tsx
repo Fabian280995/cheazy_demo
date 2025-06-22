@@ -11,6 +11,7 @@ function SettingsLayout() {
           headerTransparent: true,
           headerBackground: () => <ScreenHeaderBackgroundGradient />,
           contentStyle: { backgroundColor: "transparent" },
+          headerShown: false,
         }}
       >
         <Stack.Screen name="index" />

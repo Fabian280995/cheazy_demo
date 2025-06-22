@@ -1,16 +1,15 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
-import SettingsList from "@/components/settings/SettingsList";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView } from "react-native";
 
-const Settings = () => {
+const NutritionGoals = () => {
   const { colors } = useTheme();
   const router = useRouter();
   const headerOptions = useHeaderOptions({
-    title: "Einstellungen",
+    title: "Nutrition Goals",
     largeTitle: false,
   });
   return (
@@ -34,9 +33,8 @@ const Settings = () => {
           ),
         }}
       />
-      <SettingsList />
     </ScrollView>
   );
 };
 
-export default Settings;
+export default NutritionGoals;
