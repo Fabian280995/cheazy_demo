@@ -8,6 +8,7 @@ interface AddButtonProps {
   label: string;
   loading?: boolean;
   disabled?: boolean;
+  showIcon?: boolean;
 }
 
 export const AddButton: React.FC<AddButtonProps> = ({
@@ -15,12 +16,14 @@ export const AddButton: React.FC<AddButtonProps> = ({
   label,
   loading = false,
   disabled = false,
+  showIcon = true,
 }) => {
   const { colors } = useTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
+        height: 48,
         paddingVertical: 12,
         paddingHorizontal: 24,
         backgroundColor: colors.primary,
@@ -35,9 +38,9 @@ export const AddButton: React.FC<AddButtonProps> = ({
     >
       {loading ? (
         <ActivityIndicator size="small" color={colors.textForeground} />
-      ) : (
+      ) : showIcon ? (
         <Feather name="plus" size={24} color={colors.textForeground} />
-      )}
+      ) : null}
       <Text
         style={{
           fontFamily: "Inter",

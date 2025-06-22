@@ -179,6 +179,7 @@ const NutritionGoalsForm: React.FC = () => {
           })}
           loading={isSubmitting}
           disabled={!isValid}
+          showIcon={false}
         />
       </View>
     </View>
