@@ -11,6 +11,7 @@ import { useFood } from "@/providers/food";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { MealSlot } from "@/types";
+import { set } from "date-fns";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 
@@ -72,6 +73,13 @@ const FoodDetail = () => {
 
   useEffect(() => {
     if (mealEntryData) {
+      setQuantity(mealEntryData.quantity_g || 100);
+      setDatetime(
+        mealEntryData.date ? new Date(mealEntryData.date) : currentDate
+      );
+      setMealSlot(
+        MEAL_SLOTS.find((m) => m.id === mealEntryData.slot) || MEAL_SLOTS[0]
+      );
       setBottomSheetOpen(true);
     }
   }, [mealEntryData]);
