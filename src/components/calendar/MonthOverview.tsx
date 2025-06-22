@@ -98,7 +98,7 @@ const WeekRow: React.FC<WeekRowProps> = ({
 }) => {
   const { currentDate } = useCalendar();
 
-  const { data: weekCalories } = useDailyCalories({
+  const { data: weekCalories, isLoading } = useDailyCalories({
     start: week[0],
     end: week[6],
   });
@@ -162,8 +162,6 @@ const MonthOverview: React.FC = () => {
     () => weeks.findIndex((w) => w.some((d) => isSameDay(d, currentDate))),
     [weeks, currentDate]
   );
-
-  const visibleWeek = weeks[currentWeekIndex] ?? weeks[0];
 
   React.useEffect(() => {
     if (currentWeekIndex !== -1) {
