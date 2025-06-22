@@ -5,3 +5,5 @@ export * from "./settings";
 export * from "./food";
 export * from "./meal-entries";
 export * from "./recipes";
+export * from "./nutrition";
+export * from "./goals";

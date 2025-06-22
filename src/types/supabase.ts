@@ -52,7 +52,7 @@ export type Database = {
           food_id: string | null
           id: string
           portions: number | null
-          quantity_g: number
+          quantity_g: number | null
           recipe_id: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id: string
@@ -63,7 +63,7 @@ export type Database = {
           food_id?: string | null
           id?: string
           portions?: number | null
-          quantity_g?: number
+          quantity_g?: number | null
           recipe_id?: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id?: string
@@ -74,7 +74,7 @@ export type Database = {
           food_id?: string | null
           id?: string
           portions?: number | null
-          quantity_g?: number
+          quantity_g?: number | null
           recipe_id?: string | null
           slot?: Database["public"]["Enums"]["meal_slot"]
           user_id?: string
@@ -96,6 +96,47 @@ export type Database = {
           },
           {
             foreignKeyName: "meal_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      personal_goals: {
+        Row: {
+          carbs_g: number
+          created_at: string
+          fats_g: number
+          id: string
+          kcal: number
+          proteins_g: number
+          started_at: string
+          user_id: string | null
+        }
+        Insert: {
+          carbs_g: number
+          created_at?: string
+          fats_g: number
+          id?: string
+          kcal: number
+          proteins_g: number
+          started_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          carbs_g?: number
+          created_at?: string
+          fats_g?: number
+          id?: string
+          kcal?: number
+          proteins_g?: number
+          started_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "personal_goals_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
