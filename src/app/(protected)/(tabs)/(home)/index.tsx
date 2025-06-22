@@ -1,6 +1,5 @@
 import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
-import MonthOverview from "@/components/calendar/MonthOverview";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useTheme } from "@/providers/theme";
@@ -21,6 +20,7 @@ const Home = () => {
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1 }}
       contentContainerStyle={{
+        paddingTop: 32,
         paddingBottom: 96,
       }}
     >
@@ -37,7 +37,6 @@ const Home = () => {
           ),
         }}
       />
-      <MonthOverview canOpen />
       <Animated.View
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}

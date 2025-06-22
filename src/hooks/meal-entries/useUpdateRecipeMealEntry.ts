@@ -10,6 +10,10 @@ export const useUpdateRecipeMealEntry = () => {
       queryClient.invalidateQueries({
         queryKey: ["mealEntries", new Date(data.date)],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["daily-calories"],
+        exact: false,
+      });
     },
     onError: (error) => {
       console.error("Error updating recipe meal entry:", error);

@@ -189,6 +189,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      daily_calories_inline: {
+        Args: { p_start: string; p_end: string }
+        Returns: {
+          day: string
+          kcal: number
+        }[]
+      }
       pgroonga_command: {
         Args:
           | { groongacommand: string }
