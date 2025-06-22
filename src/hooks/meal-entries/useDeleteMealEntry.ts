@@ -6,9 +6,13 @@ export const useDeleteMealEntry = () => {
   return useMutation({
     mutationKey: ["deleteMealEntry"],
     mutationFn: deleteMealEntry,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["mealEntries"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["daily-calories"],
+        exact: false,
       });
     },
     onError: (error) => {
