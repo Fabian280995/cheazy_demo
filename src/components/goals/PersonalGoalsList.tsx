@@ -10,10 +10,14 @@ interface Props {
 
 const PersonalGoalsList = ({ personalGoals }: Props) => {
   return (
-    <View style={{ padding: 16 }}>
+    <View style={{ marginTop: 32 }}>
       {personalGoals.length > 0 ? (
-        personalGoals.map((goal) => (
-          <SwipeableListItem key={goal.id}>
+        personalGoals.map((goal, index) => (
+          <SwipeableListItem
+            key={goal.id}
+            isFirst={index === 0}
+            isLast={index === personalGoals.length - 1}
+          >
             <PersonalGoalsCard personalGoal={goal} />
           </SwipeableListItem>
         ))
