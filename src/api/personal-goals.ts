@@ -21,12 +21,10 @@ export const createPersonalGoal = async (
 export const getActivePersonalGoal = async (
   date: string
 ): Promise<PersonalGoal | null> => {
-  const formattedDate = format(new Date(date), "yyyy-MM-dd");
-
   const { data, error } = await supabase
     .from("personal_goals")
     .select("*")
-    .lte("started_at", formattedDate)
+    .lte("started_at", date)
     .order("started_at", { ascending: false })
     .limit(1)
     .single();
