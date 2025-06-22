@@ -10,6 +10,5 @@ export const useRecipeByIdQuery = (id: string) => {
       if (!user) throw new Error("User not authenticated");
       return getRecipeById(user.id, id);
     },
-    enabled: !!id && !!user,
   });
 };
