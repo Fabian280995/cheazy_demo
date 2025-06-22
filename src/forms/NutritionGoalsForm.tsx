@@ -131,10 +131,8 @@ const NutritionGoalsForm: React.FC = () => {
 
   return (
     <View>
-      {/* Kalorien */}
       <CaloriesInput control={control} />
 
-      {/* Makros */}
       <Card style={{ marginTop: 16 }}>
         <CardHeader title="Makronährstoffe" />
         <View
