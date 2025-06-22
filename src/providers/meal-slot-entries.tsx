@@ -42,7 +42,7 @@ export const MealEntriesProvider: React.FC<
   }
 
   useEffect(() => {
-    if (mealEntries && mealEntries.length > 0) {
+    if (mealEntries) {
       setTotals(calcTotals(mealEntries));
     }
   }, [mealEntries]);
