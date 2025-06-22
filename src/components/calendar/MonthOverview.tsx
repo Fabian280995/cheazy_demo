@@ -1,85 +1,189 @@
-import { useCalendar } from "@/providers/calendar";
-import { useTheme } from "@/providers/theme";
-import React, { useEffect, useMemo } from "react";
 import {
+  addDays,
+  endOfMonth,
+  format,
+  isSameDay,
+  isSameMonth,
+  isToday,
+  startOfWeek,
+} from "date-fns";
+import { de } from "date-fns/locale";
+import React, { useCallback, useMemo, useRef } from "react";
+import {
+  FlatList,
   Text,
   TouchableOpacity,
-  View,
   useWindowDimensions,
+  View,
 } from "react-native";
-import Animated, { LinearTransition } from "react-native-reanimated";
+
+import { useDailyCalories } from "@/hooks/nutrition/useDailyCalories";
+import { useCalendar } from "@/providers/calendar";
+import { useTheme } from "@/providers/theme";
+
 import DayNutriIndicator from "./DayNutriIndicator";
 import MonthSwitchHeaderBtns from "./MonthSwitchHeaderBtns";
 
-// constants
-const GAP = 12;
+const DAY_GAP = 12;
 const WEEK_GAP = 24;
 const SCROLL_HORIZONTAL_PADDING = 8;
 const TARGET_CAL = 3200;
 
-// build calendar weeks (always Monday–Sunday)
-const getWeeksByMonth = (year: number, month: number) => {
+function buildWeeks(year: number, month: number): Date[][] {
   const firstOfMonth = new Date(year, month, 1);
-  const lastOfMonth = new Date(year, month + 1, 0);
-  const firstMondayOffset = (firstOfMonth.getDay() + 6) % 7;
-  const calendarStart = new Date(firstOfMonth);
-  calendarStart.setDate(firstOfMonth.getDate() - firstMondayOffset);
+  const calendarStart = startOfWeek(firstOfMonth, { weekStartsOn: 1 });
+  const lastOfMonth = endOfMonth(firstOfMonth);
 
   const weeks: Date[][] = [];
-  let cursor = new Date(calendarStart);
+  let cursor = calendarStart;
 
   while (cursor <= lastOfMonth || weeks[weeks.length - 1]?.length !== 7) {
     const week: Date[] = [];
     for (let i = 0; i < 7; i++) {
-      week.push(new Date(cursor));
-      cursor.setDate(cursor.getDate() + 1);
+      week.push(cursor);
+      cursor = addDays(cursor, 1);
     }
     weeks.push(week);
   }
   return weeks;
+}
+
+interface DayCellProps {
+  day: Date;
+  width: number;
+  inMonth: boolean;
+  isCurrentDay: boolean;
+  kcal: number | undefined;
+  onPress: () => void;
+}
+
+const DayCell: React.FC<DayCellProps> = ({
+  day,
+  width,
+  inMonth,
+  isCurrentDay,
+  kcal,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{ alignItems: "center", width, opacity: inMonth ? 1 : 0.3 }}
+    >
+      <DayNutriIndicator
+        size={width * 0.9}
+        value={kcal ?? 0}
+        ringShown={inMonth}
+        target={TARGET_CAL}
+        date={day.getDate()}
+        isCurrentDay={isCurrentDay}
+        isToday={isToday(day)}
+      />
+    </TouchableOpacity>
+  );
 };
 
-const MonthOverview = () => {
-  const scrollRef = React.useRef<Animated.ScrollView>(null);
+interface WeekRowProps {
+  week: Date[];
+  weekIdx: number;
+  dayWidth: number;
+  onDayPress: (date: Date, weekIdx: number) => void;
+}
+
+const WeekRow: React.FC<WeekRowProps> = ({
+  week,
+  weekIdx,
+  dayWidth,
+  onDayPress,
+}) => {
+  const { currentDate } = useCalendar();
+
+  const { data: weekCalories } = useDailyCalories({
+    start: week[0],
+    end: week[6],
+  });
+
+  const kcalMap = useMemo(() => {
+    const map: Record<string, number | undefined> = {};
+    weekCalories?.forEach((row) => {
+      map[row.day] = row.kcal;
+    });
+    return map;
+  }, [weekCalories]);
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        gap: DAY_GAP,
+        width: dayWidth * 7 + DAY_GAP * 6,
+      }}
+    >
+      {week.map((day, dayIdx) => {
+        const key = format(day, "yyyy-MM-dd");
+        const kcal = kcalMap[key];
+        const inMonth = isSameMonth(day, currentDate);
+        const isCurrentDay = isSameDay(day, currentDate);
+
+        return (
+          <DayCell
+            key={dayIdx}
+            day={day}
+            width={dayWidth}
+            inMonth={inMonth}
+            isCurrentDay={isCurrentDay}
+            kcal={kcal}
+            onPress={() => onDayPress(day, weekIdx)}
+          />
+        );
+      })}
+    </View>
+  );
+};
+
+const MonthOverview: React.FC = () => {
   const { width: screenWidth } = useWindowDimensions();
   const { colors } = useTheme();
   const { currentDate, updateCurrentDate } = useCalendar();
-  const today = useMemo(() => new Date(), []);
+  const scrollRef = useRef<FlatList<Date[]>>(null);
 
   const dayWidth = useMemo(
-    () => (screenWidth - SCROLL_HORIZONTAL_PADDING * 2 - GAP * 6) / 7,
+    () => (screenWidth - SCROLL_HORIZONTAL_PADDING * 2 - DAY_GAP * 6) / 7,
     [screenWidth]
   );
-  const weekWidth = useMemo(() => dayWidth * 7 + GAP * 6, [dayWidth]);
+  const weekWidth = useMemo(() => dayWidth * 7 + DAY_GAP * 6, [dayWidth]);
+
   const weeks = useMemo(
-    () => getWeeksByMonth(currentDate.getFullYear(), currentDate.getMonth()),
-    [currentDate.getFullYear(), currentDate.getMonth()]
+    () => buildWeeks(currentDate.getFullYear(), currentDate.getMonth()),
+    [currentDate]
   );
+
   const currentWeekIndex = useMemo(
-    () =>
-      weeks.findIndex((w) =>
-        w.some(
-          (d) =>
-            d.getDate() === currentDate.getDate() &&
-            d.getMonth() === currentDate.getMonth()
-        )
-      ),
+    () => weeks.findIndex((w) => w.some((d) => isSameDay(d, currentDate))),
     [weeks, currentDate]
   );
 
-  // keep scroll synced with currentDate
-  useEffect(() => {
-    if (scrollRef.current && currentWeekIndex !== -1) {
-      scrollRef.current.scrollTo({
-        x: currentWeekIndex * (weekWidth + WEEK_GAP),
+  const visibleWeek = weeks[currentWeekIndex] ?? weeks[0];
+
+  React.useEffect(() => {
+    if (currentWeekIndex !== -1) {
+      scrollRef.current?.scrollToIndex({
+        index: currentWeekIndex,
         animated: true,
       });
     }
-  }, [currentWeekIndex, weekWidth]);
+  }, [currentWeekIndex]);
+
+  const handleDayPress = useCallback(
+    (date: Date, weekIdx: number) => {
+      updateCurrentDate(date);
+      scrollRef.current?.scrollToIndex({ index: weekIdx, animated: true });
+    },
+    [updateCurrentDate]
+  );
 
   return (
     <View style={{ marginTop: 16, marginBottom: 16 }}>
-      {/* header */}
       <View
         style={{
           paddingHorizontal: 16,
@@ -97,74 +201,37 @@ const MonthOverview = () => {
             color: colors.text,
           }}
         >
-          {currentDate.toLocaleDateString("de-DE", {
-            month: "long",
-            year: "numeric",
-          })}
+          {format(currentDate, "MMMM yyyy", { locale: de })}
         </Text>
         <MonthSwitchHeaderBtns foreground />
       </View>
 
-      {/* week scroll */}
-      <Animated.ScrollView
+      <FlatList
+        data={weeks}
+        keyExtractor={(_, idx) => idx.toString()}
         horizontal
         ref={scrollRef}
-        layout={LinearTransition}
         showsHorizontalScrollIndicator={false}
+        getItemLayout={(_, index) => ({
+          length: weekWidth + WEEK_GAP,
+          offset: (weekWidth + WEEK_GAP) * index,
+          index,
+        })}
         snapToInterval={weekWidth + WEEK_GAP}
         decelerationRate="fast"
         contentContainerStyle={{
           paddingHorizontal: SCROLL_HORIZONTAL_PADDING,
           gap: WEEK_GAP,
         }}
-      >
-        {weeks.map((week, weekIdx) => (
-          <View
-            key={weekIdx}
-            style={{ flexDirection: "row", gap: GAP, width: weekWidth }}
-          >
-            {week.map((day, dayIdx) => {
-              const value = Math.random() * TARGET_CAL;
-              const isCurrentDay =
-                day.getDate() === currentDate.getDate() &&
-                day.getMonth() === currentDate.getMonth();
-              const inMonth = day.getMonth() === currentDate.getMonth();
-
-              return (
-                <TouchableOpacity
-                  key={dayIdx}
-                  onPress={() => {
-                    updateCurrentDate(day);
-                    scrollRef.current?.scrollTo({
-                      x: weekIdx * (weekWidth + WEEK_GAP),
-                      animated: true,
-                    });
-                  }}
-                  style={{
-                    alignItems: "center",
-                    width: dayWidth,
-                    opacity: inMonth ? 1 : 0.3,
-                  }}
-                >
-                  <DayNutriIndicator
-                    size={dayWidth * 0.9}
-                    value={value}
-                    ringShown={inMonth}
-                    target={TARGET_CAL}
-                    date={day.getDate()}
-                    isCurrentDay={isCurrentDay}
-                    isToday={
-                      day.getDate() === today.getDate() &&
-                      day.getMonth() === today.getMonth() &&
-                      day.getFullYear() === today.getFullYear()
-                    }
-                  />
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        ))}
-      </Animated.ScrollView>
+        renderItem={({ item: week, index }) => (
+          <WeekRow
+            week={week}
+            weekIdx={index}
+            dayWidth={dayWidth}
+            onDayPress={handleDayPress}
+          />
+        )}
+      />
     </View>
   );
 };
