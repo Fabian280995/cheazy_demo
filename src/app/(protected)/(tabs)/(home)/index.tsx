@@ -20,6 +20,7 @@ const Home = () => {
       contentInsetAdjustmentBehavior="automatic"
       style={{ flex: 1 }}
       contentContainerStyle={{
+        paddingTop: 32,
         paddingBottom: 96,
       }}
     >
