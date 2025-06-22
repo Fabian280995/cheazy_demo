@@ -4,7 +4,16 @@ import {
   PersonalGoalForCreate,
   PersonalGoalForUpdate,
 } from "@/types";
-import { format } from "date-fns";
+
+export const getPersonalGoals = async (): Promise<PersonalGoal[]> => {
+  const { data, error } = await supabase
+    .from("personal_goals")
+    .select("*")
+    .order("started_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+};
 
 export const createPersonalGoal = async (
   goal: PersonalGoalForCreate
