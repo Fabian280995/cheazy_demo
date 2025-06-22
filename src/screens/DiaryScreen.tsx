@@ -1,9 +1,6 @@
 import MealSlot from "@/components/meal-slots/MealSlot";
 import MealSlotHeader from "@/components/meal-slots/MealSlotHeader";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
-import { useMealSlotEntriesQuery } from "@/hooks/meal-entries/useMealSlotEntriesQuery";
-import { useRefreshOnFocus } from "@/hooks/useRefreshOnFocus";
-import { useCalendar } from "@/providers/calendar";
 import { useMealEntries } from "@/providers/meal-slot-entries";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
