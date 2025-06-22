@@ -156,7 +156,7 @@ const NutritionGoalsForm: React.FC = () => {
                   onPercentChange={(p) => updatePercent(macro, p)}
                   onGramsChange={field.onChange}
                   calories={calories}
-                  isOver={false /* keine Deckelwarnung mehr nötig */}
+                  isOver={false}
                 />
               )}
             />
