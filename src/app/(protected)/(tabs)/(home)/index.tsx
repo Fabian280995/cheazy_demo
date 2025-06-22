@@ -2,6 +2,7 @@ import DailyCaloriesCard from "@/components/overview/DailyCaloriesCard";
 import DailyNutritionScoreCard from "@/components/overview/DailyNutritionScoreCard";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useActivePersonalGoal } from "@/providers/active-personal-goal";
 import { useMealEntries } from "@/providers/meal-slot-entries";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
@@ -17,6 +18,7 @@ const Home = () => {
     title: "Übersicht",
     largeTitle: false,
   });
+  const { personalGoal } = useActivePersonalGoal();
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -43,13 +45,25 @@ const Home = () => {
         layout={LinearTransition}
         style={{ flex: 1, gap: 16, paddingHorizontal: 12 }}
       >
-        <DailyCaloriesCard consumedCals={dayTotals.calories} />
+        <DailyCaloriesCard
+          consumedCals={dayTotals.calories}
+          goalCals={personalGoal?.kcal}
+        />
         <DailyNutritionScoreCard
           consumedMacros={{
             carbs: dayTotals.carbs,
             protein: dayTotals.protein,
             fat: dayTotals.fat,
           }}
+          targetMacros={
+            personalGoal
+              ? {
+                  carbs: personalGoal.carbs_g,
+                  protein: personalGoal.proteins_g,
+                  fat: personalGoal.fats_g,
+                }
+              : undefined
+          }
         />
       </Animated.View>
     </ScrollView>
