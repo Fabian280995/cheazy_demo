@@ -28,7 +28,7 @@ interface MacroHandlerProps {
   onPercentChange: (p: number) => void;
   onGramsChange: (g: number) => void;
   calories: number;
-  macroUnit: "g" | "percent";
+  macroUnit?: "g" | "percent";
   isOver: boolean;
 }
 
@@ -39,7 +39,7 @@ export const MacroHandler: React.FC<MacroHandlerProps> = ({
   onPercentChange,
   onGramsChange,
   calories,
-  macroUnit,
+  macroUnit = "percent",
   isOver,
 }) => {
   const { colors } = useTheme();
