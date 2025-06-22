@@ -3,14 +3,11 @@ import { FoodItemCard } from "@/components/food/FoodItemCard";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { SwipeableListItem } from "@/components/shared/list/ListItem";
 import { useTheme } from "@/providers/theme";
-import { FoodItem, MealSlotEntry as METype, Recipe } from "@/types";
+import { MealSlotEntry as METype } from "@/types";
+import { isFoodItem } from "@/utils/meals";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-
-export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
-  return (entry as FoodItem).calories_per_100 !== undefined;
-}
 
 interface Props {
   entry: METype;

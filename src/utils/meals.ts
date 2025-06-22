@@ -1,4 +1,3 @@
-import { isFoodItem } from "@/components/meal-slots/MealSlotEntry";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import {
   FoodItem,
@@ -7,6 +6,10 @@ import {
   NutritionTotals,
   Recipe,
 } from "@/types";
+
+export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
+  return (entry as FoodItem).calories_per_100 !== undefined;
+}
 
 // Hilfsmapping: MealSlotId → sortOrder
 const slotOrderMap: Record<MealSlotId, number> = MEAL_SLOTS.reduce(
