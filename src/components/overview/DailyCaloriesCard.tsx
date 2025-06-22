@@ -54,7 +54,7 @@ const DailyCaloriesCard = ({
               fontWeight: "900",
             }}
           >
-            {consumedCals} kcal
+            {consumedCals.toFixed(0)} kcal
           </Text>
           <Text
             style={{
@@ -64,7 +64,7 @@ const DailyCaloriesCard = ({
               fontWeight: "500",
             }}
           >
-            Goal: {goalCals} kcal
+            Goal: {goalCals.toFixed(0)} kcal
           </Text>
         </View>
 
