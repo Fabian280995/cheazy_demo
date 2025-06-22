@@ -3,6 +3,7 @@ import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useCreateRecipeMealEntry } from "@/hooks/meal-entries/useCreateRecipeMealEntry";
 import { useMealEntryQuery } from "@/hooks/meal-entries/useMealEntryQuery";
+import { useUpdateRecipeMealEntry } from "@/hooks/meal-entries/useUpdateRecipeMealEntry";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
 import { useAuth } from "@/providers/auth";
 import { useCalendar } from "@/providers/calendar";
@@ -32,7 +33,7 @@ const RecipeDetail = () => {
   const { mutateAsync: create, isPending: creating } =
     useCreateRecipeMealEntry();
   const { mutateAsync: udpate, isPending: updating } =
-    useCreateRecipeMealEntry();
+    useUpdateRecipeMealEntry();
 
   const [portions, setPortions] = React.useState<number>(
     mealEntryData?.portions || 1
@@ -50,10 +51,12 @@ const RecipeDetail = () => {
       return;
     }
 
+    console.log("Adding to meal:", mealEntryId);
+
     if (mealEntryId) {
       // Update existing meal entry
       await udpate({
-        userId: user.id,
+        id: mealEntryId,
         recipeId: recipe.id,
         date: datetime,
         slot: mealSlot.id,

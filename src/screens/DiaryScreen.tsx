@@ -1,6 +1,7 @@
 import MealSlot from "@/components/meal-slots/MealSlot";
 import { MEAL_SLOTS } from "@/constants/mealSlots";
 import { useMealSlotEntriesQuery } from "@/hooks/meal-entries/useMealSlotEntriesQuery";
+import { useRefreshOnFocus } from "@/hooks/useRefreshOnFocus";
 import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import { MealSlotEntry as METype, MealSlotId } from "@/types";
@@ -20,7 +21,13 @@ export default function DiaryScreen({}: Props) {
   const { colors } = useTheme();
   const { currentDate } = useCalendar();
   const [sections, setSections] = React.useState<Section[]>([]);
-  const { data: mealEntries, isLoading } = useMealSlotEntriesQuery(currentDate);
+  const {
+    data: mealEntries,
+    isLoading,
+    refetch,
+  } = useMealSlotEntriesQuery(currentDate);
+
+  useRefreshOnFocus(refetch);
 
   React.useEffect(() => {
     const grouped = groupEntriesBySlot(mealEntries ?? []);

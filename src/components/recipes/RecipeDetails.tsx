@@ -1,7 +1,14 @@
 import { useTheme } from "@/providers/theme";
 import { NutritionTotals, Recipe } from "@/types";
 import React, { useMemo } from "react";
-import { TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { QuantitySelect } from "../meal-slots/QuantitySelect";
 import CardHeader from "../shared/CardHeader";
 import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
@@ -10,6 +17,12 @@ import { NutritionOverview } from "../nutrition/NutritionOverview";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Feather } from "@expo/vector-icons";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+} from "react-native-reanimated";
 
 const schema = z.object({
   name: z.string().min(1, "Name erforderlich"),
@@ -25,13 +38,14 @@ interface Props {
 
 const RecipeDetails = ({ recipe }: Props) => {
   const { colors } = useTheme();
-  const { mutateAsync: updateRecipe } = useUpdateRecipe();
+  const { mutateAsync: updateRecipe, isPending: updating } = useUpdateRecipe();
 
   const {
     control,
     handleSubmit,
     watch,
-    formState: { errors },
+    reset,
+    formState: { errors, isDirty },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -73,75 +87,135 @@ const RecipeDetails = ({ recipe }: Props) => {
         servings: data.servings,
       },
     });
+    reset(data);
   });
 
   return (
     <View>
-      <View>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              style={{
-                fontWeight: "800",
-                fontSize: 24,
-                fontFamily: "Nunito",
-                maxWidth: "80%",
-              }}
-              value={field.value}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              placeholder="Rezeptname"
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="description"
-          render={({ field }) => (
-            <TextInput
-              multiline
-              value={field.value}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-              placeholder="Keine Beschreibung verfügbar. Füge eine hinzu."
-              style={{
-                fontFamily: "Nunito",
-                fontSize: 16,
-                fontWeight: "500",
-                color: colors.textLight,
-              }}
-            />
-          )}
-        />
-      </View>
+      {isDirty && !updating && (
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 16,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              reset();
+            }}
+            style={{
+              height: 32,
+              width: 32,
+              justifyContent: "center",
+              borderRadius: 32,
+              alignItems: "center",
+            }}
+          >
+            <Feather name="refresh-cw" size={16} color={colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onSubmit}
+            style={{
+              backgroundColor: colors.primary,
+              height: 32,
+              paddingHorizontal: 12,
+              borderRadius: 32,
+              alignItems: "center",
+              justifyContent: "center",
+              shadowColor: colors.shadow,
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+              zIndex: 10,
+            }}
+          >
+            {updating ? (
+              <ActivityIndicator size="small" color={colors.textForeground} />
+            ) : (
+              <Text
+                style={{
+                  color: colors.textForeground,
+                  fontWeight: "600",
+                  fontSize: 12,
+                }}
+              >
+                Änderungen speichern
+              </Text>
+            )}
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+      <Animated.View layout={LinearTransition} key="recipe-details">
+        <View>
+          <Controller
+            control={control}
+            name="name"
+            render={({ field }) => (
+              <TextInput
+                style={{
+                  fontWeight: "800",
+                  fontSize: 24,
+                  fontFamily: "Nunito",
+                  maxWidth: "80%",
+                }}
+                value={field.value}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                placeholder="Rezeptname"
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <TextInput
+                multiline
+                value={field.value}
+                onChangeText={field.onChange}
+                onBlur={field.onBlur}
+                placeholder="Keine Beschreibung verfügbar. Füge eine hinzu."
+                style={{
+                  fontFamily: "Nunito",
+                  fontSize: 16,
+                  fontWeight: "500",
+                  color: colors.textLight,
+                }}
+              />
+            )}
+          />
+        </View>
 
-      <View style={{ marginTop: 32 }}>
-        <CardHeader title="Portionen" size={20} />
-        <Controller
-          control={control}
-          name="servings"
-          render={({ field }) => (
-            <QuantitySelect
-              quantity={field.value}
-              onChangeQuantity={field.onChange}
-              step={1}
-            />
-          )}
-        />
-      </View>
+        <View style={{ marginTop: 32 }}>
+          <CardHeader title="Portionen" size={20} />
+          <Controller
+            control={control}
+            name="servings"
+            render={({ field }) => (
+              <QuantitySelect
+                quantity={field.value}
+                onChangeQuantity={field.onChange}
+                step={1}
+              />
+            )}
+          />
+        </View>
 
-      <View style={{ marginTop: 32 }}>
-        <NutritionOverview
-          title={"Nährwerte pro Portion"}
-          calories={totals.calories / servings}
-          carbs={totals.carbs / servings}
-          fat={totals.fat / servings}
-          protein={totals.protein / servings}
-          target={quantity / servings}
-        />
-      </View>
+        <View style={{ marginTop: 32 }}>
+          <NutritionOverview
+            title={"Nährwerte pro Portion"}
+            calories={totals.calories / servings}
+            carbs={totals.carbs / servings}
+            fat={totals.fat / servings}
+            protein={totals.protein / servings}
+            target={quantity / servings}
+          />
+        </View>
+      </Animated.View>
     </View>
   );
 };
