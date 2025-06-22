@@ -21,28 +21,9 @@ const RecipeDetailScreen = () => {
   const router = useRouter();
   const height = useWindowDimensions().height;
   const { ingredients } = recipe;
-  const [servings, setServings] = React.useState<number>(recipe.servings);
 
   const { mutateAsync: removeIngredient, isPending: isRemoving } =
     useDeleteRecipeIngredient();
-
-  const quantity = React.useMemo(() => {
-    return ingredients.reduce((acc, item) => acc + item.quantity, 0);
-  }, [ingredients]);
-  const totalQuantity = quantity / servings;
-
-  const totals: NutritionTotals = React.useMemo(() => {
-    return ingredients.reduce(
-      (acc, item) => {
-        acc.calories += item.calories_per_100 * (item.quantity / 100);
-        acc.carbs += item.carbohydrates_per_100 * (item.quantity / 100);
-        acc.fat += item.fat_per_100 * (item.quantity / 100);
-        acc.protein += item.protein_per_100 * (item.quantity / 100);
-        return acc;
-      },
-      { calories: 0, carbs: 0, fat: 0, protein: 0 }
-    );
-  }, [ingredients, quantity, servings]);
 
   const handleAddIngredient = () => {
     router.push(`/recipes/${recipe.id}/foods`);
@@ -58,12 +39,6 @@ const RecipeDetailScreen = () => {
   const handleIngredientPress = (foodId: string) => {
     router.push(`/recipes/${recipe.id}/foods/${foodId}`);
   };
-
-  useEffect(() => {
-    if (recipe) {
-      setServings(recipe.servings);
-    }
-  }, [recipe]);
 
   return (
     <View
@@ -94,19 +69,7 @@ const RecipeDetailScreen = () => {
         )}
       </View>
       <DetailScreenScroll>
-        <RecipeDetails
-          recipe={recipe}
-          servings={servings}
-          onServingsChange={setServings}
-        />
-        <NutritionOverview
-          title={"Nährwerte pro Portion"}
-          calories={totals.calories / servings}
-          carbs={totals.carbs / servings}
-          fat={totals.fat / servings}
-          protein={totals.protein / servings}
-          target={totalQuantity}
-        />
+        <RecipeDetails recipe={recipe} />
         <Animated.View layout={LinearTransition} key="ingredients">
           <CardHeader title="Zutaten" size={20} />
           <AddEntryButton
