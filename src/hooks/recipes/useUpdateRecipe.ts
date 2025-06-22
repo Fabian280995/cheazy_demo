@@ -1,7 +1,7 @@
 import { updateRecipe } from "@/api/recipes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useCreateRecipe = () => {
+export const useUpdateRecipe = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
