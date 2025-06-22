@@ -51,7 +51,8 @@ export type Database = {
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id: string | null
           id: string
-          quantity_g: number
+          portions: number | null
+          quantity_g: number | null
           recipe_id: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id: string
@@ -61,7 +62,8 @@ export type Database = {
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null
           id?: string
-          quantity_g?: number
+          portions?: number | null
+          quantity_g?: number | null
           recipe_id?: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
           user_id?: string
@@ -71,7 +73,8 @@ export type Database = {
           entry_type?: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null
           id?: string
-          quantity_g?: number
+          portions?: number | null
+          quantity_g?: number | null
           recipe_id?: string | null
           slot?: Database["public"]["Enums"]["meal_slot"]
           user_id?: string
@@ -124,7 +127,7 @@ export type Database = {
         }
         Relationships: []
       }
-      recipe_components: {
+      recipe_ingredients: {
         Row: {
           food_id: string
           quantity_g: number
@@ -162,18 +165,21 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          servings: number
           user_id: string | null
         }
         Insert: {
           description?: string | null
           id?: string
           name: string
+          servings?: number
           user_id?: string | null
         }
         Update: {
           description?: string | null
           id?: string
           name?: string
+          servings?: number
           user_id?: string | null
         }
         Relationships: []
@@ -183,6 +189,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      daily_calories_inline: {
+        Args: { p_start: string; p_end: string }
+        Returns: {
+          day: string
+          kcal: number
+        }[]
+      }
       pgroonga_command: {
         Args:
           | { groongacommand: string }
