@@ -21,6 +21,7 @@ export function useHeaderOptions({
     const bg = backgroundColor ?? undefined;
 
     return {
+      headerShown: true,
       headerTitle: title,
       headerLargeTitle: Platform.OS === "ios" && largeTitle,
       headerShadowVisible: false,

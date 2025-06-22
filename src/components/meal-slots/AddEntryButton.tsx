@@ -1,49 +1,57 @@
 import { useTheme } from "@/providers/theme";
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, ViewStyle } from "react-native";
 import CardIcon from "../shared/CardIcon";
-import MealSlotEntryContainer from "./MealSlotEntryContainer";
+import { PressableListItem } from "../shared/list/ListItem";
 
 interface Props {
-  id: string;
+  id?: string;
   onPress: () => void;
+  label?: string;
+  style?: ViewStyle;
+  isLast?: boolean;
+  isFirst?: boolean;
 }
 
-const AddEntryButton = ({ id, onPress: handleAddEntryPress }: Props) => {
+const AddEntryButton = ({
+  id,
+  onPress: handleAddEntryPress,
+  label = "Eintrag hinzufügen",
+  style,
+  isLast = false,
+  isFirst = false,
+}: Props) => {
   const { colors } = useTheme();
   return (
-    <MealSlotEntryContainer key={`add-entry-${id}`}>
-      <TouchableOpacity
+    <PressableListItem
+      key={id}
+      isFirst={isFirst}
+      isLast={isLast}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        ...style,
+      }}
+      onPress={handleAddEntryPress}
+    >
+      <CardIcon
+        name="add"
+        size={36}
+        color={colors.textForeground}
+        bgColor={colors.primary}
+      />
+      <Text
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: colors.foreground,
-          paddingHorizontal: 12,
-          paddingVertical: 8,
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
+          fontFamily: "Nunito",
+          color: colors.text,
+          fontWeight: "700",
+          fontSize: 16,
+          marginLeft: 8,
         }}
-        onPress={handleAddEntryPress}
       >
-        <CardIcon
-          name="add"
-          size={36}
-          color={colors.textForeground}
-          bgColor={colors.primary}
-        />
-        <Text
-          style={{
-            fontFamily: "Nunito",
-            color: colors.text,
-            fontWeight: "700",
-            fontSize: 14,
-            marginLeft: 8,
-          }}
-        >
-          Eintrag hinzufügen
-        </Text>
-      </TouchableOpacity>
-    </MealSlotEntryContainer>
+        {label}
+      </Text>
+    </PressableListItem>
   );
 };
 

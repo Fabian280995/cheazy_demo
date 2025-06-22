@@ -7,6 +7,7 @@ function RecipesLayout() {
       screenOptions={{
         headerTransparent: true,
         contentStyle: { backgroundColor: "transparent" },
+        headerShown: false,
       }}
     />
   );

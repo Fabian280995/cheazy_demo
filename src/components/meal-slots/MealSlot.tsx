@@ -35,8 +35,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
     if (entry.type === "food") {
       router.push(`/foods/${entry.entry.id}?mealEntryId=${entry.id}`);
     } else {
-      // router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
-      console.log("Recipe entries are not supported yet in MealSlotEntry");
+      router.push(`/recipes/${entry.entry.id}?mealEntryId=${entry.id}`);
     }
   };
 
@@ -48,10 +47,11 @@ const MealSlot = ({ id, title, entries }: Props) => {
     <>
       <Animated.View layout={LinearTransition} key={id}>
         <MealSlotHeader title={title} totals={totals} />
+
         {entries.map((item) => {
           return (
             <MealSlotEntry
-              key={item.entry.id}
+              key={item.id}
               entry={item}
               onPress={handleEntryPress}
               onDelete={handleEntryDelete}
@@ -59,7 +59,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
           );
         })}
 
-        <AddEntryButton id={id} onPress={handleAddEntryPress} />
+        <AddEntryButton id={id} onPress={handleAddEntryPress} isLast />
       </Animated.View>
 
       <BottomSheetModal
@@ -119,7 +119,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
           <TouchableOpacity
             onPress={() => {
               bottomSheetRef.current?.dismiss();
-              // router.push(`/recipes?mealSlotId=${id}`);
+              router.push(`/recipes?mealSlotId=${id}`);
             }}
             style={{
               paddingVertical: 4,

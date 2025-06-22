@@ -1,4 +1,5 @@
 import { FoodItem } from "./food";
+import { Recipe } from "./recipes";
 import { Database } from "./supabase";
 
 export type MealSlotId = Database["public"]["Enums"]["meal_slot"];
@@ -9,18 +10,12 @@ export type MealSlot = {
   sortOrder: number;
 };
 
-export type Recipe = {
-  id: string;
-  name: string;
-  description?: string;
-  ingredients: FoodItem[];
-};
-
 export type MealSlotEntry = {
   id: string;
   date: Date;
   mealSlot: MealSlotId;
   entry: FoodItem | Recipe;
+  portions: number;
   type: "food" | "recipe";
 };
 

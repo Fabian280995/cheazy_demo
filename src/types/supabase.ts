@@ -51,6 +51,7 @@ export type Database = {
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id: string | null
           id: string
+          portions: number | null
           quantity_g: number
           recipe_id: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
@@ -61,6 +62,7 @@ export type Database = {
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null
           id?: string
+          portions?: number | null
           quantity_g?: number
           recipe_id?: string | null
           slot: Database["public"]["Enums"]["meal_slot"]
@@ -71,6 +73,7 @@ export type Database = {
           entry_type?: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null
           id?: string
+          portions?: number | null
           quantity_g?: number
           recipe_id?: string | null
           slot?: Database["public"]["Enums"]["meal_slot"]
@@ -124,7 +127,7 @@ export type Database = {
         }
         Relationships: []
       }
-      recipe_components: {
+      recipe_ingredients: {
         Row: {
           food_id: string
           quantity_g: number
@@ -162,18 +165,21 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          servings: number
           user_id: string | null
         }
         Insert: {
           description?: string | null
           id?: string
           name: string
+          servings?: number
           user_id?: string | null
         }
         Update: {
           description?: string | null
           id?: string
           name?: string
+          servings?: number
           user_id?: string | null
         }
         Relationships: []

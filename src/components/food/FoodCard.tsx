@@ -4,15 +4,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import CategoryIcon from "../shared/icons/CategoryIcon";
 
-export const FoodCard = ({
-  food,
-  isLast,
-  isFirst = false,
-}: {
-  food: FoodModel;
-  isLast?: boolean;
-  isFirst?: boolean;
-}) => {
+export const FoodCard = ({ food }: { food: FoodModel }) => {
   const { colors } = useTheme();
   const {
     name,
@@ -25,24 +17,11 @@ export const FoodCard = ({
 
   return (
     <View
-      style={[
-        {
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 8,
-          paddingVertical: 12,
-          paddingHorizontal: 12,
-          backgroundColor: colors.foreground,
-        },
-        !isLast
-          ? { borderBottomWidth: 1, borderBottomColor: colors.border }
-          : {
-              borderBottomWidth: 0,
-              borderBottomLeftRadius: 16,
-              borderBottomRightRadius: 16,
-            },
-        isFirst ? { borderTopLeftRadius: 16, borderTopRightRadius: 16 } : {},
-      ]}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8,
+      }}
     >
       <CategoryIcon id={category_id as FoodCategoryId} size={36} colorfull />
       <View style={{ flex: 1 }}>

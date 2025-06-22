@@ -10,6 +10,7 @@ interface NutritionOverviewProps {
   fat: number;
   protein: number;
   target: number;
+  title?: string;
 }
 
 export const NutritionOverview: React.FC<NutritionOverviewProps> = ({
@@ -18,11 +19,12 @@ export const NutritionOverview: React.FC<NutritionOverviewProps> = ({
   fat,
   protein,
   target,
+  title = "Nährwerte",
 }) => {
   const { colors } = useTheme();
   return (
     <View style={{ gap: 8 }}>
-      <CardHeader title="Nährwerte" size={20}>
+      <CardHeader title={title} size={20}>
         <Text
           style={{
             fontFamily: "Nunito",

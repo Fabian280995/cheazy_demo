@@ -3,30 +3,21 @@ import React from "react";
 import { Text, View } from "react-native";
 import CardIcon from "../shared/CardIcon";
 import { useTheme } from "@/providers/theme";
+import { getNutritionForRecipe } from "@/utils/meals";
 
-export const RecipeCard = ({ item }: { item: Recipe }) => {
+export const RecipeCard = ({
+  item,
+  portions,
+}: {
+  item: Recipe;
+  portions: number;
+}) => {
   const { categoryColors, colors } = useTheme();
-  const ingredients = item.ingredients ?? [];
-  const totalCalories = ingredients.reduce(
-    (sum, ing) => sum + (ing.calories_per_100 * ing.quantity) / 100,
-    0
-  );
-  const totalFat = ingredients.reduce(
-    (sum, ing) => sum + (ing.fat_per_100 * ing.quantity) / 100,
-    0
-  );
-  const totalCarbohydrates = ingredients.reduce(
-    (sum, ing) => sum + (ing.carbohydrates_per_100 * ing.quantity) / 100,
-    0
-  );
-  const totalProtein = ingredients.reduce(
-    (sum, ing) => sum + (ing.protein_per_100 * ing.quantity) / 100,
-    0
-  );
-  const calories = Math.round(totalCalories);
-  const fat = Math.round(totalFat);
-  const carbohydrates = Math.round(totalCarbohydrates);
-  const protein = Math.round(totalProtein);
+  const totals = getNutritionForRecipe(item, portions);
+  const calories = Math.round(totals.calories);
+  const fat = Math.round(totals.fat);
+  const carbohydrates = Math.round(totals.carbs);
+  const protein = Math.round(totals.protein);
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
       <CardIcon

@@ -1,8 +1,8 @@
-import { View, Text } from "react-native";
-import React, { ComponentProps } from "react";
-import { Ionicons, Octicons } from "@expo/vector-icons";
 import { useTheme } from "@/providers/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import React, { ComponentProps } from "react";
+import { View } from "react-native";
 
 interface Props {
   name: ComponentProps<typeof Ionicons>["name"];
@@ -10,17 +10,28 @@ interface Props {
   color: string;
   bgColor?: string;
   gradient?: boolean;
+  invert?: boolean;
 }
 
-const CardIcon = ({ name, size = 36, color, bgColor, gradient }: Props) => {
+const CardIcon = ({
+  name,
+  size = 36,
+  color,
+  bgColor,
+  gradient,
+  invert,
+}: Props) => {
   const { colors } = useTheme();
+  const bgDefault = bgColor || colors.accent;
+  const fg = !invert ? color : bgDefault;
+  const bg = !invert ? bgDefault : color;
   return (
     <View
       style={{
         width: size,
         height: size,
         borderRadius: 16,
-        backgroundColor: bgColor,
+        backgroundColor: bg,
         justifyContent: "center",
         alignItems: "center",
         position: "relative",
@@ -28,7 +39,7 @@ const CardIcon = ({ name, size = 36, color, bgColor, gradient }: Props) => {
     >
       {gradient && (
         <LinearGradient
-          colors={[bgColor || colors.accent, color]}
+          colors={[bg || colors.accent, fg]}
           style={{
             position: "absolute",
             width: size,
@@ -40,7 +51,7 @@ const CardIcon = ({ name, size = 36, color, bgColor, gradient }: Props) => {
       <Ionicons
         name={name}
         size={(size / 5) * 3}
-        color={gradient ? colors.textForeground : color}
+        color={gradient ? colors.textForeground : fg}
       />
     </View>
   );
