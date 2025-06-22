@@ -1,19 +1,12 @@
 // src/components/meals/MealSlotEntry.tsx
+import { FoodItemCard } from "@/components/food/FoodItemCard";
+import { RecipeCard } from "@/components/recipes/RecipeCard";
+import { SwipeableListItem } from "@/components/shared/list/ListItem";
 import { useTheme } from "@/providers/theme";
 import { FoodItem, MealSlotEntry as METype, Recipe } from "@/types";
 import { Feather } from "@expo/vector-icons";
-import React, { useCallback } from "react";
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { FoodItemCard } from "../food/FoodItemCard";
-import { RecipeCard } from "../recipes/RecipeCard";
-import { SwipeableListItem } from "../shared/list/ListItem";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 export function isFoodItem(entry: FoodItem | Recipe): entry is FoodItem {
   return (entry as FoodItem).calories_per_100 !== undefined;
@@ -28,7 +21,6 @@ interface Props {
 }
 
 const DELETE_WIDTH = 64;
-const SWIPE_THRESHOLD = -DELETE_WIDTH * 0.6; // 60 % des Buttons wischen → Alert
 
 const MealSlotEntry: React.FC<Props> = ({
   entry,
@@ -67,21 +59,6 @@ const MealSlotEntry: React.FC<Props> = ({
 };
 
 const styles = StyleSheet.create({
-  deleteBg: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    width: DELETE_WIDTH,
-  },
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 12,
-    borderBottomWidth: 1,
-  },
   iconWrap: {
     marginRight: 8,
   },
