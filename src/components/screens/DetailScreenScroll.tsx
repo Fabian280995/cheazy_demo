@@ -35,7 +35,7 @@ const DetailScreenScroll = ({ children }: { children: React.ReactNode }) => {
           paddingTop: 20,
           paddingHorizontal: 24,
           paddingBottom: height / 3,
-          gap: 24,
+          gap: 32,
         }}
       >
         {children}

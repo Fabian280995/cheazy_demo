@@ -1,6 +1,5 @@
 import { FoodItemCard } from "@/components/food/FoodItemCard";
 import AddEntryButton from "@/components/meal-slots/AddEntryButton";
-import { NutritionOverview } from "@/components/nutrition/NutritionOverview";
 import RecipeDetails from "@/components/recipes/RecipeDetails";
 import DetailScreenScroll from "@/components/screens/DetailScreenScroll";
 import CardHeader from "@/components/shared/CardHeader";
@@ -8,10 +7,9 @@ import { SwipeableListItem } from "@/components/shared/list/ListItem";
 import { useDeleteRecipeIngredient } from "@/hooks/recipe-ingredients/useDeleteRecipeIngredient";
 import { useRecipe } from "@/providers/recipe";
 import { useTheme } from "@/providers/theme";
-import { NutritionTotals } from "@/types";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import React from "react";
 import { useWindowDimensions, View } from "react-native";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
