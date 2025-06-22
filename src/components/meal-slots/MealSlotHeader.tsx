@@ -7,14 +7,16 @@ import { ListItem } from "../shared/list/ListItem";
 interface Props {
   title: string;
   totals: NutritionTotals;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
-const MealSlotHeader = ({ title, totals }: Props) => {
+const MealSlotHeader = ({ title, totals, isFirst, isLast }: Props) => {
   const { colors } = useTheme();
   const totalCalories = totals.calories.toFixed(0);
 
   return (
-    <ListItem isFirst>
+    <ListItem isFirst={isFirst} isLast={isLast}>
       <View
         style={{
           flexDirection: "row",
