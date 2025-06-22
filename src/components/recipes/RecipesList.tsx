@@ -2,7 +2,7 @@ import { Recipe } from "@/types";
 import React from "react";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import EntryNotFoundScreen from "../shared/EntryNotFoundScreen";
-import { PressableListItem } from "../shared/list/ListItem";
+import { PressableListItem, SwipeableListItem } from "../shared/list/ListItem";
 import { RecipeCard } from "./RecipeCard";
 
 interface Props {
@@ -24,15 +24,16 @@ const RecipesList = ({ recipes, onSelect }: Props) => {
     <Animated.View layout={LinearTransition}>
       {recipes.map((recipe) => {
         return (
-          <PressableListItem
+          <SwipeableListItem
             key={recipe.id}
             isFirst={recipe === recipes[0]}
             isLast={recipe === recipes[recipes.length - 1]}
             onPress={() => handleRecipeSelect(recipe)}
+            onDelete={() => console.warn("Delete recipe not implemented")}
             style={{ flex: 1 }}
           >
             <RecipeCard item={recipe} portions={1} />
-          </PressableListItem>
+          </SwipeableListItem>
         );
       })}
     </Animated.View>

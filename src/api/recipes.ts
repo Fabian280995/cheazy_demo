@@ -41,6 +41,11 @@ export const createRecipe = async (
   };
 };
 
+export const deleteRecipe = async (recipeId: string): Promise<void> => {
+  const { error } = await supabase.from("recipes").delete().eq("id", recipeId);
+  if (error) throw error;
+};
+
 export const updateRecipe = async ({
   recipeId,
   updatedRecipe,
