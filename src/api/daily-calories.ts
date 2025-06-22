@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabase";
 import { DailyCaloryEntry } from "@/types/nutrition";
-import { format } from "date-fns";
 
 export const getDailyCalories = async ({
   start,
