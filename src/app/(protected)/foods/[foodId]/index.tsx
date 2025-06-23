@@ -11,7 +11,6 @@ import { useFood } from "@/providers/food";
 import { useTheme } from "@/providers/theme";
 import FoodDetailScreen from "@/screens/FoodDetailScreen";
 import { MealSlot } from "@/types";
-import { set } from "date-fns";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 
