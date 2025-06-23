@@ -35,7 +35,7 @@ const AddEntryButton = ({
       onPress={handleAddEntryPress}
     >
       <CardIcon
-        name="add"
+        name="plus"
         size={36}
         color={colors.textForeground}
         bgColor={colors.primary}

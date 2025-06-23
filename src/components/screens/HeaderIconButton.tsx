@@ -1,5 +1,5 @@
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React, { ComponentProps } from "react";
 import {
   ActivityIndicator,
@@ -12,7 +12,7 @@ import {
 interface Props {
   onPress: () => void;
   onLongPress?: () => void;
-  iconName?: ComponentProps<typeof Feather>["name"];
+  iconName?: ComponentProps<typeof Octicons>["name"];
   color?: string;
   isLoading?: boolean;
   disabled?: boolean;
@@ -66,7 +66,7 @@ const HeaderIconButton = ({
       ) : (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           {iconName && (
-            <Feather
+            <Octicons
               name={iconName}
               size={20}
               color={color ? color : colors.text}

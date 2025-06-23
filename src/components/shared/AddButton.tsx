@@ -1,5 +1,5 @@
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React from "react";
 import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 
@@ -39,7 +39,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
       {loading ? (
         <ActivityIndicator size="small" color={colors.textForeground} />
       ) : showIcon ? (
-        <Feather name="plus" size={24} color={colors.textForeground} />
+        <Octicons name="plus" size={24} color={colors.textForeground} />
       ) : null}
       <Text
         style={{

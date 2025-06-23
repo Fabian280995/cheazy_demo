@@ -29,7 +29,7 @@ const Diary = () => {
           ...headerOptions,
           headerRight: () => (
             <HeaderIconButton
-              iconName="settings"
+              iconName="gear"
               onPress={() => router.push("/settings")}
               color={colors.text}
               shadow

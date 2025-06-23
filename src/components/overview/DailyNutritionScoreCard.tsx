@@ -1,11 +1,11 @@
 import { useTheme } from "@/providers/theme"; // Adjust the import path as necessary
+import { Macros } from "@/types/nutrition";
 import React from "react";
 import { View } from "react-native";
+import NutritionBar from "../nutrition/NutritionBar";
 import Card from "../shared/Card";
 import CardHeader from "../shared/CardHeader";
 import CardIcon from "../shared/CardIcon";
-import NutritionBar from "../nutrition/NutritionBar";
-import { Macros } from "@/types/nutrition";
 
 const DailyNutritionScoreCard = ({
   consumedMacros,
@@ -21,7 +21,7 @@ const DailyNutritionScoreCard = ({
         title="Nutrition Score"
         Icon={() => (
           <CardIcon
-            name="pie-chart"
+            name="beaker"
             color={colors.protein}
             bgColor={categoryColors.fastfood.background}
             gradient

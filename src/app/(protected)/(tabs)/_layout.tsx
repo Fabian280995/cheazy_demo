@@ -41,7 +41,7 @@ export default function TabLayout() {
               <TabButton icon="home">Home</TabButton>
             </TabTrigger>
             <TabTrigger name="diary" href="/diary" asChild>
-              <TabButton icon="book">Tagebuch</TabButton>
+              <TabButton icon="repo">Tagebuch</TabButton>
             </TabTrigger>
             <Pressable
               onPress={() => router.push("/ai-chat")}

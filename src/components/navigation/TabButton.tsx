@@ -1,12 +1,12 @@
 // components/TabButton.tsx
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import { TabTriggerSlotProps } from "expo-router/ui";
 import { ComponentProps, forwardRef } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
 type TabButtonProps = TabTriggerSlotProps & {
-  icon: ComponentProps<typeof Feather>["name"]; // Icon name from FontAwesome
+  icon: ComponentProps<typeof Octicons>["name"]; // Icon name from FontAwesome
 };
 
 export const TabButton = forwardRef<View, TabButtonProps>(
@@ -30,7 +30,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
           pressed && { opacity: 0.7 },
         ]}
       >
-        <Feather
+        <Octicons
           name={icon}
           size={24}
           color={isFocused ? colors.background : colors.textLight}
