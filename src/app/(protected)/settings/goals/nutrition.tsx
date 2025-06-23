@@ -1,4 +1,3 @@
-import PersonalGoalsHistory from "@/components/goals/PersonalGoalsHistory";
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import NutritionGoalsForm from "@/forms/NutritionGoalsForm";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
@@ -39,7 +38,6 @@ const NutritionGoals = () => {
       />
 
       <NutritionGoalsForm />
-      <PersonalGoalsHistory />
     </ScrollView>
   );
 };

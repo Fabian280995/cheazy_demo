@@ -9,8 +9,10 @@ import { AddButton } from "@/components/shared/AddButton";
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
 import { useCreatePersonalGoal } from "@/hooks/personal-goals/useCreatePersonalGoal";
+import { useUpdatePersonalGoal } from "@/hooks/personal-goals/useUpdatePersonalGoal";
 import { useAuth } from "@/providers/auth";
 import { useTheme } from "@/providers/theme";
+import { NutritionGoal } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
@@ -45,11 +47,16 @@ const schema = z
 
 export type FormValues = z.infer<typeof schema>;
 
-const NutritionGoalsForm: React.FC = () => {
+interface Props {
+  initialData?: NutritionGoal;
+}
+
+const NutritionGoalsForm = ({ initialData }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const { user } = useAuth();
-  const { mutateAsync: create } = useCreatePersonalGoal();
+  const { mutateAsync: create, isPending: creating } = useCreatePersonalGoal();
+  const { mutateAsync: update, isPending: updating } = useUpdatePersonalGoal();
 
   const {
     control,
@@ -62,10 +69,10 @@ const NutritionGoalsForm: React.FC = () => {
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
-      calories: 2500,
-      protein: percentToGrams(30, "protein", 2500),
-      carbs: percentToGrams(40, "carbs", 2500),
-      fat: percentToGrams(30, "fat", 2500),
+      calories: initialData?.kcal || 2500,
+      protein: initialData?.proteins_g || percentToGrams(30, "protein", 2500),
+      carbs: initialData?.carbs_g || percentToGrams(40, "carbs", 2500),
+      fat: initialData?.fats_g || percentToGrams(30, "fat", 2500),
     },
   });
 
@@ -74,14 +81,35 @@ const NutritionGoalsForm: React.FC = () => {
       console.error("User is not authenticated");
       return;
     }
-    await create({
-      kcal: data.calories,
-      proteins_g: data.protein,
-      carbs_g: data.carbs,
-      fats_g: data.fat,
-      started_at: format(new Date(), "yyyy-MM-dd"),
-      user_id: user.id,
-    });
+
+    const initialDataIsToday = initialData
+      ? format(new Date(initialData.started_at), "yyyy-MM-dd") ===
+        format(new Date(), "yyyy-MM-dd")
+      : false;
+
+    if (initialData && initialDataIsToday) {
+      await update({
+        id: initialData.id,
+        updates: {
+          kcal: data.calories,
+          proteins_g: data.protein,
+          carbs_g: data.carbs,
+          fats_g: data.fat,
+        },
+      });
+    } else {
+      await create({
+        kcal: data.calories,
+        proteins_g: data.protein,
+        carbs_g: data.carbs,
+        fats_g: data.fat,
+        started_at: format(new Date(), "yyyy-MM-dd"),
+        user_id: user.id,
+      });
+    }
+
+    router.back();
+    return;
   };
 
   const [macroPercents, setMacroPercents] = useState<Record<MacroType, number>>(
