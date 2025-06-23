@@ -6,8 +6,6 @@ import { format } from "date-fns";
 type Params = { start: Date; end: Date };
 
 export function useDailyCalories({ start, end }: Params) {
-  /** Query-Key niemals rohe Date-Objekte geben – die sind referenziell verschieden.
-   *  Besser: in stabile ISO-Strings transformieren. */
   const keyStart = format(start, "yyyy-MM-dd");
   const keyEnd = format(end, "yyyy-MM-dd");
 
