@@ -1,6 +1,7 @@
 import HeaderIconButton from "@/components/screens/HeaderIconButton";
 import NutritionGoalsForm from "@/forms/NutritionGoalsForm";
 import { useHeaderOptions } from "@/hooks/navigation/useHeaderOptions";
+import { useActivePersonalGoal } from "@/providers/active-personal-goal";
 import { useTheme } from "@/providers/theme";
 import { Stack, useRouter } from "expo-router";
 import React from "react";
@@ -13,6 +14,7 @@ const NutritionGoals = () => {
     title: "Nutrition Goals",
     largeTitle: false,
   });
+  const { personalGoal } = useActivePersonalGoal();
 
   return (
     <ScrollView
@@ -37,7 +39,20 @@ const NutritionGoals = () => {
         }}
       />
 
-      <NutritionGoalsForm />
+      <NutritionGoalsForm
+        initialData={
+          personalGoal
+            ? {
+                id: personalGoal.id,
+                kcal: personalGoal.kcal,
+                proteins_g: personalGoal.proteins_g,
+                carbs_g: personalGoal.carbs_g,
+                fats_g: personalGoal.fats_g,
+                started_at: personalGoal.started_at,
+              }
+            : undefined
+        }
+      />
     </ScrollView>
   );
 };
