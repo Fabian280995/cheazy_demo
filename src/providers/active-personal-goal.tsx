@@ -1,4 +1,3 @@
-import LoadingIndicator from "@/components/shared/LoadingIndicator";
 import { useActivePersonalGoalQuery } from "@/hooks/personal-goals/useActivePersonalGoalQuery";
 import { PersonalGoal } from "@/types";
 import { createContext, useContext } from "react";
@@ -6,6 +5,7 @@ import { useCalendar } from "./calendar";
 
 type ActivePersonalGoalContextType = {
   personalGoal: PersonalGoal | null;
+  isLoading: boolean;
 };
 
 export const ActivePersonalGoalContext =
@@ -30,13 +30,9 @@ export const ActivePersonalGoalProvider: React.FC<
     console.error("Error fetching active personal goal:", error);
   }
 
-  if (isLoading) {
-    return <LoadingIndicator />;
-  }
-
   return (
     <ActivePersonalGoalContext.Provider
-      value={{ personalGoal: personalGoal || null }}
+      value={{ personalGoal: personalGoal || null, isLoading }}
     >
       {children}
     </ActivePersonalGoalContext.Provider>
