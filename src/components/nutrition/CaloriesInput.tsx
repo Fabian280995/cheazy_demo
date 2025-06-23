@@ -1,7 +1,7 @@
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
 import { useTheme } from "@/providers/theme";
-import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { Pressable, Text, TextInput } from "react-native";
@@ -40,6 +40,8 @@ export const CaloriesInput: React.FC<{ control: any }> = ({ control }) => {
                   fontWeight: "800",
                   fontFamily: "Nunito",
                 }}
+                returnKeyLabel="done"
+                returnKeyType="done"
               />
               <Text
                 style={{
