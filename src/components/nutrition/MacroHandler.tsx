@@ -1,5 +1,5 @@
 import { useTheme } from "@/providers/theme";
-import { Feather } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -158,14 +158,13 @@ const MacroHandler: React.FC<Props> = ({
           </View>
         </GestureDetector>
 
-        {/* percent input */}
         <View
           style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}
         >
           {locked ? (
-            <Feather name="lock" size={16} color={colors.primary} />
+            <Octicons name="lock" size={16} color={colors.primary} />
           ) : (
-            <Feather name="unlock" size={16} color={colors.textLight} />
+            <Octicons name="unlock" size={16} color={colors.textLight} />
           )}
           <TextInput
             value={shownPercent.toString()}
