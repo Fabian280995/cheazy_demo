@@ -18,7 +18,7 @@ import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import * as z from "zod/v4";
 
 const TOLERANCE = 0.5;
@@ -183,58 +183,69 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
   };
 
   return (
-    <View>
-      <CaloriesInput control={control} />
-      <Card style={{ marginTop: 16 }}>
-        <CardHeader
-          title="Makronährstoffe"
-          Icon={() => <Octicons name="beaker" size={24} color={colors.text} />}
-        />
-        <View
-          style={{
-            flexDirection: "row",
-            gap: 16,
-            marginTop: 16,
-            justifyContent: "space-evenly",
-          }}
-        >
-          {MACROS.map((macro) => (
-            <Controller
-              key={macro}
-              control={control}
-              name={macro}
-              render={({ field }) => (
-                <MacroHandler
-                  macro={macro}
-                  grams={field.value}
-                  percent={macroPercents[macro]}
-                  onPercentChange={(p) => updatePercent(macro, p)}
-                  onGramsChange={field.onChange}
-                  calories={calories}
-                  isOver={false}
-                  locked={locked[macro]}
-                  onToggleLock={() => toggleLock(macro)}
-                />
-              )}
-            />
-          ))}
-        </View>
-        {showPercentWarning && (
-          <Text
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={{ flex: 1, backgroundColor: colors.background }}
+        contentContainerStyle={{
+          padding: 16,
+        }}
+        keyboardDismissMode="on-drag"
+      >
+        <CaloriesInput control={control} />
+        <Card style={{ marginTop: 16 }}>
+          <CardHeader
+            title="Makronährstoffe"
+            Icon={() => (
+              <Octicons name="beaker" size={24} color={colors.text} />
+            )}
+          />
+          <View
             style={{
-              marginTop: 12,
-              color: colors.destructive,
-              fontSize: 14,
-              textAlign: "center",
-              fontFamily: "Nunito",
-              fontWeight: "800",
+              flexDirection: "row",
+              gap: 16,
+              marginTop: 16,
+              justifyContent: "space-evenly",
             }}
           >
-            Die Summe aller Makros liegt bei {sumPercent.toFixed(2)} %!
-          </Text>
-        )}
-      </Card>
-      <View style={{ marginTop: 16 }}>
+            {MACROS.map((macro) => (
+              <Controller
+                key={macro}
+                control={control}
+                name={macro}
+                render={({ field }) => (
+                  <MacroHandler
+                    macro={macro}
+                    grams={field.value}
+                    percent={macroPercents[macro]}
+                    onPercentChange={(p) => updatePercent(macro, p)}
+                    onGramsChange={field.onChange}
+                    calories={calories}
+                    isOver={false}
+                    locked={locked[macro]}
+                    onToggleLock={() => toggleLock(macro)}
+                  />
+                )}
+              />
+            ))}
+          </View>
+          {showPercentWarning && (
+            <Text
+              style={{
+                marginTop: 12,
+                color: colors.destructive,
+                fontSize: 14,
+                textAlign: "center",
+                fontFamily: "Nunito",
+                fontWeight: "800",
+              }}
+            >
+              Die Summe aller Makros liegt bei {sumPercent.toFixed(2)} %!
+            </Text>
+          )}
+        </Card>
+      </ScrollView>
+      <View style={{ position: "absolute", bottom: 16, left: 16, right: 16 }}>
         <AddButton
           label="Ziele speichern"
           onPress={handleSubmit(onSubmit)}

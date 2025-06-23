@@ -17,14 +17,7 @@ const NutritionGoals = () => {
   const { personalGoal } = useActivePersonalGoal();
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      style={{ flex: 1, backgroundColor: colors.background }}
-      contentContainerStyle={{
-        padding: 16,
-      }}
-      keyboardDismissMode="on-drag"
-    >
+    <>
       <Stack.Screen
         options={{
           ...headerOptions,
@@ -53,7 +46,7 @@ const NutritionGoals = () => {
             : undefined
         }
       />
-    </ScrollView>
+    </>
   );
 };
 
