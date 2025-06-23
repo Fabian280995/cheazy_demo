@@ -1,4 +1,5 @@
 import { useTheme } from "@/providers/theme";
+import { Feather } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -112,16 +113,12 @@ const MacroHandler: React.FC<Props> = ({
   const danger = colors.destructive;
   const numColor = isOver ? danger : colors.text;
   const unitColor = isOver ? danger : colors.textLight;
-  const borderColor = locked ? colors.primary : "transparent";
 
   const shownPercent = dragging ? dispPercent : percent;
   const shownGrams = dragging ? dispGrams : grams;
 
   return (
-    <Pressable
-      onPress={onToggleLock}
-      style={{ borderWidth: 2, borderColor, borderRadius: 8 }}
-    >
+    <Pressable onPress={onToggleLock}>
       <View style={{ alignItems: "center", padding: 4 }}>
         {/* grams label */}
         <Text
@@ -165,6 +162,11 @@ const MacroHandler: React.FC<Props> = ({
         <View
           style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}
         >
+          {locked ? (
+            <Feather name="lock" size={16} color={colors.primary} />
+          ) : (
+            <Feather name="unlock" size={16} color={colors.textLight} />
+          )}
           <TextInput
             value={shownPercent.toString()}
             onChangeText={(txt) => {
@@ -180,6 +182,7 @@ const MacroHandler: React.FC<Props> = ({
               fontSize: 16,
               fontWeight: "800",
               fontFamily: "Nunito",
+              marginLeft: 4,
             }}
           />
           <Text
