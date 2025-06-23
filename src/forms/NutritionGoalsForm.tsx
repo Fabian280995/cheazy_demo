@@ -12,7 +12,7 @@ import { useUpdatePersonalGoal } from "@/hooks/personal-goals/useUpdatePersonalG
 import { useAuth } from "@/providers/auth";
 import { useTheme } from "@/providers/theme";
 import { NutritionGoal } from "@/types";
-import { Feather, Octicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
@@ -24,6 +24,7 @@ import * as z from "zod/v4";
 const TOLERANCE = 0.5;
 const MACROS: MacroType[] = ["protein", "carbs", "fat"];
 
+/* ---------------- Schema ---------------- */
 const nutritionSchema = z
   .object({
     calories: z.int().min(0, { error: "Kalorien müssen positiv sein" }),
@@ -37,7 +38,6 @@ const nutritionSchema = z
       gramsToPercent(protein, "protein", calories) +
       gramsToPercent(carbs, "carbs", calories) +
       gramsToPercent(fat, "fat", calories);
-
     if (Math.abs(sum - 100) > TOLERANCE) {
       ctx.issues.push({
         code: "custom",
@@ -58,13 +58,15 @@ interface Props {
   initialData?: NutritionGoal;
 }
 
-const NutritionGoalsForm = ({ initialData }: Props) => {
+/* --------------- Component --------------- */
+const NutritionGoalsForm: React.FC<Props> = ({ initialData }) => {
   const { colors } = useTheme();
   const router = useRouter();
   const { user } = useAuth();
   const { mutateAsync: create } = useCreatePersonalGoal();
   const { mutateAsync: update } = useUpdatePersonalGoal();
 
+  /* ---- RHF setup ---- */
   const {
     control,
     setValue,
@@ -76,24 +78,21 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     resolver: zodResolver(nutritionSchema),
     mode: "onChange",
     defaultValues: {
-      calories: initialData?.kcal || 2500,
-      protein: initialData?.proteins_g || percentToGrams(30, "protein", 2500),
-      carbs: initialData?.carbs_g || percentToGrams(40, "carbs", 2500),
-      fat: initialData?.fats_g || percentToGrams(30, "fat", 2500),
+      calories: initialData?.kcal ?? 2500,
+      protein: initialData?.proteins_g ?? percentToGrams(30, "protein", 2500),
+      carbs: initialData?.carbs_g ?? percentToGrams(40, "carbs", 2500),
+      fat: initialData?.fats_g ?? percentToGrams(30, "fat", 2500),
     },
   });
 
-  const initPercents = () => {
-    const c = getValues("calories");
-    return {
-      protein: Math.round(gramsToPercent(getValues("protein"), "protein", c)),
-      carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
-      fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
-    } as Record<MacroType, number>;
-  };
-
-  const [macroPercents, setMacroPercents] =
-    useState<Record<MacroType, number>>(initPercents);
+  /* ---- local state ---- */
+  const [macroPercents, setMacroPercents] = useState<Record<MacroType, number>>(
+    {
+      protein: 30,
+      carbs: 40,
+      fat: 30,
+    }
+  );
   const [locked, setLocked] = useState<Record<MacroType, boolean>>({
     protein: false,
     carbs: false,
@@ -102,7 +101,19 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
 
   const calories = watch("calories") as number;
 
-  /** sync grams when calories changes */
+  /* first mount: derive percents from grams */
+  useEffect(() => {
+    const c = getValues("calories");
+    setMacroPercents({
+      protein: Math.round(gramsToPercent(getValues("protein"), "protein", c)),
+      carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
+      fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
+    });
+    // only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* sync grams whenever percents OR calories change */
   useEffect(() => {
     MACROS.forEach((m) => {
       setValue(m, Math.round(percentToGrams(macroPercents[m], m, calories)), {
@@ -110,8 +121,9 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
         shouldValidate: true,
       });
     });
-  }, [calories]);
+  }, [calories, macroPercents, setValue]);
 
+  /* ---- helper callbacks ---- */
   const toggleLock = (macro: MacroType) =>
     setLocked((prev) => ({ ...prev, [macro]: !prev[macro] }));
 
@@ -119,36 +131,24 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     (macro: MacroType, next: number) => {
       setMacroPercents((prev) => {
         const updated = { ...prev, [macro]: next } as Record<MacroType, number>;
-
-        const lockedMacros = MACROS.filter((m) => locked[m] && m !== macro);
-        const lockedSum = lockedMacros.reduce((s, m) => s + updated[m], 0);
-
+        const lockedSum = MACROS.filter((m) => locked[m] && m !== macro).reduce(
+          (s, m) => s + updated[m],
+          0
+        );
         const freeMacros = MACROS.filter((m) => !locked[m] && m !== macro);
         const remaining = 100 - next - lockedSum;
-
         if (freeMacros.length === 0) return updated;
-
         const prevFreeSum = freeMacros.reduce((s, m) => s + prev[m], 0);
         freeMacros.forEach((m) => {
           updated[m] = Math.round(prev[m] * (remaining / (prevFreeSum || 1)));
         });
-
-        MACROS.forEach((m) =>
-          setValue(m, Math.round(percentToGrams(updated[m], m, calories)), {
-            shouldDirty: true,
-            shouldValidate: true,
-          })
-        );
         return updated;
       });
     },
-    [calories, locked, setValue]
+    [locked]
   );
 
-  const sumPercent =
-    macroPercents.protein + macroPercents.carbs + macroPercents.fat;
-  const showPercentWarning = Math.abs(sumPercent - 100) > TOLERANCE;
-
+  /* ---- submit ---- */
   const onSubmit = async (data: FormValues) => {
     if (!user) return;
     try {
@@ -156,7 +156,6 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
         ? format(new Date(initialData.started_at), "yyyy-MM-dd") ===
           format(new Date(), "yyyy-MM-dd")
         : false;
-
       if (initialData && initialDataIsToday) {
         await update({
           id: initialData.id,
@@ -182,14 +181,17 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     }
   };
 
+  const sumPercent =
+    macroPercents.protein + macroPercents.carbs + macroPercents.fat;
+  const showPercentWarning = Math.abs(sumPercent - 100) > TOLERANCE;
+
+  /* ------------ UI ------------ */
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={{ flex: 1, backgroundColor: colors.background }}
-        contentContainerStyle={{
-          padding: 16,
-        }}
+        contentContainerStyle={{ padding: 16 }}
         keyboardDismissMode="on-drag"
       >
         <CaloriesInput control={control} />
@@ -240,7 +242,7 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
                 fontWeight: "800",
               }}
             >
-              Die Summe aller Makros liegt bei {sumPercent.toFixed(2)} %!
+              Die Summe aller Makros liegt bei {sumPercent.toFixed(1)} %!
             </Text>
           )}
         </Card>
