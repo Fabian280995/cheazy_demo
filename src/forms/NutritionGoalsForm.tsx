@@ -34,6 +34,8 @@ const schema = z
       gramsToPercent(data.carbs, "carbs", data.calories) +
       gramsToPercent(data.fat, "fat", data.calories);
 
+    console.log("Percent Sum:", percentSum);
+
     if (percentSum > 100) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -55,8 +57,8 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
   const { colors } = useTheme();
   const router = useRouter();
   const { user } = useAuth();
-  const { mutateAsync: create, isPending: creating } = useCreatePersonalGoal();
-  const { mutateAsync: update, isPending: updating } = useUpdatePersonalGoal();
+  const { mutateAsync: create } = useCreatePersonalGoal();
+  const { mutateAsync: update } = useUpdatePersonalGoal();
 
   const {
     control,
@@ -81,35 +83,38 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
       console.error("User is not authenticated");
       return;
     }
+    try {
+      const initialDataIsToday = initialData
+        ? format(new Date(initialData.started_at), "yyyy-MM-dd") ===
+          format(new Date(), "yyyy-MM-dd")
+        : false;
 
-    const initialDataIsToday = initialData
-      ? format(new Date(initialData.started_at), "yyyy-MM-dd") ===
-        format(new Date(), "yyyy-MM-dd")
-      : false;
-
-    if (initialData && initialDataIsToday) {
-      await update({
-        id: initialData.id,
-        updates: {
+      if (initialData && initialDataIsToday) {
+        await update({
+          id: initialData.id,
+          updates: {
+            kcal: data.calories,
+            proteins_g: data.protein,
+            carbs_g: data.carbs,
+            fats_g: data.fat,
+          },
+        });
+      } else {
+        await create({
           kcal: data.calories,
           proteins_g: data.protein,
           carbs_g: data.carbs,
           fats_g: data.fat,
-        },
-      });
-    } else {
-      await create({
-        kcal: data.calories,
-        proteins_g: data.protein,
-        carbs_g: data.carbs,
-        fats_g: data.fat,
-        started_at: format(new Date(), "yyyy-MM-dd"),
-        user_id: user.id,
-      });
+          started_at: format(new Date(), "yyyy-MM-dd"),
+          user_id: user.id,
+        });
+      }
+    } catch (error) {
+      console.error("Error saving nutrition goals:", error);
+    } finally {
+      router.back();
+      return;
     }
-
-    router.back();
-    return;
   };
 
   const [macroPercents, setMacroPercents] = useState<Record<MacroType, number>>(
