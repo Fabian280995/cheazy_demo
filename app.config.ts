@@ -3,16 +3,16 @@ import { ConfigContext, ExpoConfig } from "expo/config";
 // Replace these with your EAS project ID and project slug.
 // You can find them at https://expo.dev/accounts/[account]/projects/[project].
 const EAS_PROJECT_ID = "cf6e4264-5c11-412b-85b2-d9baaadc136a";
-const PROJECT_SLUG = "cheazydemo";
+const PROJECT_SLUG = "macroiq";
 const OWNER = "fabian280995";
 
 // App production config
-const APP_NAME = "cheazydemo";
-const BUNDLE_IDENTIFIER = "com.apprhino.cheazy";
-const PACKAGE_NAME = "com.apprhino.cheazy";
+const APP_NAME = "macroiq";
+const BUNDLE_IDENTIFIER = "com.apprhino.macroiq";
+const PACKAGE_NAME = "com.apprhino.macroiq";
 const ICON = "./assets/images/icons/iOS-Prod.png";
 const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
-const SCHEME = "cheazydemo";
+const SCHEME = "macroiq";
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   console.log("⚙️ Building app for environment:", process.env.APP_ENV);
