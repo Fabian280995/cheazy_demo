@@ -1,7 +1,7 @@
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
 import { useTheme } from "@/providers/theme";
-import { Ionicons, Octicons } from "@expo/vector-icons";
+import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { Pressable, Text, TextInput } from "react-native";
