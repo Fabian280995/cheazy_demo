@@ -226,7 +226,7 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
               fontWeight: "800",
             }}
           >
-            Die Summe aller Makros liegt nicht bei 100 %!
+            Die Summe aller Makros liegt bei {sumPercent.toFixed(2)} %!
           </Text>
         )}
       </Card>
