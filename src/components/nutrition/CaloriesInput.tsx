@@ -1,6 +1,7 @@
 import Card from "@/components/shared/Card";
 import CardHeader from "@/components/shared/CardHeader";
 import { useTheme } from "@/providers/theme";
+import { Ionicons, Octicons } from "@expo/vector-icons";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { Pressable, Text, TextInput } from "react-native";
@@ -15,7 +16,12 @@ export const CaloriesInput: React.FC<{ control: any }> = ({ control }) => {
           control={control}
           name="calories"
           render={({ field }) => (
-            <CardHeader title="Kalorien">
+            <CardHeader
+              title="Kalorien"
+              Icon={() => (
+                <Octicons name="flame" size={24} color={colors.text} />
+              )}
+            >
               <TextInput
                 ref={ref}
                 value={field.value.toString()}

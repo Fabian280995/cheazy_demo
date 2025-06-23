@@ -12,6 +12,7 @@ import { useUpdatePersonalGoal } from "@/hooks/personal-goals/useUpdatePersonalG
 import { useAuth } from "@/providers/auth";
 import { useTheme } from "@/providers/theme";
 import { NutritionGoal } from "@/types";
+import { Feather, Octicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
@@ -185,7 +186,10 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     <View>
       <CaloriesInput control={control} />
       <Card style={{ marginTop: 16 }}>
-        <CardHeader title="Makronährstoffe" />
+        <CardHeader
+          title="Makronährstoffe"
+          Icon={() => <Octicons name="beaker" size={24} color={colors.text} />}
+        />
         <View
           style={{
             flexDirection: "row",
