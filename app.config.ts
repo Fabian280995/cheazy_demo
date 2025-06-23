@@ -2,7 +2,7 @@ import { ConfigContext, ExpoConfig } from "expo/config";
 
 // Replace these with your EAS project ID and project slug.
 // You can find them at https://expo.dev/accounts/[account]/projects/[project].
-const EAS_PROJECT_ID = "cf6e4264-5c11-412b-85b2-d9baaadc136a";
+const EAS_PROJECT_ID = "f39b3c8a-c5de-4d15-98bc-483e99d95aee";
 const PROJECT_SLUG = "macroiq";
 const OWNER = "fabian280995";
 
@@ -10,8 +10,8 @@ const OWNER = "fabian280995";
 const APP_NAME = "macroiq";
 const BUNDLE_IDENTIFIER = "com.apprhino.macroiq";
 const PACKAGE_NAME = "com.apprhino.macroiq";
-const ICON = "./assets/images/icons/iOS-Prod.png";
-const ADAPTIVE_ICON = "./assets/images/icons/Android-Prod.png";
+const ICON = "./assets/images/icons/logo-white-Prod.png";
+const ADAPTIVE_ICON = "./assets/images/icons/logo-white-Prod.png";
 const SCHEME = "macroiq";
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -118,8 +118,8 @@ export const getDynamicAppConfig = (
       name: `${APP_NAME} Preview`,
       bundleIdentifier: `${BUNDLE_IDENTIFIER}.preview`,
       packageName: `${PACKAGE_NAME}.preview`,
-      icon: "./assets/images/icons/iOS-Prev.png",
-      adaptiveIcon: "./assets/images/icons/Android-Prev.png",
+      icon: "./assets/images/icons/logo-white-Prev.png",
+      adaptiveIcon: "./assets/images/icons/logo-white-Prev.png",
       scheme: `${SCHEME}-prev`,
     };
   }
@@ -128,8 +128,8 @@ export const getDynamicAppConfig = (
     name: `${APP_NAME} Development`,
     bundleIdentifier: `${BUNDLE_IDENTIFIER}.dev`,
     packageName: `${PACKAGE_NAME}.dev`,
-    icon: "./assets/images/icons/iOS-Dev.png",
-    adaptiveIcon: "./assets/images/icons/Android-Dev.png",
+    icon: "./assets/images/icons/logo-white-Dev.png",
+    adaptiveIcon: "./assets/images/icons/logo-white-Dev.png",
     scheme: `${SCHEME}-dev`,
   };
 };
