@@ -1,14 +1,14 @@
 import { useTheme } from "@/providers/theme";
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
+  clamp,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  runOnJS,
-  clamp,
 } from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export type MacroType = "protein" | "carbs" | "fat";
 
@@ -29,34 +29,35 @@ interface Props {
   onPercentChange: (p: number) => void;
   onGramsChange: (g: number) => void;
   calories: number;
-  macroUnit?: "g" | "percent";
   isOver: boolean;
+  locked: boolean;
+  onToggleLock: () => void;
 }
 
-const BAR_H = 164; // muss mit Style matchen
+const BAR_H = 164;
 
-export const MacroHandler: React.FC<Props> = ({
+const MacroHandler: React.FC<Props> = ({
   macro,
   grams,
   percent,
   onPercentChange,
   onGramsChange,
   calories,
-  macroUnit = "percent",
   isOver,
+  locked,
+  onToggleLock,
 }) => {
   const { colors } = useTheme();
 
-  /* ---------------------- UI-Thread values ---------------------- */
+  /* UI-thread values */
   const fill = useSharedValue(Math.min(percent, 100));
   const start = useSharedValue(0);
 
-  /* ---------------------- Local visual state -------------------- */
+  /* local JS state */
   const [dispPercent, setDispPercent] = useState(percent);
   const [dispGrams, setDispGrams] = useState(grams);
   const [dragging, setDragging] = useState(false);
 
-  /* ---------- helper that ONLY runs on the JS-thread ------------ */
   const updateDisplay = useCallback(
     (pct: number) => {
       setDispPercent(Math.round(pct));
@@ -67,32 +68,33 @@ export const MacroHandler: React.FC<Props> = ({
 
   const commitChange = useCallback(
     (pct: number) => {
-      onPercentChange(Math.round(pct));
-      onGramsChange(Math.round(percentToGrams(pct, macro, calories)));
+      const clamped = Math.round(clamp(pct, 0, 100));
+      onPercentChange(clamped);
+      onGramsChange(Math.round(percentToGrams(clamped, macro, calories)));
     },
     [onPercentChange, onGramsChange, macro, calories]
   );
 
-  /* -------------------------- Gesture --------------------------- */
+  /* drag gesture */
   const gesture = Gesture.Pan()
     .onStart(() => {
       start.value = fill.value;
       runOnJS(setDragging)(true);
     })
     .onUpdate((e) => {
-      const next = clamp(start.value - (e.translationY / BAR_H) * 100, 0, 100); // :contentReference[oaicite:1]{index=1}
+      const next = clamp(start.value - (e.translationY / BAR_H) * 100, 0, 100);
       fill.value = next;
-      runOnJS(updateDisplay)(next); // nur UI-Feedback
+      runOnJS(updateDisplay)(next);
     })
     .onEnd(() => {
-      runOnJS(commitChange)(fill.value); // RHF + Validation erst jetzt
+      runOnJS(commitChange)(fill.value);
       runOnJS(setDragging)(false);
     });
 
-  /* -------------------- external prop sync ---------------------- */
+  /* sync external props */
   useEffect(() => {
     if (!dragging) {
-      fill.value = withTiming(Math.min(percent, 100), { duration: 400 }); // :contentReference[oaicite:2]{index=2}
+      fill.value = withTiming(Math.min(percent, 100), { duration: 400 });
       setDispPercent(percent);
       setDispGrams(grams);
     }
@@ -100,7 +102,7 @@ export const MacroHandler: React.FC<Props> = ({
 
   const rStyle = useAnimatedStyle(() => ({ height: `${fill.value}%` }));
 
-  /* ---------------------- Visual helpers ------------------------ */
+  /* colors */
   const barColor =
     macro === "protein"
       ? colors.protein
@@ -110,108 +112,107 @@ export const MacroHandler: React.FC<Props> = ({
   const danger = colors.destructive;
   const numColor = isOver ? danger : colors.text;
   const unitColor = isOver ? danger : colors.textLight;
+  const borderColor = locked ? colors.primary : "transparent";
 
   const shownPercent = dragging ? dispPercent : percent;
   const shownGrams = dragging ? dispGrams : grams;
-  const inputValue =
-    macroUnit === "g" ? shownGrams.toString() : shownPercent.toString();
 
-  /* -------------------------------------------------------------- */
   return (
-    <View style={{ alignItems: "center" }}>
-      {/* g-Label */}
-      <Text
-        style={{
-          color: unitColor,
-          fontSize: 14,
-          fontWeight: "800",
-          fontFamily: "Nunito",
-          marginBottom: 4,
-        }}
-      >
-        {shownGrams}g
-      </Text>
-
-      {/* Draggable bar */}
-      <GestureDetector gesture={gesture}>
-        <View
-          style={{
-            width: 64,
-            height: BAR_H,
-            backgroundColor: colors.background,
-            borderRadius: 16,
-            overflow: "hidden",
-          }}
-        >
-          <Animated.View
-            style={[
-              {
-                width: "100%",
-                position: "absolute",
-                bottom: 0,
-                backgroundColor: barColor,
-              },
-              rStyle,
-            ]}
-          />
-        </View>
-      </GestureDetector>
-
-      {/* TextInput */}
-      <View
-        style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}
-      >
-        <TextInput
-          value={inputValue}
-          onChangeText={(txt) => {
-            /* manuelle Eingabe → sofort persistieren */
-            const n = Number(txt);
-            if (isNaN(n)) return;
-            if (macroUnit === "g") {
-              onGramsChange(n < 0 ? 0 : n);
-              onPercentChange(Math.round(gramsToPercent(n, macro, calories)));
-            } else {
-              onPercentChange(n < 0 ? 0 : n);
-            }
-          }}
-          keyboardType="numeric"
-          style={{
-            color: numColor,
-            textAlign: "center",
-            borderRadius: 16,
-            fontSize: 16,
-            fontWeight: "800",
-            fontFamily: "Nunito",
-          }}
-        />
+    <Pressable
+      onPress={onToggleLock}
+      style={{ borderWidth: 2, borderColor, borderRadius: 8 }}
+    >
+      <View style={{ alignItems: "center", padding: 4 }}>
+        {/* grams label */}
         <Text
           style={{
-            marginLeft: 4,
             color: unitColor,
+            fontSize: 14,
+            fontWeight: "800",
+            fontFamily: "Nunito",
+            marginBottom: 4,
+          }}
+        >
+          {shownGrams}g
+        </Text>
+
+        {/* bar */}
+        <GestureDetector gesture={gesture}>
+          <View
+            style={{
+              width: 64,
+              height: BAR_H,
+              backgroundColor: colors.background,
+              borderRadius: 16,
+              overflow: "hidden",
+            }}
+          >
+            <Animated.View
+              style={[
+                {
+                  width: "100%",
+                  position: "absolute",
+                  bottom: 0,
+                  backgroundColor: barColor,
+                },
+                rStyle,
+              ]}
+            />
+          </View>
+        </GestureDetector>
+
+        {/* percent input */}
+        <View
+          style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}
+        >
+          <TextInput
+            value={shownPercent.toString()}
+            onChangeText={(txt) => {
+              const n = Number(txt);
+              if (isNaN(n)) return;
+              onPercentChange(clamp(n, 0, 100));
+            }}
+            keyboardType="numeric"
+            style={{
+              color: numColor,
+              textAlign: "center",
+              borderRadius: 16,
+              fontSize: 16,
+              fontWeight: "800",
+              fontFamily: "Nunito",
+            }}
+          />
+          <Text
+            style={{
+              marginLeft: 4,
+              color: unitColor,
+              fontSize: 16,
+              fontWeight: "800",
+              fontFamily: "Nunito",
+            }}
+          >
+            %
+          </Text>
+        </View>
+
+        <Text
+          style={{
+            color: colors.textLight,
             fontSize: 16,
             fontWeight: "800",
             fontFamily: "Nunito",
+            textAlign: "center",
           }}
         >
-          {macroUnit === "g" ? "g" : "%"}
+          {macro === "protein"
+            ? "Protein"
+            : macro === "carbs"
+            ? "Kohlenhydrate"
+            : "Fett"}
         </Text>
       </View>
-
-      <Text
-        style={{
-          color: colors.textLight,
-          fontSize: 16,
-          fontWeight: "800",
-          fontFamily: "Nunito",
-          textAlign: "center",
-        }}
-      >
-        {macro === "protein"
-          ? "Protein"
-          : macro === "carbs"
-          ? "Kohlenhydrate"
-          : "Fett"}
-      </Text>
-    </View>
+    </Pressable>
   );
 };
+
+export default MacroHandler;

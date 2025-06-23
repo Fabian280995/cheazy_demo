@@ -1,7 +1,6 @@
 import { CaloriesInput } from "@/components/nutrition/CaloriesInput";
-import {
+import MacroHandler, {
   gramsToPercent,
-  MacroHandler,
   MacroType,
   percentToGrams,
 } from "@/components/nutrition/MacroHandler";
@@ -16,38 +15,43 @@ import { NutritionGoal } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
-import { z } from "zod";
+import * as z from "zod/v4";
 
-const schema = z
+const TOLERANCE = 0.5;
+const MACROS: MacroType[] = ["protein", "carbs", "fat"];
+
+const nutritionSchema = z
   .object({
-    calories: z.coerce.number().int().min(0, "Kalorien müssen positiv sein"),
-    protein: z.coerce.number().int().min(0, "Protein muss positiv sein"),
-    carbs: z.coerce.number().int().min(0, "Kohlenhydrate müssen positiv sein"),
-    fat: z.coerce.number().int().min(0, "Fett muss positiv sein"),
+    calories: z.int().min(0, { error: "Kalorien müssen positiv sein" }),
+    protein: z.int().min(0, { error: "Protein muss positiv sein" }),
+    carbs: z.int().min(0, { error: "Kohlenhydrate müssen positiv sein" }),
+    fat: z.int().min(0, { error: "Fett muss positiv sein" }),
   })
-  .superRefine((data, ctx) => {
-    const percentSum =
-      gramsToPercent(data.protein, "protein", data.calories) +
-      gramsToPercent(data.carbs, "carbs", data.calories) +
-      gramsToPercent(data.fat, "fat", data.calories);
+  .check((ctx) => {
+    const { calories, protein, carbs, fat } = ctx.value;
+    const sum =
+      gramsToPercent(protein, "protein", calories) +
+      gramsToPercent(carbs, "carbs", calories) +
+      gramsToPercent(fat, "fat", calories);
 
-    console.log("Percent Sum:", percentSum);
-
-    if (percentSum > 100) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Die Summe aller Makros liegt bei ${Math.round(
-          percentSum
-        )}% und übersteigt damit 100 % der Kalorien`,
-        path: ["protein"], // irgendein Feld, damit RHF die Fehlermeldung anzeigt
+    if (Math.abs(sum - 100) > TOLERANCE) {
+      ctx.issues.push({
+        code: "custom",
+        message: `Makros ergeben ${Math.round(sum)} % – muss 100 % sein`,
+        path: ["protein"],
+        input: ctx.value,
       });
     }
   });
 
-export type FormValues = z.infer<typeof schema>;
+type Schema = typeof nutritionSchema;
+export type FormValues = z.output<Schema>;
+
+type FormInput = z.input<Schema>;
+type FormOutput = z.output<Schema>;
 
 interface Props {
   initialData?: NutritionGoal;
@@ -67,8 +71,8 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     watch,
     handleSubmit,
     formState: { isSubmitting, isValid },
-  } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+  } = useForm<FormInput, any, FormOutput>({
+    resolver: zodResolver(nutritionSchema),
     mode: "onChange",
     defaultValues: {
       calories: initialData?.kcal || 2500,
@@ -78,11 +82,74 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
     },
   });
 
+  const initPercents = () => {
+    const c = getValues("calories");
+    return {
+      protein: Math.round(gramsToPercent(getValues("protein"), "protein", c)),
+      carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
+      fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
+    } as Record<MacroType, number>;
+  };
+
+  const [macroPercents, setMacroPercents] =
+    useState<Record<MacroType, number>>(initPercents);
+  const [locked, setLocked] = useState<Record<MacroType, boolean>>({
+    protein: false,
+    carbs: false,
+    fat: false,
+  });
+
+  const calories = watch("calories") as number;
+
+  /** sync grams when calories changes */
+  useEffect(() => {
+    MACROS.forEach((m) => {
+      setValue(m, Math.round(percentToGrams(macroPercents[m], m, calories)), {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    });
+  }, [calories]);
+
+  const toggleLock = (macro: MacroType) =>
+    setLocked((prev) => ({ ...prev, [macro]: !prev[macro] }));
+
+  const updatePercent = useCallback(
+    (macro: MacroType, next: number) => {
+      setMacroPercents((prev) => {
+        const updated = { ...prev, [macro]: next } as Record<MacroType, number>;
+
+        const lockedMacros = MACROS.filter((m) => locked[m] && m !== macro);
+        const lockedSum = lockedMacros.reduce((s, m) => s + updated[m], 0);
+
+        const freeMacros = MACROS.filter((m) => !locked[m] && m !== macro);
+        const remaining = 100 - next - lockedSum;
+
+        if (freeMacros.length === 0) return updated;
+
+        const prevFreeSum = freeMacros.reduce((s, m) => s + prev[m], 0);
+        freeMacros.forEach((m) => {
+          updated[m] = Math.round(prev[m] * (remaining / (prevFreeSum || 1)));
+        });
+
+        MACROS.forEach((m) =>
+          setValue(m, Math.round(percentToGrams(updated[m], m, calories)), {
+            shouldDirty: true,
+            shouldValidate: true,
+          })
+        );
+        return updated;
+      });
+    },
+    [calories, locked, setValue]
+  );
+
+  const sumPercent =
+    macroPercents.protein + macroPercents.carbs + macroPercents.fat;
+  const showPercentWarning = Math.abs(sumPercent - 100) > TOLERANCE;
+
   const onSubmit = async (data: FormValues) => {
-    if (!user) {
-      console.error("User is not authenticated");
-      return;
-    }
+    if (!user) return;
     try {
       const initialDataIsToday = initialData
         ? format(new Date(initialData.started_at), "yyyy-MM-dd") ===
@@ -109,63 +176,14 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
           user_id: user.id,
         });
       }
-    } catch (error) {
-      console.error("Error saving nutrition goals:", error);
     } finally {
       router.back();
-      return;
     }
   };
-
-  const [macroPercents, setMacroPercents] = useState<Record<MacroType, number>>(
-    () => {
-      const c = getValues("calories");
-      return {
-        protein: Math.round(gramsToPercent(getValues("protein"), "protein", c)),
-        carbs: Math.round(gramsToPercent(getValues("carbs"), "carbs", c)),
-        fat: Math.round(gramsToPercent(getValues("fat"), "fat", c)),
-      };
-    }
-  );
-
-  const calories = watch("calories");
-
-  useEffect(() => {
-    (Object.keys(macroPercents) as MacroType[]).forEach((m) => {
-      setValue(m, Math.round(percentToGrams(macroPercents[m], m, calories)), {
-        shouldDirty: true,
-        shouldValidate: false,
-      });
-    });
-  }, [macroPercents, calories, setValue]);
-
-  const updatePercent = useCallback(
-    (macro: MacroType, next: number) => {
-      setMacroPercents((prev) => {
-        const otherSum = prev.protein + prev.carbs + prev.fat - prev[macro];
-        const capped = Math.min(next, Math.max(0, 100 - otherSum));
-
-        setValue(macro, Math.round(percentToGrams(capped, macro, calories)), {
-          shouldDirty: true,
-          shouldValidate: true, // sofort neu validieren, weil wir jetzt ohne isOver100 arbeiten
-        });
-
-        return { ...prev, [macro]: capped };
-      });
-    },
-    [calories, setValue]
-  );
-
-  const totalPercent = useMemo(
-    () => macroPercents.protein + macroPercents.carbs + macroPercents.fat,
-    [macroPercents]
-  );
-  const showPercentWarning = totalPercent > 100;
 
   return (
     <View>
       <CaloriesInput control={control} />
-
       <Card style={{ marginTop: 16 }}>
         <CardHeader title="Makronährstoffe" />
         <View
@@ -176,7 +194,7 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
             justifyContent: "space-evenly",
           }}
         >
-          {(["protein", "carbs", "fat"] as MacroType[]).map((macro) => (
+          {MACROS.map((macro) => (
             <Controller
               key={macro}
               control={control}
@@ -190,12 +208,13 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
                   onGramsChange={field.onChange}
                   calories={calories}
                   isOver={false}
+                  locked={locked[macro]}
+                  onToggleLock={() => toggleLock(macro)}
                 />
               )}
             />
           ))}
         </View>
-
         {showPercentWarning && (
           <Text
             style={{
@@ -207,12 +226,10 @@ const NutritionGoalsForm = ({ initialData }: Props) => {
               fontWeight: "800",
             }}
           >
-            Die Summe aller Makros liegt über 100 % der Kalorien!
+            Die Summe aller Makros liegt nicht bei 100 %!
           </Text>
         )}
       </Card>
-
-      {/* Speichern-Button */}
       <View style={{ marginTop: 16 }}>
         <AddButton
           label="Ziele speichern"
