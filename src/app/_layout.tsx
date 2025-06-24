@@ -19,6 +19,22 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Toaster } from "sonner-native";
 
+import * as Sentry from "@sentry/react-native";
+Sentry.init({
+  dsn: "https://8f9cd55f352a0d28ea448fa79e2621b0@o4509553020764160.ingest.de.sentry.io/4509553022861392",
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+  // We recommend adjusting this value in production.
+  // Learn more at
+  // https://docs.sentry.io/platforms/react-native/configuration/options/#traces-sample-rate
+  tracesSampleRate: 1.0,
+  // profilesSampleRate is relative to tracesSampleRate.
+  // Here, we'll capture profiles for 100% of transactions.
+  profilesSampleRate: 1.0,
+});
+
 SplashScreen.preventAutoHideAsync();
 
 export {
@@ -31,7 +47,7 @@ const fonts = {
   ...pickFontAssets(Nunito, "Nunito_"),
 };
 
-export default function RootLayout() {
+function RootLayout() {
   const [loaded, error] = useFonts(fonts);
 
   useEffect(() => {
@@ -80,3 +96,5 @@ function RootLayoutNav() {
     </ThemeProvider>
   );
 }
+
+export default Sentry.wrap(RootLayout);

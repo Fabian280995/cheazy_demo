@@ -3,6 +3,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toast } from "sonner-native";
+import * as Sentry from "@sentry/react-native";
 
 export const useGoogleSignIn = () => {
   useEffect(() => {
@@ -26,6 +27,7 @@ export const useGoogleSignIn = () => {
         error?.response?.data?.message ||
         "Anmeldung mit Google war nicht möglich.";
       toast.error(message);
+      Sentry.captureException(error); // statt eigener logError-Funktion
     },
   });
 };
