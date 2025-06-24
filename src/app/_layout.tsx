@@ -17,8 +17,8 @@ import { useEffect } from "react";
 import { AppStateStatus, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Toaster } from "sonner-native";
 
+import ToasterProvider from "@/providers/toaster";
 import * as Sentry from "@sentry/react-native";
 Sentry.init({
   dsn: "https://8f9cd55f352a0d28ea448fa79e2621b0@o4509553020764160.ingest.de.sentry.io/4509553022861392",
@@ -81,15 +81,16 @@ function RootLayoutNav() {
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
           <SafeAreaProvider>
-            <QueryClientProvider client={queryClient}>
-              <AuthProvider>
-                <Stack screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="(public)" />
-                  <Stack.Screen name="(protected)" />
-                </Stack>
-              </AuthProvider>
-            </QueryClientProvider>
-            <Toaster />
+            <ToasterProvider>
+              <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                  <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="(public)" />
+                    <Stack.Screen name="(protected)" />
+                  </Stack>
+                </AuthProvider>
+              </QueryClientProvider>
+            </ToasterProvider>
           </SafeAreaProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>

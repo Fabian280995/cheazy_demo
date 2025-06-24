@@ -14,7 +14,10 @@ export const useSignUp = () => {
     onError: (error: any) => {
       const message =
         error?.response?.data?.message || "Registrierung fehlgeschlagen";
-      toast.error(message);
+      console.error(message);
+      toast.error(
+        "Entschuldigung, bei der Registrierung ist etwas schief gelaufen. Bitte versuche es später erneut"
+      );
     },
   });
 };

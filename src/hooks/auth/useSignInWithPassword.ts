@@ -12,7 +12,10 @@ export const useSignInWithPassword = () => {
     onError: (error: any) => {
       const message =
         error?.response?.data?.message || "Anmeldung mit E-Mail fehlgeschlagen";
-      toast.error(message);
+      console.error(message);
+      toast.error(
+        "Entschuldigung, bei der Anmeldung mit E-Mail ist etwas schief gelaufen. Bitte versuche es später erneut"
+      );
     },
   });
 };

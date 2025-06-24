@@ -1,5 +1,6 @@
 import { deleteMealEntry } from "@/api/meal-entries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner-native";
 
 export const useDeleteMealEntry = () => {
   const queryClient = useQueryClient();
@@ -17,6 +18,9 @@ export const useDeleteMealEntry = () => {
     },
     onError: (error) => {
       console.error("Error deleting food meal entry:", error);
+      toast.error(
+        "Entschuldigung, das Löschen der Mahlzeit ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };
