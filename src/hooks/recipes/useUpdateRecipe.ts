@@ -1,5 +1,6 @@
 import { updateRecipe } from "@/api/recipes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner-native";
 
 export const useUpdateRecipe = () => {
   const queryClient = useQueryClient();
@@ -13,6 +14,9 @@ export const useUpdateRecipe = () => {
     },
     onError: (error) => {
       console.error("Error updating recipe:", error);
+      toast.error(
+        "Entschuldigung, das Aktualisieren des Rezepts ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };
