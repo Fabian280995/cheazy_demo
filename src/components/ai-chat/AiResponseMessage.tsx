@@ -1,9 +1,10 @@
 import { useTheme } from "@/providers/theme";
+import { MealSlotEntry as MealSlotEntryType } from "@/types";
 import { AiMessage } from "@/types/ai-chat";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
-import { Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import Animated, {
-  LinearTransition,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -12,8 +13,6 @@ import Animated, {
 } from "react-native-reanimated";
 import MealSlotEntry from "../meal-slots/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
-import { MealSlotEntry as MealSlotEntryType } from "@/types";
-import { LinearGradient } from "expo-linear-gradient";
 
 export const AiResponseMessage = ({
   message,
@@ -127,15 +126,9 @@ const AiResponseAttachementsList = ({
         );
         console.log(att);
         return (
-          <MealSlotEntry
-            key={i + "-" + att.entry.id}
-            entry={att}
-            isFirst={i === 0}
-            isLast={i === attachments.length - 1}
-            isSelected={!!isSelected}
-            showSelectedState
-            onPress={handleEntryPress}
-          />
+          <View key={att.id}>
+            <MealSlotEntry entry={att} onPress={handleEntryPress} />
+          </View>
         );
       })}
       <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>

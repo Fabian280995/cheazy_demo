@@ -4,7 +4,7 @@ import {
   TextMessage,
 } from "@/types/ai-chat";
 import React from "react";
-import { AiResponseMessage } from "./AiResponstMessage";
+import { AiResponseMessage } from "./AiResponseMessage";
 import { UserMessage } from "./UserMessage";
 
 interface Props {
