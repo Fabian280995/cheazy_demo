@@ -7,11 +7,12 @@ export const useAppleSignIn = () => {
     mutationKey: ["appleSignIn"],
     mutationFn: signInWithApple,
     onSuccess: () => {
-      toast.success("Erfolgreich angemeldet!");
+      toast.success("Erfolgreich mit Apple angemeldet!");
     },
     onError: (error: any) => {
       const message =
-        error?.response?.data?.message || "Anmeldung fehlgeschlagen";
+        error?.response?.data?.message ||
+        "Anmeldung mit Apple war nicht möglich.";
       toast.error(message);
     },
   });
