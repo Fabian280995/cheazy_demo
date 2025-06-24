@@ -21,7 +21,7 @@ export const RecipeCard = ({
   return (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
       <CardIcon
-        name="list"
+        name="book"
         color={categoryColors.dairy.foreground}
         bgColor={categoryColors.dairy.background}
       />
