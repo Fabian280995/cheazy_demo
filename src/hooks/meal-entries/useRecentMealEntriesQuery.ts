@@ -2,7 +2,7 @@ import { getRecentMealEntries } from "@/api/meal-entries";
 import { useAuth } from "@/providers/auth";
 import { useQuery } from "@tanstack/react-query";
 
-export const useMealSlotEntriesQuery = () => {
+export const useRecentMealEntriesQuery = () => {
   const { user } = useAuth();
   const limit = 20;
 

@@ -4,6 +4,7 @@ import SearchBar from "@/components/shared/Searchbar";
 import FoodSearchResponseList from "./FoodSearchResponseList";
 import { useSearchFoodIds } from "@/hooks/foods/useSearchFoodIds";
 import { useTheme } from "@/providers/theme";
+import RecentlyUsedList from "../meal-slots/RecentlyUsedList";
 
 interface Props {
   onSelect: (foodId: string) => void;
@@ -54,12 +55,13 @@ const FoodSearch = ({ onSelect }: Props) => {
           <Text style={{ textAlign: "center", marginTop: 16 }}>
             Bitte gib einen Suchbegriff ein.
           </Text>
-        ) : (
-          <FoodSearchResponseList
-            searchResponses={results ?? []}
-            onSelectFood={onSelect}
-          />
-        )}
+        ) : null}
+        <FoodSearchResponseList
+          searchResponses={results ?? []}
+          onSelectFood={onSelect}
+        />
+
+        <RecentlyUsedList />
       </View>
     </View>
   );
