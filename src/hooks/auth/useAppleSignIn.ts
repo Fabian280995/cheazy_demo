@@ -13,7 +13,10 @@ export const useAppleSignIn = () => {
       const message =
         error?.response?.data?.message ||
         "Anmeldung mit Apple war nicht möglich.";
-      toast.error(message);
+      console.error(message);
+      toast.error(
+        "Entschuldigung, bei der Anmeldung mit Apple ist etwas schief gelaufen. Bitte versuche es später erneut"
+      );
     },
   });
 };

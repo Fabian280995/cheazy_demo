@@ -12,7 +12,10 @@ export const useSignOut = () => {
     onError: (error: any) => {
       const message =
         error?.response?.data?.message || "Abmeldung fehlgeschlagen";
-      toast.error(message);
+      console.error(message);
+      toast.error(
+        "Entschuldigung, bei der Abmeldung ist etwas schief gelaufen. Bitte versuche es später erneut"
+      );
     },
   });
 };
