@@ -1,6 +1,7 @@
 import AiChantInputBox from "@/components/ai-chat/AiChantInputBox";
 import ChatMessage from "@/components/ai-chat/ChatMessage";
 import { useAiGenerateMealEntries } from "@/hooks/ai-chat/useAiGenerateMealEntries";
+import { useCalendar } from "@/providers/calendar";
 import { useTheme } from "@/providers/theme";
 import {
   AiMessage,
@@ -8,6 +9,7 @@ import {
   ChatRole,
 } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
+import { format } from "date-fns";
 import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
@@ -25,6 +27,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const BOTTOM_PADDING = 32;
 
 const AiChat = () => {
+  const { currentDate } = useCalendar();
   const flatListRef = useRef<FlatList<ChatMessageType>>(null);
   const { mutateAsync: generateMealEntries, isPending: isGenerating } =
     useAiGenerateMealEntries();
@@ -91,6 +94,7 @@ const AiChat = () => {
 
     const aiResponse = await generateMealEntries({
       prompt: truncatedPrompt,
+      referenceDate: format(currentDate || new Date(), "yyyy-MM-dd"),
     });
 
     setChatMessages((prev) => [
