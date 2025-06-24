@@ -3,7 +3,7 @@ import { MealSlotEntry as MealSlotEntryType } from "@/types";
 import { AiMessage } from "@/types/ai-chat";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,8 +13,8 @@ import Animated, {
 } from "react-native-reanimated";
 import MealSlotEntry from "../meal-slots/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
-import { Octicons } from "@expo/vector-icons";
 import { useProcessAiGenerations } from "@/hooks/ai-chat/useProcessAiGenerations";
+import { useRouter } from "expo-router";
 
 export const AiResponseMessage = ({
   message,
@@ -95,11 +95,15 @@ const AiResponseAttachementsList = ({
   attachments: MealSlotEntryType[];
 }) => {
   const { colors } = useTheme();
-  const { mutateAsync: process } = useProcessAiGenerations();
+  const router = useRouter();
+  const { mutateAsync: process, isPending: processing } =
+    useProcessAiGenerations();
 
   const handleProcessButtonPress = async () => {
     if (!attachments || attachments.length === 0) return;
     await process(attachments);
+
+    router.back();
   };
 
   return (
@@ -133,8 +137,11 @@ const AiResponseAttachementsList = ({
             backgroundColor: colors.background,
             borderRadius: 16,
             marginTop: 8,
+            opacity: processing ? 0.5 : 1,
           }}
           onPress={handleProcessButtonPress}
+          disabled={processing}
+          activeOpacity={0.7}
         >
           <LinearGradient
             colors={[colors.primary, colors.accent]}
@@ -146,6 +153,13 @@ const AiResponseAttachementsList = ({
               borderRadius: 16,
             }}
           />
+          {processing ? (
+            <ActivityIndicator
+              size="small"
+              color={colors.textForeground}
+              style={{ marginRight: 8 }}
+            />
+          ) : null}
           <Text style={{ color: colors.textForeground, fontSize: 12 }}>
             Übernehmen
           </Text>
