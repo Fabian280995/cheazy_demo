@@ -47,6 +47,7 @@ export type Database = {
       }
       meal_entries: {
         Row: {
+          created_at: string
           date: string
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id: string | null
@@ -58,6 +59,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          created_at?: string
           date: string
           entry_type: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null
@@ -69,6 +71,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          created_at?: string
           date?: string
           entry_type?: Database["public"]["Enums"]["entry_type"]
           food_id?: string | null

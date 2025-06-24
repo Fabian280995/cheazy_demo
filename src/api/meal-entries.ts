@@ -227,3 +227,72 @@ export async function getMealSlotEntriesByDate(
 
   return mealSlotEntries || [];
 }
+
+export async function getRecentMealEntries(
+  userId: string,
+  limit: number = 10
+): Promise<MealSlotEntry[]> {
+  const { data, error } = await supabase
+    .from("meal_entries")
+    .select(
+      "*, food: food_id(*), recipe: recipe_id(*, recipe_ingredients: recipe_ingredients(*, food: food_id(*)))"
+    )
+    .eq("user_id", userId)
+    .order("date", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("Error fetching recent meal entries:", error);
+    return [];
+  }
+
+  if (!data) return [];
+
+  return data.map((entry) => ({
+    id: entry.id,
+    date: new Date(entry.date),
+    type: entry.entry_type,
+    portions: entry.portions || 1,
+    mealSlot:
+      MEAL_SLOTS.find(
+        (slot) => slot.id.toLowerCase() === entry.slot.toLowerCase()
+      )?.id || "breakfast",
+    entry:
+      entry.entry_type === "food" && entry.food
+        ? ({
+            id: entry.food.id,
+            name: entry.food.name,
+            description: entry.food.description || "",
+            calories_per_100: entry.food.kcal_per_100,
+            protein_per_100: entry.food.protein_g_per_100,
+            carbohydrates_per_100: entry.food.carbs_g_per_100,
+            fat_per_100: entry.food.fat_g_per_100,
+            quantity: entry.quantity_g,
+            category: entry.food.category_id,
+          } as FoodItem)
+        : entry.entry_type === "recipe" && entry.recipe
+        ? ({
+            id: entry.recipe.id,
+            name: entry.recipe.name,
+            description: entry.recipe.description,
+            servings: entry.recipe.servings,
+            ingredients: entry.recipe.recipe_ingredients
+              ? entry.recipe.recipe_ingredients.map(
+                  (rc) =>
+                    ({
+                      id: rc.food_id,
+                      name: rc.food.name,
+                      description: rc.food.description || "",
+                      category: rc.food.category_id,
+                      calories_per_100: rc.food.kcal_per_100,
+                      protein_per_100: rc.food.protein_g_per_100,
+                      carbohydrates_per_100: rc.food.carbs_g_per_100,
+                      fat_per_100: rc.food.fat_g_per_100,
+                      quantity: rc.quantity_g,
+                    } as FoodItem)
+                )
+              : [],
+          } as Recipe)
+        : ({} as FoodItem | Recipe),
+  }));
+}
