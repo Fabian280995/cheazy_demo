@@ -1,6 +1,6 @@
 import AiChantInputBox from "@/components/ai-chat/AiChantInputBox";
 import ChatMessage from "@/components/ai-chat/ChatMessage";
-import { useAiGenerateMealEntries } from "@/hooks/meal-entries/useAiGenerateMealEntries";
+import { useAiGenerateMealEntries } from "@/hooks/ai-chat/useAiGenerateMealEntries";
 import { useTheme } from "@/providers/theme";
 import {
   AiMessage,
