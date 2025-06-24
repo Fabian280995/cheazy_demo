@@ -1,11 +1,9 @@
 import { supabase } from "@/lib/supabase";
-import * as AppleAuthentication from "expo-apple-authentication";
 import {
   GoogleSignin,
-  isErrorWithCode,
   isSuccessResponse,
-  statusCodes,
 } from "@react-native-google-signin/google-signin";
+import * as AppleAuthentication from "expo-apple-authentication";
 import { jwtDecode } from "jwt-decode";
 
 /* ────────────────────────────────
