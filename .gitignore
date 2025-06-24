@@ -41,3 +41,4 @@ supabase/
 ios/
 android/
 build/
+.env.local

@@ -1,4 +1,16 @@
 {
   "name": "macroiq",
-  "slug": "macroiq"
+  "slug": "macroiq",
+  "expo": {
+    "plugins": [
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "react-native",
+          "organization": "lessmann-webdev"
+        }
+      ]
+    ]
+  }
 }
