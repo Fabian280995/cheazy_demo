@@ -14,6 +14,7 @@ import Animated, {
 import MealSlotEntry from "../meal-slots/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
 import { Octicons } from "@expo/vector-icons";
+import { useProcessAiGenerations } from "@/hooks/ai-chat/useProcessAiGenerations";
 
 export const AiResponseMessage = ({
   message,
@@ -94,19 +95,11 @@ const AiResponseAttachementsList = ({
   attachments: MealSlotEntryType[];
 }) => {
   const { colors } = useTheme();
-  const [selectedEntries, setSelectedEntries] = React.useState<
-    MealSlotEntryType[]
-  >([]);
+  const { mutateAsync: process } = useProcessAiGenerations();
 
-  const handleEntryPress = (entry: MealSlotEntryType) => {
-    setSelectedEntries((prev) => {
-      const isSelected = prev.find((e) => e.entry.id === entry.entry.id);
-      if (isSelected) {
-        return prev.filter((e) => e.entry.id !== entry.entry.id);
-      } else {
-        return [...prev, entry];
-      }
-    });
+  const handleProcessButtonPress = async () => {
+    if (!attachments || attachments.length === 0) return;
+    await process(attachments);
   };
 
   return (
@@ -122,18 +115,13 @@ const AiResponseAttachementsList = ({
         Halte gedrückt um die Einträge zu bearbeiten
       </Text>
       {attachments.map((att, i) => {
-        const isSelected = selectedEntries.find(
-          (e) => e.entry.id === att.entry.id
-        );
         console.log(att);
         return (
           <MealSlotEntry
             key={i + "-" + att.id}
             entry={att}
-            onPress={handleEntryPress}
             isLast={i === attachments.length - 1}
             isFirst={i === 0}
-            isSelected={!!isSelected}
           />
         );
       })}
@@ -146,7 +134,7 @@ const AiResponseAttachementsList = ({
             borderRadius: 16,
             marginTop: 8,
           }}
-          onPress={() => console.log("Alle übernehmen")}
+          onPress={handleProcessButtonPress}
         >
           <LinearGradient
             colors={[colors.primary, colors.accent]}
@@ -159,9 +147,7 @@ const AiResponseAttachementsList = ({
             }}
           />
           <Text style={{ color: colors.textForeground, fontSize: 12 }}>
-            {selectedEntries.length > 0
-              ? "Auswahl übernehmen"
-              : "Alle übernehmen"}
+            Übernehmen
           </Text>
         </TouchableOpacity>
       </View>
