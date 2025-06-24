@@ -13,14 +13,25 @@ interface Props {
   entry: METype;
   onPress?: (entry: METype) => void;
   onDelete?: (id: string) => void;
+
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
-const MealSlotEntry: React.FC<Props> = ({ entry, onPress, onDelete }) => {
+const MealSlotEntry: React.FC<Props> = ({
+  entry,
+  onPress,
+  onDelete,
+  isFirst,
+  isLast,
+}) => {
   return (
     <SwipeableListItem
       style={styles.contentWrap}
       onDelete={() => onDelete && onDelete(entry.id)}
       onPress={onPress ? () => onPress(entry) : undefined}
+      isFirst={isFirst}
+      isLast={isLast}
     >
       {isFoodItem(entry.entry) ? (
         <FoodItemCard item={entry.entry} />
