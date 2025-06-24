@@ -49,6 +49,7 @@ export const signOut = async () => {
 
 export const signInWithApple = async () => {
   try {
+    console.log("Starting Apple Sign-In...");
     const credential = await AppleAuthentication.signInAsync({
       requestedScopes: [
         AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
@@ -72,7 +73,7 @@ export const signInWithApple = async () => {
     }
   } catch (e: any) {
     if (e.code === "ERR_REQUEST_CANCELED") {
-      console.log("User canceled the Apple sign-in flow");
+      console.log("User canceled the Apple sign-in flow", e);
     } else {
       console.error("Apple Sign-In Error:", e);
     }

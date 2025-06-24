@@ -77,7 +77,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-audio",
         {
-          microphonePermission: "Allow cheazy to access your microphone.",
+          microphonePermission: "Allow macroiq to access your microphone.",
         },
       ],
       [
