@@ -10,6 +10,7 @@ import {
 } from "@/api";
 import { useAuth } from "@/providers/auth";
 import { FoodItem, MealSlotEntry, Recipe } from "@/types";
+import { toast } from "sonner-native";
 
 /* ------------------------------------------------------------------
  * Zod v4 Schemas ----------------------------------------------------
@@ -170,6 +171,12 @@ export const useProcessAiGenerations = () => {
         queryKey: ["daily-calories"],
         exact: false,
       });
+    },
+    onError: (error) => {
+      console.error("Error processing AI generations:", error);
+      toast.error(
+        "Entschuldigung, das Verarbeiten der AI‑Generierungen ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };
