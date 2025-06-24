@@ -6,10 +6,10 @@ export function useSearchFoodIds() {
   return useMutation({
     mutationFn: searchFoodIds,
     onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || "Fehler bei der Lebensmittelsuche";
-      console.error(message);
-      toast.error(message);
+      console.error("Fehler bei der Suche nach Lebensmitteln:", error);
+      toast.error(
+        "Entschuldigung, die Suche nach Lebensmitteln ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 }
