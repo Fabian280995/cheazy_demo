@@ -1,6 +1,5 @@
 import { createPersonalGoal } from "@/api/personal-goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
 import { toast } from "sonner-native";
 
 export const useCreatePersonalGoal = () => {
