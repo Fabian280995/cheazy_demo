@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { FoodModel, FoodSearchResponse } from "@/types";
+import { FoodModel, FoodModelForCreate, FoodSearchResponse } from "@/types";
 
 export async function searchFoodIds({
   q,
@@ -40,4 +40,15 @@ export async function getFoodById(id: string): Promise<FoodModel | null> {
   if (!data) throw new Error(`Food with ID ${id} not found`);
 
   return data;
+}
+
+export async function createFood({ food }: { food: FoodModelForCreate }) {
+  const { data, error } = await supabase
+    .from("foods")
+    .insert([food])
+    .select()
+    .single();
+  if (error) throw error;
+
+  return data as FoodModel;
 }

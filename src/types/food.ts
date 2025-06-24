@@ -24,6 +24,9 @@ export type FoodItem = {
 };
 
 export type FoodModel = Tables<"foods">;
+export type FoodModelForCreate = Omit<FoodModel, "id">;
+export type FoodModelForUpdate = Partial<FoodModel>;
+
 export type FoodSearchResponse = {
   id: string;
   rank: number;
