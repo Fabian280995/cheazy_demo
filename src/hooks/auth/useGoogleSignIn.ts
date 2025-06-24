@@ -27,7 +27,6 @@ export const useGoogleSignIn = () => {
         error?.response?.data?.message ||
         "Anmeldung mit Google war nicht möglich.";
       toast.error(message);
-      Sentry.captureException(error); // statt eigener logError-Funktion
     },
   });
 };
