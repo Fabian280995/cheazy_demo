@@ -100,7 +100,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
             }}
           >
             <CardIcon
-              name="restaurant-outline"
+              name="diamond"
               size={36}
               color={categoryColors.fastfood.foreground}
               bgColor={categoryColors.fastfood.background}
@@ -129,7 +129,7 @@ const MealSlot = ({ id, title, entries }: Props) => {
             }}
           >
             <CardIcon
-              name="book-outline"
+              name="repo"
               size={36}
               color={categoryColors.dairy.foreground}
               bgColor={categoryColors.dairy.background}
