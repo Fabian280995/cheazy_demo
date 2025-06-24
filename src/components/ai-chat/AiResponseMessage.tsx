@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import MealSlotEntry from "../meal-slots/MealSlotEntry";
 import { ChatAvatar } from "./ChatAvatar";
+import { Octicons } from "@expo/vector-icons";
 
 export const AiResponseMessage = ({
   message,
@@ -126,9 +127,14 @@ const AiResponseAttachementsList = ({
         );
         console.log(att);
         return (
-          <View key={att.id}>
-            <MealSlotEntry entry={att} onPress={handleEntryPress} />
-          </View>
+          <MealSlotEntry
+            key={i + "-" + att.id}
+            entry={att}
+            onPress={handleEntryPress}
+            isLast={i === attachments.length - 1}
+            isFirst={i === 0}
+            isSelected={!!isSelected}
+          />
         );
       })}
       <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>

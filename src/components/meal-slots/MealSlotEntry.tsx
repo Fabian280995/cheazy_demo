@@ -12,6 +12,7 @@ import { StyleSheet, View } from "react-native";
 interface Props {
   entry: METype;
   onPress?: (entry: METype) => void;
+  isSelected?: boolean;
   onDelete?: (id: string) => void;
 
   isFirst?: boolean;
