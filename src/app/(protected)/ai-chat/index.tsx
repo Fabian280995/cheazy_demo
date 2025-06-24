@@ -8,7 +8,7 @@ import {
   ChatRole,
 } from "@/types/ai-chat";
 import { Feather } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
 import {
@@ -21,7 +21,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BlurView } from "expo-blur";
 
 const BOTTOM_PADDING = 32;
 
