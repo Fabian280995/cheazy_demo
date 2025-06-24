@@ -89,6 +89,15 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           backgroundColor: "#ffffff",
         },
       ],
+      [
+        "@sentry/react-native/expo",
+        {
+          url: "https://sentry.io/",
+          note: "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          project: "macroiq",
+          organization: "lessmann-webdev",
+        },
+      ],
     ],
     experiments: {
       typedRoutes: true,
