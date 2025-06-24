@@ -1,6 +1,7 @@
 import { createRecipe } from "@/api/recipes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { toast } from "sonner-native";
 
 export const useCreateRecipe = () => {
   const queryClient = useQueryClient();
@@ -16,6 +17,9 @@ export const useCreateRecipe = () => {
     },
     onError: (error) => {
       console.error("Error creating recipe:", error);
+      toast.error(
+        "Entschuldigung, das Erstellen des Rezepts ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
       router.dismissTo("/recipes");
     },
   });

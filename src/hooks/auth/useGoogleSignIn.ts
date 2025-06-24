@@ -2,6 +2,7 @@ import { signInWithGoogle } from "@/api/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { toast } from "sonner-native";
 
 export const useGoogleSignIn = () => {
   useEffect(() => {
@@ -17,5 +18,17 @@ export const useGoogleSignIn = () => {
   return useMutation({
     mutationKey: ["googleSignIn"],
     mutationFn: signInWithGoogle,
+    onSuccess: () => {
+      toast.success("Erfolgreich mit Google angemeldet!");
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message ||
+        "Anmeldung mit Google war nicht möglich.";
+      console.error(message);
+      toast.error(
+        "Entschuldigung, bei der Anmeldung mit Google ist etwas schief gelaufen. Bitte versuche es später erneut"
+      );
+    },
   });
 };

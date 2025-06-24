@@ -1,5 +1,6 @@
 import { deleteRecipeIngredient } from "@/api/recipe-ingredients";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner-native";
 
 export const useDeleteRecipeIngredient = () => {
   const queryClient = useQueryClient();
@@ -14,6 +15,9 @@ export const useDeleteRecipeIngredient = () => {
     },
     onError: (error) => {
       console.error("Error deleting recipe ingredient:", error);
+      toast.error(
+        "Entschuldigung, das Löschen der Zutat ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };

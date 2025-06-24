@@ -1,5 +1,6 @@
 import { addRecipeIngredientToRecipe } from "@/api/recipe-ingredients";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner-native";
 
 export const useCreateRecipeIngredient = () => {
   const queryClient = useQueryClient();
@@ -13,6 +14,9 @@ export const useCreateRecipeIngredient = () => {
     },
     onError: (error) => {
       console.error("Error creating recipe ingredient:", error);
+      toast.error(
+        "Entschuldigung, das Hinzufügen der Zutat ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };

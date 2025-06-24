@@ -1,5 +1,6 @@
 import { updateRecipeIngredient } from "@/api/recipe-ingredients";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner-native";
 
 export const useUpdateRecipeIngredient = () => {
   const queryClient = useQueryClient();
@@ -13,6 +14,9 @@ export const useUpdateRecipeIngredient = () => {
     },
     onError: (error) => {
       console.error("Error updating recipe ingredient:", error);
+      toast.error(
+        "Entschuldigung, das Aktualisieren der Zutat ist fehlgeschlagen. Bitte versuche es später erneut."
+      );
     },
   });
 };
