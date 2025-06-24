@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { AppStateStatus, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Toaster } from "sonner-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -72,6 +73,7 @@ function RootLayoutNav() {
                 </Stack>
               </AuthProvider>
             </QueryClientProvider>
+            <Toaster />
           </SafeAreaProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
