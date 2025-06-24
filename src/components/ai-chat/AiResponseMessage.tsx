@@ -132,8 +132,11 @@ const AiResponseAttachementsList = ({
       <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
         <TouchableOpacity
           style={{
-            paddingVertical: 8,
-            paddingHorizontal: 12,
+            height: 40,
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 16,
+            justifyContent: "center",
             backgroundColor: colors.background,
             borderRadius: 16,
             marginTop: 8,
